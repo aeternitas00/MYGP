@@ -375,9 +375,7 @@
     <None Include="DXUT\Optional\directx.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Default.cpp" />
-  </ItemGroup>
-  <ItemGroup>
+    <ClCompile Include="Textures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h" />
