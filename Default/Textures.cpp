@@ -28,11 +28,12 @@
 #include <mmsystem.h>
 #include <d3dx9.h>
 #include <Winuser.h>
-
+#include <queue>
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 #define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
 #define ACC_GRV 0.96f
 #define MIN_Y 290
+#define MAX_BULLET 5
 #pragma warning( disable : 4996 ) // disable deprecated warning 
 #include <strsafe.h>
 #pragma warning( default : 4996 )
@@ -48,10 +49,9 @@ LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL; // Buffer to hold vertices
 LPDIRECT3DTEXTURE9      g_pTexture = NULL; // Our texture
 LPDIRECT3DTEXTURE9      g_pTexturebg = NULL; // Our texture
 LPDIRECT3DTEXTURE9      g_pTextureDust = NULL; // Our texture
+LPDIRECT3DTEXTURE9		g_pTextureExplode = NULL;
 LPD3DXSPRITE	g_pd3dSprite = NULL;
-D3DXIMAGE_INFO g_Img1;
-D3DXIMAGE_INFO g_Imgbg;
-D3DXIMAGE_INFO g_ImgDust;
+D3DXIMAGE_INFO g_Imgtemp;
 RECT g_ImgRc1;
 RECT g_ImgRcbg;
 RECT g_ImgRcDust;
@@ -61,12 +61,47 @@ D3DXVECTOR3 dustpos(0, 0, 0);
 
 
 // A structure for our custom vertex type. We added texture coordinates
+enum DIR {
+	LEFT=-1,
+	RIGHT=1
+};
 struct CUSTOMVERTEX
 {
     D3DXVECTOR3 position; // The position
     D3DCOLOR color;    // The color
     FLOAT tu, tv;   // The texture coordinates
 };
+
+class CEFFECT
+{
+private:
+	D3DXVECTOR3 mpos; // The position
+	LPDIRECT3DTEXTURE9 pTexture;
+	RECT rctperfrm;
+	UINT txtwidth;
+	UINT txtheight;
+	int mfrm;
+	int nfrm;
+public:
+	CEFFECT() {}
+	CEFFECT(D3DXVECTOR3* ipPos, LPDIRECT3DTEXTURE9 ipTxt,const int imfrm,const RECT iRct) 
+		:mpos(*ipPos), pTexture(ipTxt),mfrm(imfrm),rctperfrm(iRct),nfrm(0) {
+		D3DSURFACE_DESC temp;
+		pTexture->GetLevelDesc(0, &temp);
+		txtwidth = temp.Width;
+		txtheight = temp.Height;
+	}
+	void draw(LPD3DXSPRITE* ipSprt){
+		if (nfrm/3 > mfrm)nfrm=0;
+		int x = nfrm/3*rctperfrm.right; int y=0;
+		while (x / txtwidth > 1) { x %= txtwidth; y += rctperfrm.bottom; }
+		RECT temp{ x,y,x+rctperfrm.right,y+rctperfrm.bottom};
+		this->nfrm+=1;
+		(*ipSprt)->Draw(pTexture, &temp, NULL, &mpos, D3DXCOLOR(1, 1, 1, 1.0f));
+		
+	}
+};
+
 
 // Our custom FVF, which describes our custom vertex structure
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE|D3DFVF_TEX1)
@@ -159,18 +194,18 @@ HRESULT InitGeometry()
 
 	if (FAILED(D3DXCreateTextureFromFileEx(
 		g_pd3dDevice, L"bmp12313.dds", D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED	,
-		0x0000001	, 0x0000001	, 0xFFFFFFFF	, &g_Img1, NULL, &g_pTexture))) {
+		0x0000001	, 0x0000001	, 0xFFFFFFFF	, &g_Imgtemp, NULL, &g_pTexture))) {
 		MessageBox(NULL, L"Could not find bmp12313.dds", L"Textures.exe", MB_OK);
 		return E_FAIL;
-	}::SetRect(&g_ImgRc1, 0, 0, g_Img1.Width, g_Img1.Height);
+	}::SetRect(&g_ImgRc1, 0, 0, g_Imgtemp.Width, g_Imgtemp.Height);
 
 
 	if (FAILED(D3DXCreateTextureFromFileEx(
 		g_pd3dDevice	, L"bg.bmp"	, D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
-		0x0000001	, 0x0000001	, 0xFFFFFFFF	, &g_Imgbg	, NULL, &g_pTexturebg))) {
+		0x0000001	, 0x0000001	, 0xFFFFFFFF, &g_Imgtemp, NULL, &g_pTexturebg))) {
 		MessageBox(NULL, L"Could not find bg.bmp", L"Textures.exe", MB_OK);
 		return E_FAIL;
-	}::SetRect(&g_ImgRcbg, 0, 0, g_Imgbg.Width, g_Imgbg.Height);
+	}::SetRect(&g_ImgRcbg, 0, 0, g_Imgtemp.Width, g_Imgtemp.Height);
 
 
 	if (FAILED(D3DXCreateTextureFromFileEx(
@@ -185,13 +220,20 @@ HRESULT InitGeometry()
 		, 0x0000001					// 필터링
 		, 0x0000001					// 밉 필터
 		, D3DCOLOR_XRGB(4,142,176)				// 컬러 키
-		, &g_ImgDust					// 텍스처 인포메이션
+		, &g_Imgtemp					// 텍스처 인포메이션
 		, NULL
 		, &g_pTextureDust					// 텍스처 포인터
 		))) {
 		MessageBox(NULL, L"Could not find Sprite_FX_Dust.png", L"Textures.exe", MB_OK);
 		return E_FAIL;
-	}::SetRect(&g_ImgRcDust, 0, 0, g_ImgDust.Width, g_ImgDust.Height);
+	}::SetRect(&g_ImgRcDust, 0, 0, g_Imgtemp.Width, g_Imgtemp.Height);
+
+	if (FAILED(D3DXCreateTextureFromFileEx(
+		g_pd3dDevice, L"explode.dds", D3DX_DEFAULT, D3DX_DEFAULT, 1	, 0	, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, 
+		0x0000001, 0x0000001, D3DCOLOR_XRGB(50, 150, 200), &g_Imgtemp, NULL,&g_pTextureExplode))) {
+		MessageBox(NULL, L"Could not find explode.dds", L"Textures.exe", MB_OK);
+		return E_FAIL;
+	}
 
     // Create the vertex buffer.
     if( FAILED( g_pd3dDevice->CreateVertexBuffer( 8 * sizeof( CUSTOMVERTEX ),
@@ -286,10 +328,6 @@ VOID SetupMatrices2()
 	D3DXMatrixTranslation(&matWorld, 0, 0, 0);
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	// Set up our view matrix. A view matrix can be defined given an eye point,
-	// a point to lookat, and a direction for which way is up. Here, we set the
-	// eye five units back along the z-axis and up three units, look at the
-	// origin, and define "up" to be in the y-direction.
 	D3DXVECTOR3 vEyePt(0.0f, 0.0f, -12.0f);
 	D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
@@ -297,12 +335,7 @@ VOID SetupMatrices2()
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
 
-	// For the projection matrix, we set up a perspective transform (which
-	// transforms geometry from 3D view space to 2D viewport space, with
-	// a perspective divide making objects smaller in the distance). To build
-	// a perpsective transform, we need the field of view (1/4 pi is common),
-	// the aspect ratio, and the near and far clipping planes (which define at
-	// what distances geometry should be no longer be rendered).
+
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
 	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj);
@@ -340,7 +373,8 @@ VOID Render()
 		static short sliding = 0;
 		static short sliding_rt = 0;
 		static bool sliding_tgl = false;
-
+		static CEFFECT Bullet_Arr[MAX_BULLET];
+		static CEFFECT tempeffect(&D3DXVECTOR3(0, 0, 0), g_pTextureExplode, 7, RECT{ 0,0,256,256 });
 		moving = false;
 
 		SetupMatrices();
@@ -364,6 +398,7 @@ VOID Render()
 				}
 			}
 			if (jumping_tgl) { if (KEY_UP(VK_UP)) jumping_tgl = false; }
+
 			if (KEY_DOWN(0x58/*x Key*/)) {
 				// DO ATTACK
 			}
@@ -501,8 +536,9 @@ VOID Render()
 		g_pd3dSprite->Begin(D3DXSPRITE_ALPHABLEND);
 		g_pd3dSprite->Draw(g_pTexturebg, &g_ImgRcbg,NULL, &D3DXVECTOR3(0, 0, 0), D3DXCOLOR(1, 1, 1, 1.0f));
 		g_pd3dSprite->Draw(g_pTexture, &g_ImgRc1, NULL, &pos, D3DXCOLOR(1, 1, 1, 1.0f)); // center is NULL
+		tempeffect.draw(&g_pd3dSprite);
 		if (sliding) {
-			g_pd3dSprite->Draw(g_pTextureDust, &g_ImgRcDust, NULL, &dustpos, D3DXCOLOR(1, 1, 1, 0.8f));
+			g_pd3dSprite->Draw(g_pTextureDust, &g_ImgRcDust, NULL, &dustpos, D3DXCOLOR(1, 1, 1, float((sliding_rt+1)/ 15.0f)));
 		}
         // End the scene
 		g_pd3dSprite->End();
