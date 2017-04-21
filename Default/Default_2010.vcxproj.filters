@@ -24,6 +24,5 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Textures.cpp" />
-    <ClCompile Include="Texturescopy.cpp" />
   </ItemGroup>
 </Project>

@@ -376,7 +376,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Textures.cpp" />
-    <ClCompile Include="Texturescopy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CLInclude Include="resource.h" />
