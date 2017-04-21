@@ -1,0 +1,5 @@
+﻿  Texturescopy.cpp
+c:\users\b409-20\documents\mygp\default\texturescopy.cpp(30): warning C4100: 'hInst': 참조되지 않은 정식 매개 변수입니다.
+Texturescopy.obj : warning LNK4075: '/EDITANDCONTINUE'이(가) '/SAFESEH' 사양으로 인해 무시됩니다.
+  Default_2010.vcxproj -> C:\Users\B409-20\Documents\MYGP\Default\Debug\Default.exe
+  Default_2010.vcxproj -> C:\Users\B409-20\Documents\MYGP\Default\Debug\Default.pdb (Full PDB)
