@@ -8,7 +8,7 @@ LPDIRECT3DDEVICE9 g_pd3dDevice = nullptr;  // 렌더링하는 D3D 디바이스
 LPDIRECT3DVERTEXBUFFER9 g_pVB = nullptr;    // 정점 버퍼
 LPDIRECT3DTEXTURE9 g_pTexture0 = nullptr;    // 텍스처0(벽)
 LPDIRECT3DTEXTURE9 g_pTexture1 = nullptr;    // 텍스처1(Light Map)
-
+LPDIRECT3DTEXTURE9 g_pTexture2 = nullptr;
 											 // 사용자 정의 정점 구조체
 struct CUSTOMVERTEX {
 	D3DXVECTOR3 position;   // 정점 좌표
@@ -141,15 +141,24 @@ HRESULT InitGeometry()
 HRESULT InitTexture()
 {
 	// 텍스처를 설정한다.
+
 	if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, L"env2.jpg", &g_pTexture0))) {
-		MessageBox(NULL, L"Could not found wall image", NULL, MB_OK);
+		MessageBox(NULL, L"Could not found light wall image", NULL, MB_OK);
 		return E_FAIL;
 	}
 
-	if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, L"LightMap.jpg", &g_pTexture1))) {
-		MessageBox(NULL, L"Could not found light map image", NULL, MB_OK);
+	if (FAILED(D3DXCreateTextureFromFileEx(g_pd3dDevice, L"bulletholes.jpg",D3DX_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT,NULL,
+		D3DFMT_A8R8G8B8,D3DPOOL_MANAGED, D3DX_DEFAULT,D3DX_DEFAULT,D3DCOLOR_XRGB(0,0,0),NULL,NULL, &g_pTexture1))) {
+		MessageBox(NULL, L"Could not found bulletholes image", NULL, MB_OK);
 		return E_FAIL;
 	}
+
+	if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, L"LightMap.jpg", &g_pTexture2))) {
+		MessageBox(NULL, L"Could not found LightMap image", NULL, MB_OK);
+		return E_FAIL;
+	}
+
+
 
 	return S_OK;
 }
@@ -169,6 +178,10 @@ VOID Cleanup()
 		g_pTexture1->Release();
 	}
 
+	if (g_pTexture2 != nullptr) {
+		g_pTexture2->Release();
+	}
+
 	if (g_pVB != nullptr) {
 		g_pVB->Release();
 	}
@@ -185,7 +198,7 @@ VOID Cleanup()
 // 화면을 그리는 함수
 VOID Render()
 {
-	if (nullptr == g_pD3D || nullptr == g_pd3dDevice || nullptr == g_pVB || nullptr == g_pTexture0 || nullptr == g_pTexture1) {
+	if (nullptr == g_pD3D || nullptr == g_pd3dDevice || nullptr == g_pVB || nullptr == g_pTexture0 || nullptr == g_pTexture1 || nullptr == g_pTexture2) {
 		return;
 	}
 
@@ -203,12 +216,14 @@ VOID Render()
 		// 생성한 텍스처에 스테이지를 할당한다.
 		g_pd3dDevice->SetTexture(0, g_pTexture0);
 		g_pd3dDevice->SetTexture(1, g_pTexture1);
+		g_pd3dDevice->SetTexture(2, g_pTexture2);
 
 		// 0번 텍스처에 0번 텍스처 인덱스를 사용한다.(FVF에 정점마다 8개의 텍스처 인덱스가 있다)
 		g_pd3dDevice->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
 		// 1번 텍스처에 0번 텍스처 인덱스를 사용한다.
 		g_pd3dDevice->SetTextureStageState(1, D3DTSS_TEXCOORDINDEX, 0);
 
+		g_pd3dDevice->SetTextureStageState(2, D3DTSS_TEXCOORDINDEX, 0);
 		// 텍스처 맵핑을 할때 확대 필터를 사용하고, Linear 방식으로 보간한다.
 		g_pd3dDevice->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 		g_pd3dDevice->SetSamplerState(1, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
@@ -249,11 +264,23 @@ VOID Render()
 
 		// 결국 SetTextureStageState() 함수를 사용하여 텍스처1과 텍스처2의 알파 블랜딩하였다.
 
+		g_pd3dDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE);
+		g_pd3dDevice->SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
-		// 3번째 스테이지에서부터는 컬러와 알파값에 대한 연산을 하지 않는다.
-		g_pd3dDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_DISABLE);
-		g_pd3dDevice->SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+		g_pd3dDevice->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_TEXTURE);
 
+		// 컬러의 두 번째 인자는 이전 스테이지에서 전달된 컬러 값
+		g_pd3dDevice->SetTextureStageState(2, D3DTSS_COLORARG2, D3DTA_CURRENT);
+
+		// 알파의 첫 번째 인자는 현재 스테이지의 텍스처의 알파 값
+		g_pd3dDevice->SetTextureStageState(2, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+
+		// 알파의 두 번째 인자는 이전 스테이지에서 전달된 알파 값
+		g_pd3dDevice->SetTextureStageState(2, D3DTSS_ALPHAARG2, D3DTA_CURRENT);
+
+
+		g_pd3dDevice->SetTextureStageState(3, D3DTSS_COLOROP, D3DTOP_DISABLE);
+		g_pd3dDevice->SetTextureStageState(3, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
 
 		// 정점 버퍼를 출력 스트림으로 설정한다.
 		g_pd3dDevice->SetStreamSource(0, g_pVB, 0, sizeof(CUSTOMVERTEX));
