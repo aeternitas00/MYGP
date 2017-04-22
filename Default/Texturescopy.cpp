@@ -243,7 +243,7 @@ VOID Render()
 
 
 
-		g_pd3dDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATE);
+		g_pd3dDevice->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_MODULATEX);
 
 		g_pd3dDevice->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
@@ -264,7 +264,7 @@ VOID Render()
 
 		// 결국 SetTextureStageState() 함수를 사용하여 텍스처1과 텍스처2의 알파 블랜딩하였다.
 
-		g_pd3dDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE);
+		g_pd3dDevice->SetTextureStageState(2, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
 		g_pd3dDevice->SetTextureStageState(2, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 
 		g_pd3dDevice->SetTextureStageState(2, D3DTSS_COLORARG1, D3DTA_TEXTURE);
