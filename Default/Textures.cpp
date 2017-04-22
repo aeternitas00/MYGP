@@ -229,9 +229,9 @@ HRESULT InitGeometry()
 	}::SetRect(&g_ImgRcDust, 0, 0, g_Imgtemp.Width, g_Imgtemp.Height);
 
 	if (FAILED(D3DXCreateTextureFromFileEx(
-		g_pd3dDevice, L"explode.dds", D3DX_DEFAULT, D3DX_DEFAULT, 1	, 0	, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, 
+		g_pd3dDevice, L"explodesmall.png", D3DX_DEFAULT, D3DX_DEFAULT, 1	, 0	, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, 
 		0x0000001, 0x0000001, D3DCOLOR_XRGB(50, 150, 200), &g_Imgtemp, NULL,&g_pTextureExplode))) {
-		MessageBox(NULL, L"Could not find explode.dds", L"Textures.exe", MB_OK);
+		MessageBox(NULL, L"Could not find explodesmall.png", L"Textures.exe", MB_OK);
 		return E_FAIL;
 	}
 
@@ -374,7 +374,7 @@ VOID Render()
 		static short sliding_rt = 0;
 		static bool sliding_tgl = false;
 		static CEFFECT Bullet_Arr[MAX_BULLET];
-		static CEFFECT tempeffect(&D3DXVECTOR3(0, 0, 0), g_pTextureExplode, 7, RECT{ 0,0,256,256 });
+		static CEFFECT tempeffect(&D3DXVECTOR3(0, 0, 0), g_pTextureExplode, 7, RECT{ 0,0,64,64 });
 		moving = false;
 
 		SetupMatrices();
