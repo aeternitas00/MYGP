@@ -24,16 +24,11 @@
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //-----------------------------------------------------------------------------
-#include <Windows.h>
-#include <mmsystem.h>
-#include <d3dx9.h>
-#include <Winuser.h>
-#include <queue>
+#include "Class.h"
+#include <list>
 #define KEY_DOWN(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 1 : 0)
 #define KEY_UP(vk_code) ((GetAsyncKeyState(vk_code) & 0x8000) ? 0 : 1)
-#define ACC_GRV 0.96f
-#define MIN_Y 290
-#define MAX_BULLET 5
+
 #pragma warning( disable : 4996 ) // disable deprecated warning 
 #include <strsafe.h>
 #pragma warning( default : 4996 )
@@ -50,6 +45,9 @@ LPDIRECT3DTEXTURE9      g_pTexture = NULL; // Our texture
 LPDIRECT3DTEXTURE9      g_pTexturebg = NULL; // Our texture
 LPDIRECT3DTEXTURE9      g_pTextureDust = NULL; // Our texture
 LPDIRECT3DTEXTURE9		g_pTextureExplode = NULL;
+LPDIRECT3DTEXTURE9		g_pTextureBullet = NULL;
+LPDIRECT3DTEXTURE9		g_pTextureBlock = NULL;
+LPDIRECT3DTEXTURE9		g_pTextureCrack = NULL;
 LPD3DXSPRITE	g_pd3dSprite = NULL;
 D3DXIMAGE_INFO g_Imgtemp;
 RECT g_ImgRc1;
@@ -70,36 +68,6 @@ struct CUSTOMVERTEX
     D3DXVECTOR3 position; // The position
     D3DCOLOR color;    // The color
     FLOAT tu, tv;   // The texture coordinates
-};
-
-class CEFFECT
-{
-private:
-	D3DXVECTOR3 mpos; // The position
-	LPDIRECT3DTEXTURE9 pTexture;
-	RECT rctperfrm;
-	UINT txtwidth;
-	UINT txtheight;
-	int mfrm;
-	int nfrm;
-public:
-	CEFFECT() {}
-	CEFFECT(D3DXVECTOR3* ipPos, LPDIRECT3DTEXTURE9 ipTxt,const int imfrm,const RECT iRct) 
-		:mpos(*ipPos), pTexture(ipTxt),mfrm(imfrm),rctperfrm(iRct),nfrm(0) {
-		D3DSURFACE_DESC temp;
-		pTexture->GetLevelDesc(0, &temp);
-		txtwidth = temp.Width;
-		txtheight = temp.Height;
-	}
-	void draw(LPD3DXSPRITE* ipSprt){
-		if (nfrm/3 > mfrm)nfrm=0;
-		int x = nfrm/3*rctperfrm.right; int y=0;
-		while (x / txtwidth > 1) { x %= txtwidth; y += rctperfrm.bottom; }
-		RECT temp{ x,y,x+rctperfrm.right,y+rctperfrm.bottom};
-		this->nfrm+=1;
-		(*ipSprt)->Draw(pTexture, &temp, NULL, &mpos, D3DXCOLOR(1, 1, 1, 1.0f));
-		
-	}
 };
 
 
@@ -160,17 +128,6 @@ HRESULT InitD3D( HWND hWnd )
 //-----------------------------------------------------------------------------
 HRESULT InitGeometry()
 {	
-    // Use D3DX to create a texture from a file based image
-    if( FAILED( D3DXCreateTextureFromFile( g_pd3dDevice, L"bmp12313.png", &g_pTexture ) ) )
-    {
-        // If texture is not in current folder, try parent folder
-        if( FAILED( D3DXCreateTextureFromFile( g_pd3dDevice, L"..\\bmp12313.png", &g_pTexture ) ) )
-        {
-            MessageBox( NULL, L"Could not find bmp12313.png", L"Textures.exe", MB_OK );
-            return E_FAIL;
-        }
-    }
-
 	if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, L"bg.bmp", &g_pTexturebg)))
 	{
 		// If texture is not in current folder, try parent folder
@@ -180,7 +137,24 @@ HRESULT InitGeometry()
 			return E_FAIL;
 		}
 	}
-
+	if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, L"crack.png", &g_pTextureCrack)))
+	{
+		// If texture is not in current folder, try parent folder
+		if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, L"..\\crack.png", &g_pTextureCrack)))
+		{
+			MessageBox(NULL, L"Could not find crack.png", L"Textures.exe", MB_OK);
+			return E_FAIL;
+		}
+	}
+	if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, L"block.png", &g_pTextureCrack)))
+	{
+		// If texture is not in current folder, try parent folder
+		if (FAILED(D3DXCreateTextureFromFile(g_pd3dDevice, L"..\\block.png", &g_pTextureCrack)))
+		{
+			MessageBox(NULL, L"Could not find block.png", L"Textures.exe", MB_OK);
+			return E_FAIL;
+		}
+	}
 	if (FAILED(D3DXCreateSprite(g_pd3dDevice, &g_pd3dSprite)))
 	{
 		g_pd3dDevice->Release();
@@ -193,9 +167,9 @@ HRESULT InitGeometry()
 	}
 
 	if (FAILED(D3DXCreateTextureFromFileEx(
-		g_pd3dDevice, L"bmp12313.dds", D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED	,
+		g_pd3dDevice, L"bmp12313.png", D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED	,
 		0x0000001	, 0x0000001	, 0xFFFFFFFF	, &g_Imgtemp, NULL, &g_pTexture))) {
-		MessageBox(NULL, L"Could not find bmp12313.dds", L"Textures.exe", MB_OK);
+		MessageBox(NULL, L"Could not find bmp12313.png", L"Textures.exe", MB_OK);
 		return E_FAIL;
 	}::SetRect(&g_ImgRc1, 0, 0, g_Imgtemp.Width, g_Imgtemp.Height);
 
@@ -206,6 +180,13 @@ HRESULT InitGeometry()
 		MessageBox(NULL, L"Could not find bg.bmp", L"Textures.exe", MB_OK);
 		return E_FAIL;
 	}::SetRect(&g_ImgRcbg, 0, 0, g_Imgtemp.Width, g_Imgtemp.Height);
+
+	if (FAILED(D3DXCreateTextureFromFileEx(
+		g_pd3dDevice, L"bullet.png", D3DX_DEFAULT, D3DX_DEFAULT, 1, 0, D3DFMT_UNKNOWN, D3DPOOL_MANAGED,
+		0x0000001, 0x0000001, 0xFFFFFFFF, &g_Imgtemp, NULL, &g_pTextureBullet))) {
+		MessageBox(NULL, L"Could not find bullet.png", L"Textures.exe", MB_OK);
+		return E_FAIL;
+	}
 
 
 	if (FAILED(D3DXCreateTextureFromFileEx(
@@ -230,7 +211,7 @@ HRESULT InitGeometry()
 
 	if (FAILED(D3DXCreateTextureFromFileEx(
 		g_pd3dDevice, L"explodesmall.png", D3DX_DEFAULT, D3DX_DEFAULT, 1	, 0	, D3DFMT_UNKNOWN, D3DPOOL_MANAGED, 
-		0x0000001, 0x0000001, D3DCOLOR_XRGB(50, 150, 200), &g_Imgtemp, NULL,&g_pTextureExplode))) {
+		0x0000001, 0x0000001, D3DCOLOR_XRGB(50, 150, 200), &g_Imgtemp,NULL,&g_pTextureExplode))) {
 		MessageBox(NULL, L"Could not find explodesmall.png", L"Textures.exe", MB_OK);
 		return E_FAIL;
 	}
@@ -297,10 +278,6 @@ VOID SetupMatrices()
 	D3DXMatrixTranslation(&matWorld, 0, 0, 0);
 	g_pd3dDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	// Set up our view matrix. A view matrix can be defined given an eye point,
-	// a point to lookat, and a direction for which way is up. Here, we set the
-	// eye five units back along the z-axis and up three units, look at the
-	// origin, and define "up" to be in the y-direction.
 	D3DXVECTOR3 vEyePt(0.0f, 0.0f, -12.0f);
 	D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
@@ -308,12 +285,7 @@ VOID SetupMatrices()
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 	g_pd3dDevice->SetTransform(D3DTS_VIEW, &matView);
 
-	// For the projection matrix, we set up a perspective transform (which
-	// transforms geometry from 3D view space to 2D viewport space, with
-	// a perspective divide making objects smaller in the distance). To build
-	// a perpsective transform, we need the field of view (1/4 pi is common),
-	// the aspect ratio, and the near and far clipping planes (which define at
-	// what distances geometry should be no longer be rendered).
+
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
 	g_pd3dDevice->SetTransform(D3DTS_PROJECTION, &matProj);
@@ -356,10 +328,10 @@ VOID Render()
 
 
     // Begin the scene
-    if( SUCCEEDED( g_pd3dDevice->BeginScene() ) )
-    {
+	if (SUCCEEDED(g_pd3dDevice->BeginScene()))
+	{
 		static bool go_left;
-		static bool go_right;
+		static bool go_right=true;
 		static bool moving;
 		static short stat = 0;
 		static bool increase = true;
@@ -373,15 +345,20 @@ VOID Render()
 		static short sliding = 0;
 		static short sliding_rt = 0;
 		static bool sliding_tgl = false;
-		static CEFFECT Bullet_Arr[MAX_BULLET];
-		static CEFFECT tempeffect(&D3DXVECTOR3(0, 0, 0), g_pTextureExplode, 7, RECT{ 0,0,64,64 });
+
+		static bool attack = false;
+		static bool attack_tgl = false;
+		static int attack_rmt = 0;
+		static std::list<CParent*> MyList;
+
+
 		moving = false;
 
 		SetupMatrices();
 
 		if (sliding == 0)
 		{
-			if (KEY_DOWN(VK_LEFT)){
+			if (KEY_DOWN(VK_LEFT)) {
 				go_left = true; go_right = false; moving = true;
 			}
 			if (KEY_DOWN(VK_RIGHT)) {
@@ -400,14 +377,29 @@ VOID Render()
 			if (jumping_tgl) { if (KEY_UP(VK_UP)) jumping_tgl = false; }
 
 			if (KEY_DOWN(0x58/*x Key*/)) {
-				// DO ATTACK
+				if (!attack_tgl) {
+					attack = true;	attack_tgl = true;
+					D3DXVECTOR3 temp(pos);
+					if (go_right) {
+						temp.x += 50; temp.y += 32;
+						MyList.push_back(new CChild(&temp, g_pTextureBullet, 1, RECT{ 0,0,8,7 }, 4.0f));
+						attack_rmt = 8;
+					}
+					else if (go_left) {
+						temp.x += 5; temp.y += 32;
+						MyList.push_back(new CChild(&temp, g_pTextureBullet, 1, RECT{ 0,0,8,7 }, -4.0f));
+						attack_rmt = 18;
+					}
+				}
 			}
-			if (KEY_DOWN(VK_DOWN)&&KEY_DOWN(VK_RIGHT)|| KEY_DOWN(VK_DOWN) && KEY_DOWN(VK_LEFT)) {
+			if (attack_tgl) { if (KEY_UP(0x58)) attack_tgl = false; }
+
+			if (KEY_DOWN(VK_DOWN) && KEY_DOWN(VK_RIGHT) || KEY_DOWN(VK_DOWN) && KEY_DOWN(VK_LEFT)) {
 				if (!sliding_tgl&&!jumping) {
-					sliding_tgl = true;
+					sliding_tgl = true; attack = false; attack_rmt = 0;
 					dustpos = pos; dustpos.y += 43;
-					if(go_left)dustpos.x -= 60;
-					
+					if (go_left)dustpos.x -= 60;
+
 					sliding_rt = 15;
 					moving = false;
 					sliding_vel = 8;
@@ -423,73 +415,98 @@ VOID Render()
 
 		if (!moving&&!jumping&&sliding == 0)
 		{
-			g_ImgRc1.bottom = 64;
 			if (go_right) {
 				g_ImgRc1.left = 0;
-				g_ImgRc1.right = g_ImgRc1.left + 49;
+				g_ImgRc1.right = g_ImgRc1.left + 66;
 			}
 			else if (go_left) {
-				g_ImgRc1.left = 350;
-				g_ImgRc1.right = g_ImgRc1.left + 49;
+				g_ImgRc1.left = 462;
+				g_ImgRc1.right = g_ImgRc1.left + 66;
 			}
 			else if (!go_right&&!go_left)
 			{
 				g_ImgRc1.left = 0;
-				g_ImgRc1.right = g_ImgRc1.left + 49;
+				g_ImgRc1.right = g_ImgRc1.left + 66;
+			}
+			if (!attack) {
+				g_ImgRc1.top = 0;
+				g_ImgRc1.bottom = 65;
+			}
+			else {
+				g_ImgRc1.top = 66;
+				g_ImgRc1.bottom = 131;
 			}
 		}
 		else if (moving&&!jumping)
 		{
-			g_ImgRc1.bottom = 64;
+			if (!attack) {
+				g_ImgRc1.top = 0;
+				g_ImgRc1.bottom = 65;
+			}
+			else {
+				g_ImgRc1.top = 66;
+				g_ImgRc1.bottom = 131;
+			}
 			if (go_right)
 			{
 				if (stat >= 0 && stat <= 7) {
-					g_ImgRc1.left = 50;
-					g_ImgRc1.right = g_ImgRc1.left + 49;
+					g_ImgRc1.left = 66;
+					g_ImgRc1.right = g_ImgRc1.left + 65;
 				}
 				else if (stat >= 8 && stat <= 23) {
-					g_ImgRc1.left = 100;
-					g_ImgRc1.right = g_ImgRc1.left + 49;
+					g_ImgRc1.left = 132;
+					g_ImgRc1.right = g_ImgRc1.left + 65;
 				}
 				else if (stat >= 24 && stat <= 31) {
-					g_ImgRc1.left = 150;
-					g_ImgRc1.right = g_ImgRc1.left + 49;
+					g_ImgRc1.left = 198;
+					g_ImgRc1.right = g_ImgRc1.left + 65;
 				}
 			}
 			else if (go_left)
 			{
 				if (stat >= 0 && stat <= 7) {
-					g_ImgRc1.left = 300;
-					g_ImgRc1.right = g_ImgRc1.left + 49;
+					g_ImgRc1.left = 396;
+					g_ImgRc1.right = g_ImgRc1.left + 65;
 				}
 				else if (stat >= 8 && stat <= 23) {
-					g_ImgRc1.left = 250;
-					g_ImgRc1.right = g_ImgRc1.left + 49;
+					g_ImgRc1.left = 330;
+					g_ImgRc1.right = g_ImgRc1.left + 65;
 				}
 				else if (stat >= 24 && stat <= 31) {
-					g_ImgRc1.left = 200;
-					g_ImgRc1.right = g_ImgRc1.left + 49;
+					g_ImgRc1.left = 264;
+					g_ImgRc1.right = g_ImgRc1.left + 65;
 				}
 			}
+			
 		}
 		else if (jumping) {
-			g_ImgRc1.bottom = 64;
+			if (!attack) {
+				g_ImgRc1.top = 0;
+				g_ImgRc1.bottom = 65;
+			}
+			else {
+				g_ImgRc1.top = 66;
+				g_ImgRc1.bottom = 131;
+			}
 			if (go_right) {
-				g_ImgRc1.left = 400;
-				g_ImgRc1.right = g_ImgRc1.left + 59;
+				g_ImgRc1.left = 528;
+				g_ImgRc1.right = g_ImgRc1.left + 65;
 			}
 			else if (go_left) {
-				g_ImgRc1.left = 460;
-				g_ImgRc1.right = g_ImgRc1.left + 59;
+				g_ImgRc1.left = 594;
+				g_ImgRc1.right = g_ImgRc1.left + 65;
 			}
 		}
+			
 		else if (sliding) {
+			g_ImgRc1.top = 0;
+			g_ImgRc1.bottom = 65;
 			if (go_right) {
-				g_ImgRc1.left = 520;
+				g_ImgRc1.left = 660;
 				g_ImgRc1.right = g_ImgRc1.left + 59;
 			}
 			else if (go_left) {
-				g_ImgRc1.left = 580;
+				g_ImgRc1.left = 720;
 				g_ImgRc1.right = g_ImgRc1.left + 59;
 			}
 		}
@@ -498,6 +515,11 @@ VOID Render()
 		if (moving)
 		{
 			if (go_left) pos.x -= 2.0f; if (go_right) pos.x += 2.0f;
+		}
+		if (attack)
+		{
+			if (attack_rmt <= 0)attack = false;
+			attack_rmt--;
 		}
 		else if (sliding != 0)
 		{
@@ -512,13 +534,13 @@ VOID Render()
 					g_ImgRcDust.bottom = g_ImgRcDust.top + 19;
 				}
 				else if (go_left) {
-					g_ImgRcDust.right = 720-((15 - sliding_rt) * 120) % 720;
+					g_ImgRcDust.right = 720 - ((15 - sliding_rt) * 120) % 720;
 					g_ImgRcDust.left = g_ImgRcDust.right - 119;
 					if (9 >= sliding_rt)g_ImgRcDust.top = 60;
 					else g_ImgRcDust.top = 40;
 					g_ImgRcDust.bottom = g_ImgRcDust.top + 19;
 				}
-				
+
 			}
 			sliding_rt--; if (sliding_rt == -1) sliding = 0;
 		}
@@ -529,14 +551,32 @@ VOID Render()
 			else { pos.y -= upvel; upvel -= ACC_GRV; }
 		}
 
-        // Setup the world, view, and projection matrices
+		// Setup the world, view, and projection matrices
 
 
-		
+
 		g_pd3dSprite->Begin(D3DXSPRITE_ALPHABLEND);
-		g_pd3dSprite->Draw(g_pTexturebg, &g_ImgRcbg,NULL, &D3DXVECTOR3(0, 0, 0), D3DXCOLOR(1, 1, 1, 1.0f));
-		g_pd3dSprite->Draw(g_pTexture, &g_ImgRc1, NULL, &pos, D3DXCOLOR(1, 1, 1, 1.0f)); // center is NULL
-		tempeffect.draw(&g_pd3dSprite);
+		g_pd3dSprite->Draw(g_pTexturebg, &g_ImgRcbg, NULL, &D3DXVECTOR3(0, 0, 0), D3DXCOLOR(1, 1, 1, 1.0f));
+		g_pd3dSprite->Draw(g_pTexture, &g_ImgRc1, &D3DXVECTOR3(0, 0, 0), &pos, D3DXCOLOR(1, 1, 1, 1.0f)); // center is NULL
+
+		for (auto n = MyList.begin(); n != MyList.end();)
+		{
+			switch ((*n)->draw(&g_pd3dSprite)) { 
+			case OBJ_DEFAULT:
+				n++;
+				break;
+			case OBJ_DESTROY:
+				delete *n; MyList.erase(n++); 
+				break;
+			case OBJ_MAKE_EXPL:
+				auto tempos = (*n)->getpos();
+				tempos.x -= 11.0; tempos.y -= 12.5;
+				MyList.push_back(new CParent(&tempos, g_pTextureExplode, EXPLODE_1_FRM, RECT{ 0,0,32,32 }));
+				delete *n; MyList.erase(n++);
+				break;
+			}
+			
+		}
 		if (sliding) {
 			g_pd3dSprite->Draw(g_pTextureDust, &g_ImgRcDust, NULL, &dustpos, D3DXCOLOR(1, 1, 1, float((sliding_rt+1)/ 15.0f)));
 		}

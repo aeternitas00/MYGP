@@ -21,8 +21,10 @@
     <ResourceCompile Include="Default.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+    <ClInclude Include="Class.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Textures.cpp" />
+    <ClCompile Include="Class.cpp" />
   </ItemGroup>
 </Project>
