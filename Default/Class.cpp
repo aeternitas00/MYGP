@@ -23,6 +23,7 @@ CChild::CChild(D3DXVECTOR3 * ipPos, LPDIRECT3DTEXTURE9 ipTxt, const int imfrm, c
 
 short CChild::draw(LPD3DXSPRITE * ipSprt) {
 	if (!move())	return OBJ_MAKE_EXPL;
+	if ((mpos.x >= 399 && mpos.x <= 459) && (mpos.y >= 299 && mpos.y <= 359)) return OBJ_BUL_HIT_BLOCK;
 	if (nfrm / 3 >= mfrm) nfrm = 0;
 	int x = nfrm / 3 * rctperfrm.right; int y = 0;
 	while (x / txtwidth > 1) { x %= txtwidth; y += rctperfrm.bottom; }

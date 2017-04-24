@@ -14,6 +14,7 @@
 #define OBJ_DESTROY 1
 #define OBJ_DEFAULT 0
 #define OBJ_MAKE_EXPL 2
+#define OBJ_BUL_HIT_BLOCK 3
 class CParent
 {
 protected:
