@@ -127,7 +127,7 @@ HRESULT InitVBnIB()
 		strtok(NULL, " ");
 	}
 
-	if (FAILED(g_pd3dDevice->CreateVertexBuffer(8 * sizeof(CUSTOMVERTEX),
+	if (FAILED(g_pd3dDevice->CreateVertexBuffer(vbl * sizeof(CUSTOMVERTEX),
 		0, D3DFVF_CUSTOMVERTEX,
 		D3DPOOL_DEFAULT, &g_pVB, NULL)))
 	{
@@ -137,12 +137,12 @@ HRESULT InitVBnIB()
 	/// 정점버퍼를 값으로 채운다. 
 	/// 정점버퍼의 Lock()함수를 호출하여 포인터를 얻어온다.
 	VOID* pVertices;
-	if (FAILED(g_pVB->Lock(0, sizeof(vertices), (void**)&pVertices, 0)))
+	if (FAILED(g_pVB->Lock(0, vbl * sizeof(CUSTOMVERTEX), (void**)&pVertices, 0)))
 		return E_FAIL;
-	memcpy(pVertices, vertices, sizeof(vertices));
+	memcpy(pVertices, vertices, vbl * sizeof(CUSTOMVERTEX));
 	g_pVB->Unlock();
 
-	if (FAILED(g_pd3dDevice->CreateIndexBuffer(12 * sizeof(MYINDEX), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &g_pIB, NULL)))
+	if (FAILED(g_pd3dDevice->CreateIndexBuffer(ibl * sizeof(MYINDEX), 0, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &g_pIB, NULL)))
 	{
 		return E_FAIL;
 	}
@@ -150,9 +150,9 @@ HRESULT InitVBnIB()
 	/// 인덱스버퍼를 값으로 채운다. 
 	/// 인덱스버퍼의 Lock()함수를 호출하여 포인터를 얻어온다.
 	VOID* pIndices;
-	if (FAILED(g_pIB->Lock(0, sizeof(indices), (void**)&pIndices, 0)))
+	if (FAILED(g_pIB->Lock(0, ibl * sizeof(MYINDEX), (void**)&pIndices, 0)))
 		return E_FAIL;
-	memcpy(pIndices, indices, sizeof(indices));
+	memcpy(pIndices, indices, ibl * sizeof(MYINDEX));
 	g_pIB->Unlock();
 
 	delete vertices;
