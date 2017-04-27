@@ -66,6 +66,7 @@ enum DIR {
 	LEFT=-1,
 	RIGHT=1
 };
+
 struct CUSTOMVERTEX
 {
     D3DXVECTOR3 position; // The position

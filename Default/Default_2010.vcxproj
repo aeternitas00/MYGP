@@ -376,11 +376,19 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Class.cpp" />
+    <ClCompile Include="GameManager.cpp" />
+    <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
+    <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="Textures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Class.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="RenderManager.h" />
     <CLInclude Include="resource.h" />
+    <ClInclude Include="SoundManager.h" />
+    <ClInclude Include="SystemManager.h" />
     <ResourceCompile Include="Default.rc" />
   </ItemGroup>
   <ItemGroup>
