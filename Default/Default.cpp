@@ -16,44 +16,30 @@
 using namespace std;
 
 #define MAX_SIZE 1000
-/**-----------------------------------------------------------------------------
-*  전역변수
-*------------------------------------------------------------------------------
-*/
-LPDIRECT3D9             g_pD3D = NULL; /// D3D 디바이스를 생성할 D3D객체변수
-LPDIRECT3DDEVICE9       g_pd3dDevice = NULL; /// 렌더링에 사용될 D3D디바이스
-LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL; /// 정점을 보관할 정점버퍼
-LPDIRECT3DINDEXBUFFER9	g_pIB = NULL; /// 인덱스를 보관할 인덱스버퍼
 
-									  /// 사용자 정점을 정의할 구조체
+LPDIRECT3D9             g_pD3D = NULL;
+LPDIRECT3DDEVICE9       g_pd3dDevice = NULL; 
+LPDIRECT3DVERTEXBUFFER9 g_pVB = NULL;
+LPDIRECT3DINDEXBUFFER9	g_pIB = NULL; 
+
 struct CUSTOMVERTEX
 {
-	FLOAT x, y, z;	/// 정점의 변환된 좌표
-	DWORD color;	/// 정점의 색깔
+	FLOAT x, y, z;	
+	DWORD color;	
 };
 
-/// 사용자 정점 구조체에 관한 정보를 나타내는 FVF값
 #define D3DFVF_CUSTOMVERTEX (D3DFVF_XYZ|D3DFVF_DIFFUSE)
 
 struct MYINDEX
 {
-	WORD	_0, _1, _2;		/// 일반적으로 인덱스는 16비트의 크기를 갖는다.
-							/// 32비트의 크기도 가능하지만 구형 그래픽카드에서는 지원되지 않는다.
+	WORD	_0, _1, _2;		
 };
 
-
-/**-----------------------------------------------------------------------------
-* Direct3D 초기화
-*------------------------------------------------------------------------------
-*/
 HRESULT InitD3D(HWND hWnd)
 {
-	/// 디바이스를 생성하기위한 D3D객체 생성
 	if (NULL == (g_pD3D = Direct3DCreate9(D3D_SDK_VERSION)))
 		return E_FAIL;
 
-	/// 디바이스를 생성할 구조체
-	/// 복잡한 오브젝트를 그릴것이기때문에, 이번에는 Z버퍼가 필요하다.
 	D3DPRESENT_PARAMETERS d3dpp;
 	ZeroMemory(&d3dpp, sizeof(d3dpp));
 	d3dpp.Windowed = TRUE;
@@ -82,20 +68,6 @@ HRESULT InitD3D(HWND hWnd)
 	return S_OK;
 }
 
-
-
-
-/**-----------------------------------------------------------------------------
-* 정점버퍼를 생성하고 정점값을 채워넣는다.
-* 정점버퍼란 기본적으로 정점정보를 갖고있는 메모리블럭이다.
-* 정점버퍼를 생성한 다음에는 반드시 Lock()과 Unlock()으로 포인터를 얻어내서
-* 정점정보를 정점버퍼에 써넣어야 한다.
-* 또한 D3D는 인덱스버퍼도 사용가능하다는 것을 명심하자.
-* 정점버퍼나 인덱스버퍼는 기본 시스템 메모리외에 디바이스 메모리(비디오카드 메모리)
-* 에 생성될수 있는데, 대부분의 비디오카드에서는 이렇게 할경우 엄청난 속도의 향상을
-* 얻을 수 있다.
-*------------------------------------------------------------------------------
-*/
 
 HRESULT InitVBnIB()
 {
