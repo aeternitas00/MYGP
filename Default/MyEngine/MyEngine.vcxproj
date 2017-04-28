@@ -156,12 +156,12 @@
     <ClInclude Include="ComponentBase.h" />
     <ClInclude Include="GameRoot.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GraphicsComponent.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SoundManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="targetver.h" />
@@ -171,11 +171,11 @@
     <ClCompile Include="ComponentBase.cpp" />
     <ClCompile Include="GameRoot.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GraphicsComponent.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RenderManager.cpp" />
-    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

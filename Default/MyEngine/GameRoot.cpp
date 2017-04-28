@@ -33,7 +33,9 @@ HRESULT GameRoot::Initialize() {
 		WS_OVERLAPPEDWINDOW, 100, 100, 300, 300, NULL, NULL, wc.hInstance, NULL);
 
 	pRdrM = RenderManager::GetInstance();
+	pSysM = SystemManager::GetInstance();
 	if (pRdrM == nullptr) { MessageBox(NULL, L"Render Initialize Failed", L"MyEngine.exe", MB_OK);  return E_FAIL; }
+	if (pSysM == nullptr) { MessageBox(NULL, L"System Initialize Failed", L"MyEngine.exe", MB_OK);  return E_FAIL; }
 	return S_OK;
 }
 
@@ -68,6 +70,7 @@ INT GameRoot::Main()
 			DispatchMessage(&msg);
 		}
 		else {
+			pSysM->update();
 			pRdrM->Render();
 		}
 	}

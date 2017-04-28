@@ -66,6 +66,8 @@ VOID RenderManager::Render()
 
 	if (SUCCEEDED(m_pd3dDevice->BeginScene()))
 	{
+		//TODO
+	
 		m_pd3dDevice->EndScene();
 	}
 

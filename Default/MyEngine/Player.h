@@ -5,8 +5,7 @@ class Player :
 	public GameObject
 {
 private:
-	RECT volume;	
-
+		
 
 public:
 	Player();

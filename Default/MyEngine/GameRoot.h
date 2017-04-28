@@ -1,13 +1,11 @@
 #pragma once
 
 #include "stdafx.h"
-class SoundManager;
 class SystemManager;
 class RenderManager;
 
 class GameRoot {
 private:
-	SoundManager*			pSndM;
 	SystemManager*			pSysM;
 	RenderManager*			pRdrM;
 

@@ -6,6 +6,11 @@ InputComponent::InputComponent()
 {
 }
 
+VOID InputComponent::update(GameObject& rObj)
+{
+	return;
+}
+
 
 InputComponent::~InputComponent()
 {

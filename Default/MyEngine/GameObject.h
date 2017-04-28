@@ -5,16 +5,19 @@ using namespace std;
 class ComponentBase;
 class GameObject
 {
+public:
+	D3DXVECTOR3 pos;
+	D3DXVECTOR3 velocity;
+	D3DXVECTOR3 acceleration;
 protected:
-	D3DXVECTOR3 m_pos;
-	LPDIRECT3DTEXTURE9 m_txt;
+	LPDIRECT3DTEXTURE9 txt;
 	std::list<ComponentBase*> ComponentList;
+	VOID AddComponent(ComponentBase* Component);
 public:
 	GameObject();
-	HRESULT SetTxt() { return S_OK; }
+	GameObject(ComponentBase* Component, ...);
+	HRESULT SetTxt();
 	virtual ~GameObject();
-	VOID update() {
-		return;
-	}
+	VOID update();
 };
 
