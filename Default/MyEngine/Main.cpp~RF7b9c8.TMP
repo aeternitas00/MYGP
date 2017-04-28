@@ -8,6 +8,6 @@ int APIENTRY wWinMain(HINSTANCE hInstance,HINSTANCE,LPWSTR,int)
 {
 	//INT WINAPI Main(HINSTANCE hInst, HINSTANCE, LPWSTR, INT)
 	UNREFERENCED_PARAMETER(hInstance);
-	GameRoot::GetInstance()->Main();
+	GameManager::GetInstance()->Main();
 	return 0;
 }

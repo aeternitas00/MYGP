@@ -25,12 +25,16 @@
 #include <d3dx9.h>
 #include <Winuser.h>
 #include <strsafe.h>
-#include "GameManager.h"
+#include "GameRoot.h"
 #include "RenderManager.h"
 #include "SoundManager.h"
 #include "SystemManager.h"
 #include "GameObject.h"
+#include "ComponentBase.h"
+#include "InputComponent.h"
+#include "PhysicsComponent.h"
 #include "Player.h"
 #include <iostream>
 #include <fstream>
 #include <queue>
+#include <list>

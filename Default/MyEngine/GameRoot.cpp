@@ -1,13 +1,13 @@
 #include "stdafx.h"
 
-GameManager*		GameManager::instance = NULL;
+GameRoot*		GameRoot::instance = NULL;
 
-GameManager::GameManager()
+GameRoot::GameRoot()
 {
 
 }
 
-GameManager::~GameManager() {
+GameRoot::~GameRoot() {
 	UnregisterClass(L"D3D Tutorial", wc.hInstance);
 	delete instance;
 }
@@ -17,15 +17,15 @@ GameManager::~GameManager() {
 //
 //}
 
-GameManager * GameManager::GetInstance()
+GameRoot * GameRoot::GetInstance()
 {
 	if (instance == NULL) {
-		instance = new GameManager();
+		instance = new GameRoot();
 	}
 	return instance;
 }
 
-HRESULT GameManager::Initialize() {
+HRESULT GameRoot::Initialize() {
 	wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,L"Test Engine", NULL };
 	RegisterClassEx(&wc);
@@ -37,7 +37,7 @@ HRESULT GameManager::Initialize() {
 	return S_OK;
 }
 
-LRESULT GameManager::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT GameRoot::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
@@ -50,7 +50,7 @@ LRESULT GameManager::MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
 
-INT GameManager::Main()
+INT GameRoot::Main()
 {
 	if(FAILED(Initialize()))return -1;
 	
