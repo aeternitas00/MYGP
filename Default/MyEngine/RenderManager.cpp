@@ -17,8 +17,8 @@ RenderManager* RenderManager::GetInstance()
 
 RenderManager::~RenderManager()
 {
-	if (m_pd3dDevice != NULL)
-		m_pd3dDevice->Release();
+	if (m_pD3DDevice != NULL)
+		m_pD3DDevice->Release();
 
 	if (m_pD3D != NULL)
 		m_pD3D->Release();
@@ -40,11 +40,12 @@ HRESULT RenderManager::Initialize()
 	d3dpp.AutoDepthStencilFormat = D3DFMT_D16;
 
 	if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, *GameRoot::GetInstance()->get_hwnd(),
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &m_pd3dDevice))) return E_FAIL;
+		D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &m_pD3DDevice))) return E_FAIL;
+	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
-	m_pd3dDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
-	m_pd3dDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
-	m_pd3dDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
+	m_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	m_pD3DDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	m_pD3DDevice->SetRenderState(D3DRS_ZENABLE, TRUE);
 
 	return S_OK;
 }
@@ -54,22 +55,24 @@ HRESULT RenderManager::m_Add_Txt()
 	return E_NOTIMPL;
 }
 
-
-
-VOID RenderManager::Render()
+HRESULT RenderManager::BeginScene()
 {
-	if (NULL == m_pd3dDevice)
-		return;
+	if (NULL == m_pD3DDevice)
+		return E_FAIL;
 
-	m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
-
-
-	if (SUCCEEDED(m_pd3dDevice->BeginScene()))
-	{
-		//TODO
+	m_pD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
 	
-		m_pd3dDevice->EndScene();
-	}
+	if (FAILED(m_pD3DDevice->BeginScene()))
+		return E_FAIL;
+	if (FAILED(m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND)))
+		return E_FAIL;
+	return S_OK;
+}
 
-	m_pd3dDevice->Present(NULL, NULL, NULL, NULL);
+HRESULT RenderManager::EndScene()
+{
+	m_pD3DSprite->End();
+	m_pD3DDevice->EndScene();
+	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
+	return S_OK;
 }

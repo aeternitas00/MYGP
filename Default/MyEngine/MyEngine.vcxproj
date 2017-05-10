@@ -154,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComponentBase.h" />
+    <ClInclude Include="GameMovableObject.h" />
     <ClInclude Include="GameRoot.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicsComponent.h" />
@@ -169,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComponentBase.cpp" />
+    <ClCompile Include="GameMovableObject.cpp" />
     <ClCompile Include="GameRoot.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />

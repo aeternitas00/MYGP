@@ -7,6 +7,7 @@ private:
 public:
 	PhysicsComponent();
 	virtual VOID update(GameObject& rObj);
+	virtual VOID update(GameMovableObject & rObj);
 	virtual ~PhysicsComponent();
 };
 

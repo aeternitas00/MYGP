@@ -8,9 +8,8 @@ class RenderManager
 {
 private:
 	LPDIRECT3D9			m_pD3D;
-	LPDIRECT3DDEVICE9	m_pd3dDevice;
-
-	queue<LPDIRECT3DTEXTURE9>	m_Txt_list;
+	LPDIRECT3DDEVICE9	m_pD3DDevice;
+	LPD3DXSPRITE		m_pD3DSprite;
 	
 	static RenderManager* instance;
 
@@ -20,9 +19,10 @@ private:
 public :
 	~RenderManager();
 
-	
 	static RenderManager* GetInstance();
-	
 
-	VOID Render();
+	LPDIRECT3DDEVICE9*	GetDevice(){return &m_pD3DDevice;}
+	LPD3DXSPRITE*		GetSprite(){return &m_pD3DSprite;}
+	HRESULT				BeginScene();
+	HRESULT				EndScene();
 };

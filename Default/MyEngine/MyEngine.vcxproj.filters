@@ -90,6 +90,9 @@
     <ClInclude Include="GraphicsComponent.h">
       <Filter>Object\Component\Header</Filter>
     </ClInclude>
+    <ClInclude Include="GameMovableObject.h">
+      <Filter>Object\Container\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="GraphicsComponent.cpp">
       <Filter>Object\Component\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMovableObject.cpp">
+      <Filter>Object\Container\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

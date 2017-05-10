@@ -7,8 +7,7 @@ class GameObject
 {
 public:
 	D3DXVECTOR3 pos;
-	D3DXVECTOR3 velocity;
-	D3DXVECTOR3 acceleration;
+
 protected:
 	LPDIRECT3DTEXTURE9 txt;
 	std::list<ComponentBase*> ComponentList;

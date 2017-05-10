@@ -26,6 +26,7 @@
 #include <Winuser.h>
 #include <strsafe.h>
 #include "GameRoot.h"
+#include "GameMovableObject.h"
 #include "RenderManager.h"
 #include "SystemManager.h"
 #include "GameObject.h"

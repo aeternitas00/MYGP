@@ -2,7 +2,7 @@
 #include "stdafx.h"
 
 class Player :
-	public GameObject
+	public GameMovableObject
 {
 private:
 		
