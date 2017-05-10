@@ -1,12 +1,11 @@
 #include "stdafx.h"
 #include "GameObject.h"
+#include "GraphicsComponent.h"
+#include "PhysicsComponent.h"
 
-GameObject::GameObject()
+GameObject::GameObject() :pGrpComponent(new GraphicsComponent),pPhsComponent(new PhysicsComponent)
 {
 
-}
-GameObject::GameObject(ComponentBase* Components, ...)
-{
 }
 
 HRESULT GameObject::SetTxt()
@@ -15,21 +14,16 @@ HRESULT GameObject::SetTxt()
 }
 
 
-VOID GameObject::AddComponent(ComponentBase * Component)
-{
-	ComponentList.push_back(Component);
-}
 
 GameObject::~GameObject()
 {
-	for (auto it = ComponentList.begin(); it != ComponentList.end();) {
-		delete *it; ComponentList.erase(it++);
-	}
+	delete pGrpComponent;
+	delete pPhsComponent;
 }
 
 VOID GameObject::update()
 {
-	for (auto it : ComponentList)
-		it->update(*this);
+	pGrpComponent->update(*this);
+	pPhsComponent->update(*this);
 	return;
 }

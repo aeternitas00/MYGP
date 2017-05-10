@@ -12,7 +12,7 @@ private:
 	SystemManager();
 	HRESULT Initialize();
 public:
-	VOID update();
+	VOID update(LPDIRECT3DDEVICE9 Device);
 	static SystemManager* GetInstance();
 	~SystemManager();
 };

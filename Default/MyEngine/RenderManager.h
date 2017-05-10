@@ -10,8 +10,6 @@ private:
 	LPDIRECT3D9			m_pD3D;
 	LPDIRECT3DDEVICE9	m_pd3dDevice;
 
-	queue<LPDIRECT3DTEXTURE9>	m_Txt_list;
-	
 	static RenderManager* instance;
 
 	RenderManager();
@@ -20,9 +18,8 @@ private:
 public :
 	~RenderManager();
 
-	
 	static RenderManager* GetInstance();
-	
-
-	VOID Render();
+	inline LPDIRECT3DDEVICE9 GetDevice() {	return m_pd3dDevice;}
+	VOID Device_BeginScene();
+	VOID Device_EndScene();
 };

@@ -70,8 +70,9 @@ INT GameRoot::Main()
 			DispatchMessage(&msg);
 		}
 		else {
-			pSysM->update();
-			pRdrM->Render();
+			pRdrM->Device_BeginScene();
+			pSysM->update(pRdrM->GetDevice());
+			pRdrM->Device_EndScene();
 		}
 	}
 

@@ -3,7 +3,7 @@
 
 SystemManager* SystemManager::instance = nullptr;
 
-VOID SystemManager::update()
+VOID SystemManager::update(LPDIRECT3DDEVICE9 GrpDevice)
 {
 	for(auto it: ObjectList) it->update();return;
 }
@@ -30,3 +30,4 @@ HRESULT SystemManager::Initialize()
 SystemManager::~SystemManager()
 {
 }
+ 

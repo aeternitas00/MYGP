@@ -56,20 +56,17 @@ HRESULT RenderManager::m_Add_Txt()
 
 
 
-VOID RenderManager::Render()
+VOID RenderManager::Device_BeginScene()
 {
 	if (NULL == m_pd3dDevice)
 		return;
 
 	m_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+	m_pd3dDevice->BeginScene();
+}
 
-
-	if (SUCCEEDED(m_pd3dDevice->BeginScene()))
-	{
-		//TODO
-	
-		m_pd3dDevice->EndScene();
-	}
-
+VOID RenderManager::Device_EndScene()
+{
+	m_pd3dDevice->EndScene();
 	m_pd3dDevice->Present(NULL, NULL, NULL, NULL);
 }

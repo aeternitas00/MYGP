@@ -8,7 +8,7 @@ GraphicsComponent::GraphicsComponent()
 
 VOID GraphicsComponent::update(GameObject& rObj)
 {
-	return VOID();
+	return VOID(); 
 }
 
 
