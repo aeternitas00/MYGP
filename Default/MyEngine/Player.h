@@ -10,5 +10,6 @@ private:
 public:
 	Player();
 	virtual ~Player();
+	virtual VOID update();
 };
 

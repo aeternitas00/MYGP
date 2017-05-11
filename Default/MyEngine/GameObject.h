@@ -9,15 +9,14 @@ class GameObject
 {
 public:
 	D3DXVECTOR3 pos;
-
+	int txtid;
 protected:
-	LPDIRECT3DTEXTURE9 txt;	
 	GraphicsComponent* pGrpComponent;
-	PhysicsComponent* pPhsComponent;
 public:
 	GameObject();
-	HRESULT SetTxt();
+	GameObject(D3DXVECTOR3& ipos, int id);
+	HRESULT SetTxt(int& id);
 	virtual ~GameObject();
-	VOID update();
+	virtual VOID update();
 };
 

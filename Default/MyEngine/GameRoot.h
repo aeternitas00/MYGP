@@ -23,6 +23,6 @@ public:
 
 	
 	INT Main();
-	inline HWND* get_hwnd() { return &hWnd; }
+	inline HWND* GetHwnd() { return &hWnd; }
 	static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 };

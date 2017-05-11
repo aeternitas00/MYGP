@@ -5,7 +5,9 @@ SystemManager* SystemManager::instance = nullptr;
 
 VOID SystemManager::update()
 {
-	for(auto it: ObjectList) it->update();return;
+	for(auto it: ObjectList) 
+		it->update();
+	return;
 }
 
 SystemManager * SystemManager::GetInstance()
@@ -19,11 +21,12 @@ SystemManager * SystemManager::GetInstance()
 
 SystemManager::SystemManager()
 {
+	ObjectList.clear();
 }
 
 HRESULT SystemManager::Initialize()
 {
-	ObjectList.clear();
+	ObjectList.push_back(new Player());
 	return S_OK;
 }
 

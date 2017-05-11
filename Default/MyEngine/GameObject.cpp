@@ -1,15 +1,17 @@
 #include "stdafx.h"
 #include "GameObject.h"
 
-GameObject::GameObject()
+GameObject::GameObject():pos(D3DXVECTOR3(0,0,0)),txtid(-1), 
+pGrpComponent(new GraphicsComponent())
 {
 
 }
-//GameObject::GameObject(ComponentBase* Components, ...)
-//{
-//}
+GameObject::GameObject(D3DXVECTOR3& ipos,int id): pos(ipos), txtid(id),
+	pGrpComponent(new GraphicsComponent())
+{
+}
 
-HRESULT GameObject::SetTxt()
+HRESULT GameObject::SetTxt(int& id)
 {
 	return S_OK;
 }
@@ -30,6 +32,5 @@ GameObject::~GameObject()
 VOID GameObject::update()
 {
 	pGrpComponent->update(*this);
-	pPhsComponent->update(*this);
 	return;
 }
