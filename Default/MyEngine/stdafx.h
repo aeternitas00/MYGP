@@ -33,6 +33,7 @@
 #include "ComponentBase.h"
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
+#include "GraphicsComponent.h"
 #include "Player.h"
 #include <iostream>
 #include <fstream>
