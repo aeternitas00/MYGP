@@ -20,12 +20,6 @@
     <Filter Include="Object\Component">
       <UniqueIdentifier>{1039c679-d940-4abb-b9fb-e96c9d690dc1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Component\Header">
-      <UniqueIdentifier>{09e3822a-8cb2-4739-9706-c2138d8cf473}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Component\Source">
-      <UniqueIdentifier>{96b1bf17-d10a-4db8-9f5e-741a2fd0de9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Container">
       <UniqueIdentifier>{ad40bea5-adbb-405d-af37-e154fad5647c}</UniqueIdentifier>
     </Filter>
@@ -45,6 +39,24 @@
     <Filter Include="Main\Source">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Object\Component\Base">
+      <UniqueIdentifier>{2923ef4f-5cba-4e0e-9cef-c8d889d52cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Base\Header">
+      <UniqueIdentifier>{64dd499b-2100-4084-a774-ca176ce3a047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Base\Source">
+      <UniqueIdentifier>{96b1bf17-d10a-4db8-9f5e-741a2fd0de9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Player">
+      <UniqueIdentifier>{09e3822a-8cb2-4739-9706-c2138d8cf473}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Player\Header">
+      <UniqueIdentifier>{e70646aa-62f5-42a0-b2a2-dee62579aebc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Player\Source">
+      <UniqueIdentifier>{8817941d-896b-4042-bc3a-af7b0f946099}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -72,26 +84,32 @@
     <ClInclude Include="SystemManager.h">
       <Filter>Manager\Header</Filter>
     </ClInclude>
-    <ClInclude Include="InputComponent.h">
-      <Filter>Object\Component\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsComponent.h">
-      <Filter>Object\Component\Header</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Object\Container\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentBase.h">
-      <Filter>Object\Component\Header</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Object\Container\Header</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsComponent.h">
-      <Filter>Object\Component\Header</Filter>
-    </ClInclude>
     <ClInclude Include="GameMovableObject.h">
       <Filter>Object\Container\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentBase.h">
+      <Filter>Object\Component\Base\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsComponent.h">
+      <Filter>Object\Component\Base\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="InputComponent.h">
+      <Filter>Object\Component\Base\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsComponent.h">
+      <Filter>Object\Component\Base\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerGraphicsComponent.h">
+      <Filter>Object\Component\Player\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerInputComponent.h">
+      <Filter>Object\Component\Player\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -111,25 +129,31 @@
       <Filter>Manager\Source</Filter>
     </ClCompile>
     <ClCompile Include="InputComponent.cpp">
-      <Filter>Object\Component\Source</Filter>
+      <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsComponent.cpp">
-      <Filter>Object\Component\Source</Filter>
+      <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Object\Container\Source</Filter>
     </ClCompile>
     <ClCompile Include="ComponentBase.cpp">
-      <Filter>Object\Component\Source</Filter>
+      <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Object\Container\Source</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsComponent.cpp">
-      <Filter>Object\Component\Source</Filter>
+      <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="GameMovableObject.cpp">
       <Filter>Object\Container\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerGraphicsComponent.cpp">
+      <Filter>Object\Component\Player\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerInputComponent.cpp">
+      <Filter>Object\Component\Player\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

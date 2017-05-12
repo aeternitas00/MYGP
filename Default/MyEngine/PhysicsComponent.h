@@ -6,8 +6,8 @@ private:
 	RECT volume;
 public:
 	PhysicsComponent();
-	virtual VOID update(GameObject& rObj);
-	virtual VOID update(GameMovableObject & rObj);
+	virtual VOID Update(GameObject& rObj);
+	virtual VOID Update(GameMovableObject & rObj);
 	virtual ~PhysicsComponent();
 };
 

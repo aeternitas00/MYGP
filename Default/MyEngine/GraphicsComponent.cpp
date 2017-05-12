@@ -6,7 +6,7 @@ GraphicsComponent::GraphicsComponent()
 {
 }
 
-VOID GraphicsComponent::update(GameObject& rObj)
+VOID GraphicsComponent::Update(GameObject& rObj)
 {
 	if (rObj.txtid == -1) return;
 	LPD3DXSPRITE sprite=*RenderManager::GetInstance()->GetSprite();

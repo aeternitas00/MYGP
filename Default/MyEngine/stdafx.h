@@ -22,6 +22,7 @@
 #include <d3d9.h>
 #include <Windows.h>
 #include <mmsystem.h>
+#include <functional>
 #include <d3dx9.h>
 #include <Winuser.h>
 #include <strsafe.h>
@@ -34,6 +35,8 @@
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
 #include "GraphicsComponent.h"
+#include "PlayerGraphicsComponent.h"
+#include "PlayerInputComponent.h"
 #include "Player.h"
 #include <iostream>
 #include <fstream>

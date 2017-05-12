@@ -6,13 +6,13 @@ PhysicsComponent::PhysicsComponent()
 {
 }
 
-VOID PhysicsComponent::update(GameObject& rObj)
+VOID PhysicsComponent::Update(GameObject& rObj)
 {
 	//resolveCollision();
 	return VOID();
 }
 
-VOID PhysicsComponent::update(GameMovableObject& rObj)
+VOID PhysicsComponent::Update(GameMovableObject& rObj)
 {
 	rObj.velocity += rObj.acceleration;
 	rObj.pos += rObj.velocity;

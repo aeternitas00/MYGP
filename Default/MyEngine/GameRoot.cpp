@@ -71,7 +71,7 @@ INT GameRoot::Main()
 		}
 		else {
 			pRdrM->BeginScene();
-			pSysM->update();
+			pSysM->Update();
 			pRdrM->EndScene();
 		}
 	}

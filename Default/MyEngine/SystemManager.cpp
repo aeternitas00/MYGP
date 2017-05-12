@@ -3,10 +3,10 @@
 
 SystemManager* SystemManager::instance = nullptr;
 
-VOID SystemManager::update()
+VOID SystemManager::Update()
 {
 	for(auto it: ObjectList) 
-		it->update();
+		it->Update();
 	return;
 }
 
@@ -27,6 +27,7 @@ SystemManager::SystemManager()
 HRESULT SystemManager::Initialize()
 {
 	ObjectList.push_back(new Player());
+	ObjectList.back()->SetComponent();
 	return S_OK;
 }
 

@@ -35,7 +35,7 @@ Win32Project1.rc
 
 Resource.h
     This is the standard header file, which defines new resource IDs.
-    Microsoft Visual C++ reads and updates this file.
+    Microsoft Visual C++ reads and Updates this file.
 
 Win32Project1.ico
     This is an icon file, which is used as the application's icon (32x32).

@@ -161,6 +161,8 @@
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerGraphicsComponent.h" />
+    <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -177,6 +179,8 @@
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerGraphicsComponent.cpp" />
+    <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

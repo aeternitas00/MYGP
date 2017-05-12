@@ -56,11 +56,11 @@ HRESULT RenderManager::Initialize()
 HRESULT RenderManager::IncludeTexture()
 {
 	TEXTURESET temp[]={
-		{L"Sprite_BG.bmp",512,480,512,480,0xFFFFFFFF,NULL},
-		{L"Sprite_ExplodeSmall.png",256,32,32,32,D3DCOLOR_XRGB(50, 150, 200),NULL },
-		{L"Sprite_PlayerBullet.png",8,7,8,7,0xFFFFFFFF,NULL },
-		{L"Sprite_Player.png",780,132,65,66,0xFFFFFFFF,NULL },
-		{L"Sprite_FXDust.png",720,80,120,20,D3DCOLOR_XRGB(4,142,176),NULL },
+		{L"Sprite_BG.bmp",512,480,512,480,0xFFFFFFFF,},
+		{L"Sprite_ExplodeSmall.png",256,32,32,32,D3DCOLOR_XRGB(50, 150, 200), },
+		{L"Sprite_PlayerBullet.png",8,7,8,7,0xFFFFFFFF, },
+		{L"Sprite_Player.png",780,132,65,66,0xFFFFFFFF, },
+		{L"Sprite_FXDust.png",720,80,120,20,D3DCOLOR_XRGB(4,142,176), },
 	};
 
 	int len = sizeof(temp) / sizeof(TEXTURESET);
@@ -83,7 +83,7 @@ HRESULT RenderManager::IncludeTexture()
 	return S_OK;
 }
 
-TEXTURESET * RenderManager::GetTexture(const char * path)
+TEXTURESET * RenderManager::GetTexture(const wchar_t * path)
 {
 	// do hashing;
 	return nullptr;
@@ -94,7 +94,7 @@ HRESULT RenderManager::BeginScene()
 	if (NULL == m_pD3DDevice)
 		return E_FAIL;
 
-	m_pD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 255), 1.0f, 0);
+	m_pD3DDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 	
 	if (FAILED(m_pD3DDevice->BeginScene()))
 		return E_FAIL;

@@ -39,7 +39,7 @@ public :
 	LPDIRECT3DDEVICE9*	GetDevice(){return &m_pD3DDevice;}
 	LPD3DXSPRITE*		GetSprite(){return &m_pD3DSprite;}
 	TEXTURESET*			GetTexture(int idx) { return &m_TextureList[idx]; }
-	TEXTURESET*			GetTexture(const char* path);
+	TEXTURESET*			GetTexture(const wchar_t* path);
 	HRESULT				BeginScene();
 	HRESULT				EndScene();
 };

@@ -12,7 +12,7 @@ private:
 	SystemManager();
 	HRESULT Initialize();
 public:
-	VOID update();
+	VOID Update();
 	static SystemManager* GetInstance();
 	~SystemManager();
 };

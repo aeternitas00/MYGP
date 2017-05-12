@@ -11,12 +11,13 @@ public:
 	D3DXVECTOR3 pos;
 	int txtid;
 protected:
-	GraphicsComponent* pGrpComponent;
+	std::list<ComponentBase*> ComponentList;;
 public:
 	GameObject();
 	GameObject(D3DXVECTOR3& ipos, int id);
 	HRESULT SetTxt(int& id);
-	virtual ~GameObject();
-	virtual VOID update();
+	~GameObject();
+	VOID Update();
+	virtual VOID SetComponent();
 };
 
