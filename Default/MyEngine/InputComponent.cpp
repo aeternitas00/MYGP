@@ -6,7 +6,7 @@ InputComponent::InputComponent()
 {
 }
 
-VOID InputComponent::Update(GameObject& rObj)
+VOID InputComponent::Update(GameObject* pObj)
 {
 	return;
 }

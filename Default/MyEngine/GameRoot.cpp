@@ -30,7 +30,7 @@ HRESULT GameRoot::Initialize() {
 		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,L"Test Engine", NULL };
 	RegisterClassEx(&wc);
 	hWnd = CreateWindow(L"Test Engine", L"Test Engine",
-		WS_OVERLAPPEDWINDOW, 100, 100, 300, 300, NULL, NULL, wc.hInstance, NULL);
+		WS_OVERLAPPEDWINDOW, 300, 100, MAX_X, MAX_Y, NULL, NULL, wc.hInstance, NULL);
 
 	pRdrM = RenderManager::GetInstance();
 	pSysM = SystemManager::GetInstance();

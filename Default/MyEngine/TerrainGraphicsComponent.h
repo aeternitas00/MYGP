@@ -1,11 +1,11 @@
 #pragma once
 #include "GraphicsComponent.h"
-class PlayerGraphicsComponent :
+class TerrainGraphicsComponent :
 	public GraphicsComponent
 {
 public:
+	TerrainGraphicsComponent();
+	virtual ~TerrainGraphicsComponent();
 	virtual VOID Update(GameObject* pObj);
-	PlayerGraphicsComponent();
-	~PlayerGraphicsComponent();
 };
 

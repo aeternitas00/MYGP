@@ -59,8 +59,9 @@ HRESULT RenderManager::IncludeTexture()
 		{L"Sprite_BG.bmp",512,480,512,480,0xFFFFFFFF,},
 		{L"Sprite_ExplodeSmall.png",256,32,32,32,D3DCOLOR_XRGB(50, 150, 200), },
 		{L"Sprite_PlayerBullet.png",8,7,8,7,0xFFFFFFFF, },
-		{L"Sprite_Player.png",780,132,65,66,0xFFFFFFFF, },
+		{L"Sprite_Player.png",880,132,80,66,0xFFFFFFFF, },
 		{L"Sprite_FXDust.png",720,80,120,20,D3DCOLOR_XRGB(4,142,176), },
+		{ L"Sprite_Block_CM.png",32,32,32,32,D3DCOLOR_XRGB(4,142,176), },
 	};
 
 	int len = sizeof(temp) / sizeof(TEXTURESET);

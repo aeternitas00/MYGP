@@ -111,6 +111,24 @@
     <ClInclude Include="PlayerInputComponent.h">
       <Filter>Object\Component\Player\Header</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerPhysicsComponent.h">
+      <Filter>Object\Component\Player\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>Object\Container\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Object\Container\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTerrain.h">
+      <Filter>Object\Container\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="GameStaticObject.h">
+      <Filter>Object\Container\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainGraphicsComponent.h">
+      <Filter>Object\Component\Base\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -154,6 +172,24 @@
     </ClCompile>
     <ClCompile Include="PlayerInputComponent.cpp">
       <Filter>Object\Component\Player\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPhysicsComponent.cpp">
+      <Filter>Object\Component\Player\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>Object\Container\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Object\Container\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTerrain.cpp">
+      <Filter>Object\Container\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStaticObject.cpp">
+      <Filter>Object\Container\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainGraphicsComponent.cpp">
+      <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

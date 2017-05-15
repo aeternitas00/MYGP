@@ -10,14 +10,21 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
 #include <windows.h>
-
+#include <typeinfo>
 // C RunTime Header Files
 #include <stdlib.h>
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
-
-
+#define MAX_X 654
+#define MAX_Y 512
+enum RESULT {
+	Default,
+	Destroy,
+};
+typedef struct __MYRECT {
+	unsigned int x, y;
+}MYRECT;
 // TODO: reference additional headers your program requires here
 #include <d3d9.h>
 #include <Windows.h>
@@ -29,6 +36,7 @@
 #include "GameRoot.h"
 #include "GameMovableObject.h"
 #include "RenderManager.h"
+#include "Enemy.h"
 #include "SystemManager.h"
 #include "GameObject.h"
 #include "ComponentBase.h"
@@ -37,7 +45,12 @@
 #include "GraphicsComponent.h"
 #include "PlayerGraphicsComponent.h"
 #include "PlayerInputComponent.h"
+#include "GameStaticObject.h"
+#include "TerrainGraphicsComponent.h"
+#include "GameTerrain.h"
 #include "Player.h"
+#include "PlayerBullet.h"
+#include "PlayerPhysicsComponent.h"
 #include <iostream>
 #include <fstream>
 #include <queue>

@@ -6,20 +6,18 @@ PhysicsComponent::PhysicsComponent()
 {
 }
 
-VOID PhysicsComponent::Update(GameObject& rObj)
+VOID PhysicsComponent::Update(GameObject* pObj)
 {
-	//resolveCollision();
-	return VOID();
-}
+	GameMovableObject* temp = dynamic_cast<GameMovableObject*>(pObj);
+	if (temp == NULL) return;
 
-VOID PhysicsComponent::Update(GameMovableObject& rObj)
-{
-	rObj.velocity += rObj.acceleration;
-	rObj.pos += rObj.velocity;
+	temp->velocity += temp->acceleration;
+	temp->pos += temp->velocity;
+	//if (temp->pos.y >= 300) { temp->pos.y = 300; temp->velocity.y = 0; } // юс╫ц
+
 	//resolveCollision();
 	return;
 }
-
 
 PhysicsComponent::~PhysicsComponent()
 {

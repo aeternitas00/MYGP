@@ -154,33 +154,44 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComponentBase.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="GameMovableObject.h" />
     <ClInclude Include="GameRoot.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameStaticObject.h" />
+    <ClInclude Include="GameTerrain.h" />
     <ClInclude Include="GraphicsComponent.h" />
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerGraphicsComponent.h" />
     <ClInclude Include="PlayerInputComponent.h" />
+    <ClInclude Include="PlayerPhysicsComponent.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="SystemManager.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="TerrainGraphicsComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComponentBase.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="GameMovableObject.cpp" />
     <ClCompile Include="GameRoot.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameStaticObject.cpp" />
+    <ClCompile Include="GameTerrain.cpp" />
     <ClCompile Include="GraphicsComponent.cpp" />
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerGraphicsComponent.cpp" />
     <ClCompile Include="PlayerInputComponent.cpp" />
+    <ClCompile Include="PlayerPhysicsComponent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -190,6 +201,7 @@
     </ClCompile>
     <ClCompile Include="SystemManager.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="TerrainGraphicsComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="directx.ico" />

@@ -2,12 +2,11 @@
 #include "stdafx.h"
 class PhysicsComponent:public ComponentBase
 {
-private:
+protected:
 	RECT volume;
 public:
 	PhysicsComponent();
-	virtual VOID Update(GameObject& rObj);
-	virtual VOID Update(GameMovableObject & rObj);
+	virtual VOID Update(GameObject* pObj);
 	virtual ~PhysicsComponent();
 };
 

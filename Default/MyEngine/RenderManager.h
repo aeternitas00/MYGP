@@ -7,7 +7,7 @@
 #define TXTID_PLAYER_BULLET 2
 #define TXTID_PLAYER 3
 #define TXTID_DUST 4
-
+#define TXTID_BLOCK_CM 5
 using namespace std;
 
 typedef struct __txtset {
@@ -16,6 +16,11 @@ typedef struct __txtset {
 	D3DCOLOR bgc;
 	LPDIRECT3DTEXTURE9 txt;
 }TEXTURESET;
+
+typedef struct __risqr
+{
+	int x, y;
+}RENDERSQUARE;
 
 class RenderManager
 {
