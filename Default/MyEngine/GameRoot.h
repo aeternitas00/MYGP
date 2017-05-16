@@ -3,12 +3,13 @@
 #include "stdafx.h"
 class SystemManager;
 class RenderManager;
+class SoundManager;
 
 class GameRoot {
 private:
 	SystemManager*			pSysM;
 	RenderManager*			pRdrM;
-
+	SoundManager*			pSndM;
 	WNDCLASSEX				wc;
 	HWND					hWnd;
 	static GameRoot*		instance;

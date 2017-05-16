@@ -21,11 +21,13 @@
 enum RESULT {
 	Default,
 	Destroy,
+	OutOfScreen,
 };
 typedef struct __MYRECT {
 	unsigned int x, y;
 }MYRECT;
 // TODO: reference additional headers your program requires here
+
 #include <d3d9.h>
 #include <Windows.h>
 #include <mmsystem.h>
@@ -33,10 +35,13 @@ typedef struct __MYRECT {
 #include <d3dx9.h>
 #include <Winuser.h>
 #include <strsafe.h>
+#include "GameMovableObject.h"
 #include "GameRoot.h"
+#include "SoundManager.h"
 #include "GameMovableObject.h"
 #include "RenderManager.h"
 #include "Enemy.h"
+#include "EnemyBullet.h"
 #include "SystemManager.h"
 #include "GameObject.h"
 #include "ComponentBase.h"
@@ -53,5 +58,6 @@ typedef struct __MYRECT {
 #include "PlayerPhysicsComponent.h"
 #include <iostream>
 #include <fstream>
+#include <string>
 #include <queue>
 #include <list>

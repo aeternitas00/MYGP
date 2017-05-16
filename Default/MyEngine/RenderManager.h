@@ -46,5 +46,6 @@ public :
 	TEXTURESET*			GetTexture(int idx) { return &m_TextureList[idx]; }
 	TEXTURESET*			GetTexture(const wchar_t* path);
 	HRESULT				BeginScene();
+	VOID SetupDefaultMatrix();
 	HRESULT				EndScene();
 };

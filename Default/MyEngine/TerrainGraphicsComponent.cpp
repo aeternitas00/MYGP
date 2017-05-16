@@ -19,9 +19,9 @@ VOID TerrainGraphicsComponent::Update(GameObject * pObj)
 	RECT rtemp = { 0,0,Ttemp->GetVX(),Ttemp->GetVY() };
 	MYRECT rect = Ttemp->GetTerrainInfo();
 	auto Ptemp = pObj->pos;
-	for (auto x = 0; x < rect.x; x++) {
+	for (unsigned int x = 0; x < rect.x; x++) {
 		Ptemp.x = pObj->pos.x+ Ttemp->GetVX()*x;
-		for (auto y = 0; y < rect.y; y++) {
+		for (unsigned int y = 0; y < rect.y; y++) {
 			Ptemp.y = pObj->pos.y+ Ttemp->GetVY()*y;
 			sprite->Draw(RenderManager::GetInstance()->GetTexture(pObj->txtid)->txt, &rtemp, NULL, &Ptemp, D3DXCOLOR(1, 1, 1, 1.0f));
 		}

@@ -9,10 +9,20 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 
 	auto& TerrainList = SystemManager::GetInstance()->GetTerrainList();
 
-	temp->SetVel();
+	if (temp->IsMoving())
+	{
+		if (temp->GetMovingLeft() == 1) temp->velocity.x = -2.0f;
+		else if (temp->GetMovingRight() == 1) temp->velocity.x = 2.0f;
+	}
+	else { temp->velocity.x = 0; }
+
+	if (temp->IsLanded())	temp->velocity.y = 0;
+	if (temp->IsJumping() && temp->GetRemainJump() >= 0) { temp->velocity.y = -5.3f; temp->SetJumpingStat(false); if (temp->IsLanded()) temp->SetLandedStat(false); }
+	if (temp->IsJumpingUp()) { if (temp->velocity.y > 0) temp->SetJumpingUpStat(false); temp->velocity.y -= 0.495f; }
+	if (temp->velocity.y > 4.75f) { temp->velocity.y = 4.75f; }
 
 	temp->velocity += temp->acceleration;
-	if (temp->IsGravityOn())temp->velocity.y += 0.76;
+	if (temp->IsGravityOn())temp->velocity.y += 0.76f;
 	temp->pos += temp->velocity;
 
 	RECT rect;
@@ -25,42 +35,81 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 	for (auto it : TerrainList)
 	{
 		if (it->pos.x < rect.right && it->GetXEnd() > rect.left) {
-			if (!(it->pos.x < rect.right - temp->velocity.x)) {
-				if ((it->pos.y + it->GetYEnd()) > rect.top && it->pos.y < rect.bottom)
-				{
-					temp->pos.x -= (rect.right - it->pos.x);
+			
+			if (!it->IsThroughable()) {
+				if (!(it->pos.x < rect.right - temp->velocity.x)) {
+					if (it->pos.y < rect.bottom && it->GetYEnd() > rect.top)
+					{
+						temp->pos.x -= (rect.right - it->pos.x);
+					}
+				}
+				else if (!(it->GetXEnd() > rect.left - temp->velocity.x)) {
+					if (it->pos.y < rect.bottom && it->GetYEnd() > rect.top)
+					{
+						temp->pos.x -= (rect.left - it->GetXEnd());
+					}
 				}
 			}
-			else if (!((it->pos.x + it->GetXEnd()) > rect.left - temp->velocity.x)) {
-				if ((it->pos.y + it->GetYEnd()) > rect.top && it->pos.y < rect.bottom)
-				{
-					temp->pos.x -= (rect.left - (it->pos.x + it->GetXEnd()));
-				}
-			}
+
 			if (it->pos.y + temp->velocity.y >= rect.bottom && it->pos.y <= rect.bottom)
 			{
-				landpos=it->pos.y; landok = true;
+				landpos=it->pos.y; landok = true; 
+			}
+			if (!it->IsThroughable()) {
+				if (it->GetYEnd() + temp->velocity.y <= rect.top && it->GetYEnd() >= rect.top)
+				{
+					temp->pos.y = it->GetYEnd(); temp->velocity.y *= -0.6f;
+				}
 			}
 		}
 	}
 
-
-	//resolveCollision();
-	
 	if (landok)	{
-		if (!temp->IsLanded()) { temp->pos.y = landpos - volume.bottom; temp->velocity.y = 0; temp->DisableGravity(); temp->SetLanded(); }
+		if (!temp->IsLanded()) { temp->pos.y = landpos - volume.bottom; temp->velocity.y = 0; temp->DisableGravity(); temp->SetLanded(); SoundManager::GetInstance()->PlayWaveFile();}
 	}
 
 	else {	if (temp->IsLanded()) 	{ temp->EnableGravity(); temp->SetFloated(); } }
 
-	// if (temp->IsLanded()) {	temp->pos.y = 300; temp->velocity.y = 0; temp->DisableGravity(); temp->SetLanded();	}//юс╫ц
+
+	if (rect.left<0){
+		if (SystemManager::GetInstance()->IsMovableSideOfScene(CToLeft)) {
+			temp->pos.x = MAX_X - volume.right - 11.0f;
+			SystemManager::GetInstance()->SendMoveSceneMessage(CToLeft);
+		}
+		else
+			temp->pos.x = 0 - volume.left;
+	}
+	else if (rect.right>MAX_X-10.0f) {
+		if (SystemManager::GetInstance()->IsMovableSideOfScene(CToRight)) {
+			temp->pos.x = 0 + volume.left + 1;
+			SystemManager::GetInstance()->SendMoveSceneMessage(CToRight);
+		}
+		else
+			temp->pos.x = MAX_X - volume.right-10.0f;
+	}
+	if (rect.top<0) {
+		if (SystemManager::GetInstance()->IsMovableSideOfScene(CToUp)) {
+			temp->pos.y = MAX_Y - volume.bottom - 1.0f;
+			SystemManager::GetInstance()->SendMoveSceneMessage(CToUp);
+		}
+		else
+			temp->pos.y = 0.0f - volume.top;
+	}
+	else if (rect.bottom>MAX_Y) {
+		if (SystemManager::GetInstance()->IsMovableSideOfScene(CToDown)) {
+			temp->pos.y = 0.0f + volume.top + 1.0f;
+			SystemManager::GetInstance()->SendMoveSceneMessage(CToDown);
+		}
+		else
+			temp->pos.y = MAX_Y - volume.bottom;
+	}
 	return;
 }
 
 PlayerPhysicsComponent::PlayerPhysicsComponent()
 {
-	volume.left = 20; volume.right = 60;
-	volume.top = 14; volume.bottom = 61;
+	volume.left = 10; volume.right = 30;
+	volume.top = 7; volume.bottom = 30;
 }
 
 

@@ -56,12 +56,13 @@ HRESULT RenderManager::Initialize()
 HRESULT RenderManager::IncludeTexture()
 {
 	TEXTURESET temp[]={
-		{L"Sprite_BG.bmp",512,480,512,480,0xFFFFFFFF,},
+		{L"Sprite_BG.jpg",640,360,640,360,0xFFFFFFFF,},
 		{L"Sprite_ExplodeSmall.png",256,32,32,32,D3DCOLOR_XRGB(50, 150, 200), },
 		{L"Sprite_PlayerBullet.png",8,7,8,7,0xFFFFFFFF, },
-		{L"Sprite_Player.png",880,132,80,66,0xFFFFFFFF, },
+		{L"Sprite_Player.png",440,66,40,33,0xFFFFFFFF, },
 		{L"Sprite_FXDust.png",720,80,120,20,D3DCOLOR_XRGB(4,142,176), },
-		{ L"Sprite_Block_CM.png",32,32,32,32,D3DCOLOR_XRGB(4,142,176), },
+		{L"Sprite_Block_CM.png",16,16,16,16,D3DCOLOR_XRGB(4,142,176), },
+		{ L"Sprite_Block_CM2.png",16,16,16,16,0xFFFFFFFF, },
 	};
 
 	int len = sizeof(temp) / sizeof(TEXTURESET);
@@ -99,12 +100,37 @@ HRESULT RenderManager::BeginScene()
 	
 	if (FAILED(m_pD3DDevice->BeginScene()))
 		return E_FAIL;
+
+	SetupDefaultMatrix();
+
 	if (FAILED(m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND)))
 		return E_FAIL;
+
+	int bgid= SystemManager::GetInstance()->GetCurrentBGID();
+	RECT rtemp = { 0,0,m_TextureList[bgid].spfx,m_TextureList[bgid].spfy };
+	m_pD3DSprite->Draw(m_TextureList[bgid].txt, &rtemp, NULL, &D3DXVECTOR3(0, 40, 0), m_TextureList[bgid].bgc);
 
 	return S_OK;
 }
 
+VOID RenderManager::SetupDefaultMatrix() 
+{
+	D3DXMATRIXA16 matWorld;
+	D3DXMatrixIdentity(&matWorld);
+	D3DXMatrixTranslation(&matWorld, 0, 0, 0);
+	m_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
+
+	D3DXVECTOR3 vEyePt(0.0f,0.0f, -12.0f);
+	D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
+	D3DXMATRIXA16 matView;
+	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
+	m_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
+
+	D3DXMATRIXA16 matProj;
+	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
+	m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &matProj);
+}
 HRESULT RenderManager::EndScene()
 {
 	m_pD3DSprite->End();

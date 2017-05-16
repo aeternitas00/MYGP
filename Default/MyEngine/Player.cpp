@@ -9,21 +9,6 @@ VOID Player::SetComponent()
 	ComponentList.push_back(new PlayerGraphicsComponent);
 }
 
-VOID Player::SetVel()
-{
-	if (moving)
-	{
-		if (go_left==1) velocity.x = -2.0f;
-		else if (go_right==1) velocity.x = 2.0f;
-	}
-	else { velocity.x = 0; }
-
-	if (landed)	velocity.y = 0;
-	if (jumping&&remain_jump >= 0) { velocity.y = -5.3f; if (landed) landed = false; jumping = false; }
-	if (jumping_up) { if (velocity.y > 0) jumping_up = false; velocity.y -= 0.495f; }
-	if (velocity.y > 4.75f) { velocity.y = 4.75f; }
-}
-
 VOID Player::Jump()
 {
 	if (!jumping_tgl) { gravity = true; jumping_tgl = true; jumping = true; jumping_up = true; remain_jump--; }
@@ -36,10 +21,6 @@ VOID Player::Attack()
 	attack_rmt = 18;
 }
 
-VOID Player::Sliding()
-{
-	return VOID();
-}
 
 RENDERSQUARE Player::GetRenderSquare()
 {
@@ -79,12 +60,17 @@ RENDERSQUARE Player::GetRenderSquare()
 
 Player::Player() :
 	GameMovableObject(D3DXVECTOR3(20, 20, 0),
-		D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0)/*GRAVITY (Temporal)*/, TXTID_PLAYER),
+		D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), TXTID_PLAYER),
 	go_left(0), go_right(1), left_tgl(false), moving(0), right_tgl(false),
 	jumping_tgl(false), jumping_up(false), jumping(false), attack(false),attack_tgl(false),remain_jump(1),landed(false),
 	attack_rmt(0),gravity(true)
 {
 
+}
+
+Player::Player(D3DXVECTOR3 & ipos):Player()
+{
+	pos = ipos;
 }
 
 Player::~Player()
@@ -96,6 +82,7 @@ RESULT Player::Update()
 	attack_rmt >= 0 ? attack_rmt-- : attack=false;
 	for (auto it : ComponentList)
 		it->Update(this);
+
 	return Default;
 }
 

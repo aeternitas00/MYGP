@@ -129,6 +129,12 @@
     <ClInclude Include="TerrainGraphicsComponent.h">
       <Filter>Object\Component\Base\Header</Filter>
     </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>Manager\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBullet.h">
+      <Filter>Object\Container\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -190,6 +196,12 @@
     </ClCompile>
     <ClCompile Include="TerrainGraphicsComponent.cpp">
       <Filter>Object\Component\Base\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>Manager\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBullet.cpp">
+      <Filter>Object\Container\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
