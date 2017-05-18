@@ -4,6 +4,10 @@
 
 PhysicsComponent::PhysicsComponent()
 {
+	volume.bottom = 0;
+	volume.top = 0;
+	volume.left = 0;
+	volume.right = 0;
 }
 
 VOID PhysicsComponent::Update(GameObject* pObj)

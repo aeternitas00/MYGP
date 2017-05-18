@@ -10,7 +10,6 @@ protected:
 
 public:
 	virtual VOID SetComponent();
-	virtual RESULT Update();
 	GameMovableObject();
 	GameMovableObject(D3DXVECTOR3& ipos, D3DXVECTOR3& ivel, D3DXVECTOR3& iacc, int id);
 	~GameMovableObject();

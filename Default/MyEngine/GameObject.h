@@ -17,8 +17,11 @@ public:
 	GameObject(D3DXVECTOR3& ipos, int id);
 	HRESULT SetTxt(int& id);
 	~GameObject();
-	virtual RESULT Update();
+
 	bool IsInScreen() { return pos.x<MAX_X&&pos.x>-100 && pos.y<MAX_Y&&pos.y>-100 ? true : false; }
+	RESULT Update();
+	virtual RESULT UpdateSub();
+	VOID UpdateByMovingScene(int side);
 	virtual VOID SetComponent();
 };
 

@@ -17,6 +17,9 @@ RenderManager* RenderManager::GetInstance()
 
 RenderManager::~RenderManager()
 {
+	if (m_pD3DSprite != NULL)
+		m_pD3DSprite->Release();
+
 	if (m_pD3DDevice != NULL)
 		m_pD3DDevice->Release();
 
@@ -42,6 +45,7 @@ HRESULT RenderManager::Initialize()
 
 	if (FAILED(m_pD3D->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, *GameRoot::GetInstance()->GetHwnd(),
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &m_pD3DDevice))) return E_FAIL;
+	
 	D3DXCreateSprite(m_pD3DDevice, &m_pD3DSprite);
 
 	m_pD3DDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
@@ -63,6 +67,8 @@ HRESULT RenderManager::IncludeTexture()
 		{L"Sprite_FXDust.png",720,80,120,20,D3DCOLOR_XRGB(4,142,176), },
 		{L"Sprite_Block_CM.png",16,16,16,16,D3DCOLOR_XRGB(4,142,176), },
 		{ L"Sprite_Block_CM2.png",16,16,16,16,0xFFFFFFFF, },
+		{ L"Sprite_Block_MLauncher.png",16,16,16,16,0xFFFFFFFF, },
+		{ L"Sprite_Block_MLBase.png",16,16,16,16,0xFFFFFFFF, },
 	};
 
 	int len = sizeof(temp) / sizeof(TEXTURESET);
@@ -85,6 +91,23 @@ HRESULT RenderManager::IncludeTexture()
 	return S_OK;
 }
 
+VOID RenderManager::DrawObj(D3DXVECTOR3& ipos,int id,RECT& iRect, D3DMATRIX& iMat)
+{
+	LPD3DXSPRITE sprite;
+	D3DXCreateSprite(m_pD3DDevice, &sprite);
+	sprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+	D3DXVECTOR2 ct(ipos); D3DXVECTOR3 ct2(0, 0, 0);
+	D3DXMATRIX mat(iMat);
+
+	D3DXMatrixMultiply(&mat, &mat, &m_WorldMat);
+
+	sprite->SetTransform(&mat);
+	sprite->Draw(GetTexture(id)->txt, &iRect, NULL, &ct2, D3DXCOLOR(1, 1, 1, 1.0f));
+	sprite->End();
+	sprite->Release();
+}
+
 TEXTURESET * RenderManager::GetTexture(const wchar_t * path)
 {
 	// do hashing;
@@ -101,35 +124,68 @@ HRESULT RenderManager::BeginScene()
 	if (FAILED(m_pD3DDevice->BeginScene()))
 		return E_FAIL;
 
-	SetupDefaultMatrix();
-
-	if (FAILED(m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND)))
-		return E_FAIL;
-
-	int bgid= SystemManager::GetInstance()->GetCurrentBGID();
-	RECT rtemp = { 0,0,m_TextureList[bgid].spfx,m_TextureList[bgid].spfy };
-	m_pD3DSprite->Draw(m_TextureList[bgid].txt, &rtemp, NULL, &D3DXVECTOR3(0, 40, 0), m_TextureList[bgid].bgc);
-
-	return S_OK;
-}
-
-VOID RenderManager::SetupDefaultMatrix() 
-{
+	
 	D3DXMATRIXA16 matWorld;
 	D3DXMatrixIdentity(&matWorld);
 	D3DXMatrixTranslation(&matWorld, 0, 0, 0);
 	m_pD3DDevice->SetTransform(D3DTS_WORLD, &matWorld);
 
-	D3DXVECTOR3 vEyePt(0.0f,0.0f, -12.0f);
+	D3DXVECTOR3 vEyePt(0.0f, 0.0f, -12.0f);
 	D3DXVECTOR3 vLookatPt(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 vUpVec(0.0f, 1.0f, 0.0f);
 	D3DXMATRIXA16 matView;
 	D3DXMatrixLookAtLH(&matView, &vEyePt, &vLookatPt, &vUpVec);
 	m_pD3DDevice->SetTransform(D3DTS_VIEW, &matView);
 
+
 	D3DXMATRIXA16 matProj;
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
 	m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &matProj);
+
+
+	if (FAILED(m_pD3DSprite->Begin(D3DXSPRITE_ALPHABLEND)))
+
+		return E_FAIL;
+	SetupDefaultMatrix();
+
+
+
+	int bgid= SystemManager::GetInstance()->GetCurrentBGID();
+	RECT rtemp = { 0,0,m_TextureList[bgid].spfx,m_TextureList[bgid].spfy };
+	DrawObj(D3DXVECTOR3(0, 40, 0), bgid, rtemp, m_WorldMat);
+
+	return S_OK;
+}
+
+VOID RenderManager::SetupDefaultMatrix()
+{
+	//D3DXVECTOR2 spriteCentre = D3DXVECTOR2(MAX_X / 2, MAX_Y);
+	//D3DXVECTOR2 trans(0, 0);
+
+	//D3DXMatrixTransformation2D(&m_WorldMat, NULL, NULL, NULL, NULL, NULL, NULL);
+	D3DXMatrixTranslation(&m_WorldMat,NULL,NULL,0.0);
+	m_pD3DSprite->SetTransform(&m_WorldMat);
+}
+VOID RenderManager::SetZoomUpMatrix(D3DXVECTOR2& Center,float scale)
+{
+	D3DXVECTOR2 ct = Center;
+	D3DXVECTOR2 ct2 =  D3DXVECTOR2(MAX_X / 2, MAX_Y / 2)-Center;
+	// Screen position of the sprite
+	//D3DXVECTOR2 trans = D3DXVECTOR2(50.0f, 80.0f);
+
+	//// Rotate based on the time passed
+	//float rotation = timeGetTime() / 500.0f;
+
+	// Build our matrix to rotate, scale and position our sprite
+	D3DXMATRIX mat;
+
+	D3DXVECTOR2 scaling(scale, scale);
+
+	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
+	D3DXMatrixTransformation2D(&mat,&ct , 0.0, &scaling, NULL, NULL, &ct2);
+
+	// Tell the sprite about the matrix
+	m_pD3DSprite->SetTransform(&mat);
 }
 HRESULT RenderManager::EndScene()
 {
@@ -138,3 +194,4 @@ HRESULT RenderManager::EndScene()
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 	return S_OK;
 }
+

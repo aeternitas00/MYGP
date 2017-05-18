@@ -77,12 +77,9 @@ Player::~Player()
 {
 }
 
-RESULT Player::Update()
+RESULT Player::UpdateSub()
 {
-	attack_rmt >= 0 ? attack_rmt-- : attack=false;
-	for (auto it : ComponentList)
-		it->Update(this);
-
+	attack_rmt >= 0 ? attack_rmt-- : attack = false;
 	return Default;
 }
 

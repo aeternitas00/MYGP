@@ -25,7 +25,7 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 	if (temp->IsGravityOn())temp->velocity.y += 0.76f;
 	temp->pos += temp->velocity;
 
-	RECT rect;
+	FRECT rect;
 	float landpos;
 	bool landok = false;
 
@@ -58,7 +58,7 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 			if (!it->IsThroughable()) {
 				if (it->GetYEnd() + temp->velocity.y <= rect.top && it->GetYEnd() >= rect.top)
 				{
-					temp->pos.y = it->GetYEnd(); temp->velocity.y *= -0.6f;
+					temp->pos.y = it->GetYEnd()-volume.top; temp->velocity.y = 0.0f;
 				}
 			}
 		}
@@ -108,8 +108,8 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 
 PlayerPhysicsComponent::PlayerPhysicsComponent()
 {
-	volume.left = 10; volume.right = 30;
-	volume.top = 7; volume.bottom = 30;
+	volume.left = 12; volume.right = 28;
+	volume.top = 15; volume.bottom = 30;
 }
 
 

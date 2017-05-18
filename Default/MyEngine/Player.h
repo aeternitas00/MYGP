@@ -16,12 +16,13 @@ private:
 	int attack_rmt;
 
 	bool gravity;
+	bool r_tgl;
 public:
 	Player();
 	Player(D3DXVECTOR3& ipos);
 	~Player();
 
-	virtual RESULT Update();
+	virtual RESULT UpdateSub();
 
 	VOID MovingLeft();
 	VOID MovingRight();
@@ -40,7 +41,7 @@ public:
 
 	VOID EnableGravity() { gravity = true;  }
 	VOID DisableGravity() { gravity = false;  }
-
+	VOID SetRToggle(bool il){ r_tgl = il; }
 	VOID Attack();
 	VOID AttackStop() { attack_tgl = false; }
 
@@ -57,7 +58,7 @@ public:
 	inline	bool IsLanded() { return landed; }
 	inline	bool IsJumpingUp() { return jumping_up; }
 	inline	bool IsAttacking() { return attack_rmt >= 0; }
-
+	inline	bool IsRTgl() { return r_tgl; }
 	short GetDir() { if (go_left == 1) return -1; else if (go_right == 1)return 1; }
 	RENDERSQUARE GetRenderSquare();
 	virtual VOID SetComponent();

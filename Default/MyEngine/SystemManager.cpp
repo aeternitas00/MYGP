@@ -5,19 +5,6 @@ SystemManager* SystemManager::instance = nullptr;
 
 VOID SystemManager::Update()
 {
-	for (auto it = TerrainList.begin(); it != TerrainList.end();) {
-		switch ((*it)->Update())
-		{
-		case Default:
-			it++;
-			break;
-		case Destroy:
-			delete *it;
-			TerrainList.erase(it++);
-			break;
-		}
-	}
-	MyPlayer->Update();
 	for (auto it = ObjectList.begin(); it != ObjectList.end();) {
 		switch ((*it)->Update())
 		{
@@ -69,6 +56,20 @@ VOID SystemManager::Update()
 			break;
 		}
 	}
+	for (auto it = TerrainList.begin(); it != TerrainList.end();) {
+		switch ((*it)->Update())
+		{
+		case Default:
+			it++;
+			break;
+		case Destroy:
+			delete *it;
+			TerrainList.erase(it++);
+			break;
+		}
+	}
+
+	MyPlayer->Update();
 
 	if (DelayedMessage != -1)
 	{
@@ -155,6 +156,7 @@ VOID SystemManager::SetupScene(int i)
 	CurrentScene.connected[3] = atoi(strtok_s(NULL, " ", &temp));
 
 	TerrainList.clear();
+	EnemyList.clear();
 
 	inFile.getline(str, 200);
 	token = strtok_s(str, " ", &temp);
@@ -173,6 +175,17 @@ VOID SystemManager::SetupScene(int i)
 				bool ctab = atoi(strtok_s(NULL, " ", &temp));
 				TerrainList.push_back(new GameTerrain(D3DXVECTOR3(x, y, 0), width, height, type, ctab));
 				TerrainList.back()->SetComponent();
+			}
+			break;
+		case 2:
+			for (int num = atoi(strtok_s(NULL, " ", &temp)); num > 0; num--) {
+				inFile.getline(str, 200);
+				float x = atoi(strtok_s(str, " ", &temp));
+				float y = atoi(strtok_s(NULL, " ", &temp));
+				TerrainList.push_back(new GameTerrain(D3DXVECTOR3(x, y, 0),1,1,TXTID_MISSILE_LBASE,false));
+				TerrainList.back()->SetComponent();
+				EnemyList.push_back(new MissileLauncher(D3DXVECTOR3(x,y,0)));
+				EnemyList.back()->SetComponent();
 			}
 			break;
 		default:
@@ -194,6 +207,9 @@ VOID SystemManager::MoveScene(int toside)
 	if (CurrentScene.connected[toside] != -1 || CurrentScene.connected[toside] != CurrentScene.sno)
 	{
 		SetupScene(CurrentScene.connected[toside]);
+
+		for (auto it = EnemyBulletList.begin(); it != EnemyBulletList.end();) 
+			(*it)->UpdateByMovingScene(toside);
 	}
 }
 

@@ -44,4 +44,14 @@ VOID PlayerInputComponent::Update(GameObject* pObj)
 	}
 	else { if (KEY_UP(0x58)) temp->AttackStop(); }
 
+	if (!temp->IsRTgl()) {
+		if (KEY_DOWN(0x52)){
+			/*SystemManager::GetInstance()->LoadSaveFile();*/ temp->SetRToggle(true);
+		}
+	}
+	else {
+		if (KEY_UP(0x52))
+			temp->SetRToggle(false);
+	}
+
 }

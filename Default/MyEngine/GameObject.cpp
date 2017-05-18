@@ -32,5 +32,28 @@ RESULT GameObject::Update()
 {
 	for (auto it : ComponentList)
 		it->Update(this);
+	return UpdateSub();
+}
+
+RESULT GameObject::UpdateSub()
+{
 	return Default;
+}
+
+VOID GameObject::UpdateByMovingScene(int side)
+{
+	switch (side) {
+	case CToLeft:
+		pos.x += MAX_X;
+		break;
+	case CToRight:
+		pos.x -= MAX_X;
+		break;
+	case CToUp:
+		pos.y += MAX_Y;
+		break;
+	case CToDown:
+		pos.y -= MAX_Y;
+		break;
+	}
 }

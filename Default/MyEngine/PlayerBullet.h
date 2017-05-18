@@ -7,7 +7,7 @@ public:
 	PlayerBullet();
 	PlayerBullet(Player* pObj);
 	virtual VOID SetComponent();
-	virtual RESULT Update();
+	virtual RESULT UpdateSub();
 	~PlayerBullet();
 };
 

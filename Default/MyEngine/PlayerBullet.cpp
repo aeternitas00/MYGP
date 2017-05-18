@@ -22,22 +22,21 @@ VOID PlayerBullet::SetComponent() {
 	ComponentList.push_back(new PhysicsComponent);
 	ComponentList.push_back(new GraphicsComponent);
 }
-RESULT PlayerBullet::Update()
+RESULT PlayerBullet::UpdateSub()
 {
 	if (!IsInScreen()) return OutOfScreen; // temporal(delete self
 	auto TerrainList = SystemManager::GetInstance()->GetTerrainList();
 	for (auto it : TerrainList)
 	{
 		if (it->IsThroughable()) continue;
-		if (it->pos.x-8 <= pos.x  && it->GetXEnd()+8 >= pos.x  ) {
-			if (it->pos.y-7 <= pos.y  && it->GetYEnd() +7>= pos.y )
+		if (it->pos.x - 8 <= pos.x  && it->GetXEnd() + 8 >= pos.x) {
+			if (it->pos.y - 7 <= pos.y  && it->GetYEnd() + 7 >= pos.y)
 				return Destroy;
 		}
 	}
-	for (auto it : ComponentList)
-		it->Update(this);
 	return Default;
 }
+
 PlayerBullet::~PlayerBullet()
 {
 }

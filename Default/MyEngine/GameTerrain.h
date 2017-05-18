@@ -19,7 +19,6 @@ public:
 	GameTerrain();
 	GameTerrain(D3DXVECTOR3& ipos, unsigned int ix, unsigned int iy, int id,bool ct);
 	VOID SetComponent();
-	virtual RESULT Update();
 	~GameTerrain();
 };
 

@@ -23,12 +23,6 @@
     <Filter Include="Object\Container">
       <UniqueIdentifier>{ad40bea5-adbb-405d-af37-e154fad5647c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Container\Header">
-      <UniqueIdentifier>{61f117a1-0c7f-4feb-b2e7-a2b51e157c92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object\Container\Source">
-      <UniqueIdentifier>{445be84f-2c24-4304-b996-bd303653049c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Main">
       <UniqueIdentifier>{e4adbbd6-9e95-49a4-97be-30625acef51f}</UniqueIdentifier>
     </Filter>
@@ -58,6 +52,33 @@
     <Filter Include="Object\Component\Player\Source">
       <UniqueIdentifier>{8817941d-896b-4042-bc3a-af7b0f946099}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Container\Player">
+      <UniqueIdentifier>{ca6a9866-0b48-45ad-b333-444f1c7e02f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Container\Player\Header">
+      <UniqueIdentifier>{841abb4d-c863-4177-9dff-9ff039fa64e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Container\Player\Source">
+      <UniqueIdentifier>{7d51da10-eccb-460f-af50-9aeed6278cf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Container\Base">
+      <UniqueIdentifier>{b6153cd2-1247-4d4e-84fc-245fd4892752}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Container\Base\Header">
+      <UniqueIdentifier>{61f117a1-0c7f-4feb-b2e7-a2b51e157c92}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Container\Enemy">
+      <UniqueIdentifier>{c2386f6d-0e88-4c78-896a-c0243ce72577}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Container\Enemy\Source">
+      <UniqueIdentifier>{af7ac3f3-0772-4d88-afa6-6003c18c26bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Container\Enemy\Header">
+      <UniqueIdentifier>{b4cb7fe1-2dd9-43a1-ad6e-26e7a99076db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Container\Base\Source">
+      <UniqueIdentifier>{445be84f-2c24-4304-b996-bd303653049c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -85,13 +106,10 @@
       <Filter>Manager\Header</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Object\Container\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Object\Container\Header</Filter>
+      <Filter>Object\Container\Base\Header</Filter>
     </ClInclude>
     <ClInclude Include="GameMovableObject.h">
-      <Filter>Object\Container\Header</Filter>
+      <Filter>Object\Container\Base\Header</Filter>
     </ClInclude>
     <ClInclude Include="ComponentBase.h">
       <Filter>Object\Component\Base\Header</Filter>
@@ -114,17 +132,11 @@
     <ClInclude Include="PlayerPhysicsComponent.h">
       <Filter>Object\Component\Player\Header</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBullet.h">
-      <Filter>Object\Container\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Object\Container\Header</Filter>
-    </ClInclude>
     <ClInclude Include="GameTerrain.h">
-      <Filter>Object\Container\Header</Filter>
+      <Filter>Object\Container\Base\Header</Filter>
     </ClInclude>
     <ClInclude Include="GameStaticObject.h">
-      <Filter>Object\Container\Header</Filter>
+      <Filter>Object\Container\Base\Header</Filter>
     </ClInclude>
     <ClInclude Include="TerrainGraphicsComponent.h">
       <Filter>Object\Component\Base\Header</Filter>
@@ -132,8 +144,20 @@
     <ClInclude Include="SoundManager.h">
       <Filter>Manager\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Object\Container\Player\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBullet.h">
+      <Filter>Object\Container\Player\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Object\Container\Enemy\Header</Filter>
+    </ClInclude>
     <ClInclude Include="EnemyBullet.h">
-      <Filter>Object\Container\Header</Filter>
+      <Filter>Object\Container\Enemy\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MissileLauncher.h">
+      <Filter>Object\Container\Enemy\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,19 +183,16 @@
       <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Object\Container\Source</Filter>
+      <Filter>Object\Container\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="ComponentBase.cpp">
       <Filter>Object\Component\Base\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Object\Container\Source</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsComponent.cpp">
       <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="GameMovableObject.cpp">
-      <Filter>Object\Container\Source</Filter>
+      <Filter>Object\Container\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="PlayerGraphicsComponent.cpp">
       <Filter>Object\Component\Player\Source</Filter>
@@ -182,17 +203,11 @@
     <ClCompile Include="PlayerPhysicsComponent.cpp">
       <Filter>Object\Component\Player\Source</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBullet.cpp">
-      <Filter>Object\Container\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Object\Container\Source</Filter>
-    </ClCompile>
     <ClCompile Include="GameTerrain.cpp">
-      <Filter>Object\Container\Source</Filter>
+      <Filter>Object\Container\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="GameStaticObject.cpp">
-      <Filter>Object\Container\Source</Filter>
+      <Filter>Object\Container\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="TerrainGraphicsComponent.cpp">
       <Filter>Object\Component\Base\Source</Filter>
@@ -200,8 +215,20 @@
     <ClCompile Include="SoundManager.cpp">
       <Filter>Manager\Source</Filter>
     </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Object\Container\Player\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBullet.cpp">
+      <Filter>Object\Container\Player\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Object\Container\Enemy\Source</Filter>
+    </ClCompile>
     <ClCompile Include="EnemyBullet.cpp">
-      <Filter>Object\Container\Source</Filter>
+      <Filter>Object\Container\Enemy\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MissileLauncher.cpp">
+      <Filter>Object\Container\Enemy\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

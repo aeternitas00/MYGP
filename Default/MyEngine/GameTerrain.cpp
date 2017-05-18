@@ -17,14 +17,6 @@ VOID GameTerrain::SetComponent()
 	ComponentList.push_back(new TerrainGraphicsComponent);
 }
 
-RESULT GameTerrain::Update()
-{
-	for (auto it : ComponentList)
-		it->Update(this);
-	return Default; 
-}
-
-
 GameTerrain::~GameTerrain()
 {
 }

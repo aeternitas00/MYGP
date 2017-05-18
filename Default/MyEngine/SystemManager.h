@@ -7,6 +7,7 @@ using namespace std;
 class GameObject;
 class PlayerBullet;
 class GameTerrain;
+class Enemy;
 class EnemyBullet;
 class Player;
 typedef struct __stageinfo {

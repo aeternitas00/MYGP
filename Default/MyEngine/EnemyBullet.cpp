@@ -6,6 +6,10 @@ EnemyBullet::EnemyBullet()
 {
 }
 
+EnemyBullet::EnemyBullet(D3DXVECTOR3 & ipos)
+{
+}
+
 
 EnemyBullet::~EnemyBullet()
 {
@@ -13,10 +17,6 @@ EnemyBullet::~EnemyBullet()
 
 VOID EnemyBullet::SetComponent()
 {
-	return VOID();
-}
-
-RESULT EnemyBullet::Update()
-{
-	return RESULT();
+	ComponentList.push_back(new PhysicsComponent);
+	ComponentList.push_back(new GraphicsComponent);
 }
