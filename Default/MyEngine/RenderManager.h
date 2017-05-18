@@ -11,6 +11,7 @@
 #define TXTID_BLOCK_CM2 6
 #define TXTID_MISSILE_LBARREL 7
 #define TXTID_MISSILE_LBASE 8
+#define TXTID_SPIKE 9
 using namespace std;
 
 typedef struct __txtset {

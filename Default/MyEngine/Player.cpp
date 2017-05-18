@@ -7,6 +7,7 @@ VOID Player::SetComponent()
 	ComponentList.push_back(new PlayerInputComponent);
 	ComponentList.push_back(new PlayerPhysicsComponent);
 	ComponentList.push_back(new PlayerGraphicsComponent);
+
 }
 
 VOID Player::Jump()
@@ -65,12 +66,19 @@ Player::Player() :
 	jumping_tgl(false), jumping_up(false), jumping(false), attack(false),attack_tgl(false),remain_jump(1),landed(false),
 	attack_rmt(0),gravity(true)
 {
-
+	
 }
 
 Player::Player(D3DXVECTOR3 & ipos):Player()
 {
-	pos = ipos;
+	pos = ipos;	
+	Volume.push_back(FRECT{ 15,30,12,27 });
+
+	Volume.push_back(FRECT{ 15,17,19,20 });
+	Volume.push_back(FRECT{ 17,19,18,21 });
+	Volume.push_back(FRECT{ 19,23,16,23 });
+	Volume.push_back(FRECT{ 23,28,14,25 });
+	Volume.push_back(FRECT{ 28,30,12,27 });
 }
 
 Player::~Player()

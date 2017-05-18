@@ -27,7 +27,9 @@ typedef struct __MYRECT {
 	unsigned int x, y;
 }MYRECT;
 // TODO: reference additional headers your program requires here
-
+typedef struct __floatrect {
+	float top, bottom, left, right;
+}FRECT;
 #include <d3d9.h>
 #include <Windows.h>
 #include <mmsystem.h>
@@ -43,6 +45,8 @@ typedef struct __MYRECT {
 #include "GameObject.h"
 #include "GameMovableObject.h"
 #include "Enemy.h"
+#include "Obstacle.h"
+#include "Spike.h"
 #include "MissileLauncher.h"
 #include "ComponentBase.h"
 #include "InputComponent.h"

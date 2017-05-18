@@ -2,10 +2,10 @@
 #include "GameStaticObject.h"
 
 
-GameStaticObject::GameStaticObject()
+GameStaticObject::GameStaticObject():dir(0)
 {
 }
-GameStaticObject::GameStaticObject(D3DXVECTOR3& ipos, int id) : GameObject(ipos,id)
+GameStaticObject::GameStaticObject(D3DXVECTOR3& ipos, int id) : GameObject(ipos,id),dir(0)
 {
 }
 VOID GameStaticObject::SetComponent()

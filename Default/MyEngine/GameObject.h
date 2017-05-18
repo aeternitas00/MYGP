@@ -12,6 +12,7 @@ public:
 	int txtid;
 protected:
 	std::list<ComponentBase*> ComponentList;
+	std::list<FRECT> Volume;
 public:
 	GameObject();
 	GameObject(D3DXVECTOR3& ipos, int id);
@@ -21,6 +22,8 @@ public:
 	bool IsInScreen() { return pos.x<MAX_X&&pos.x>-100 && pos.y<MAX_Y&&pos.y>-100 ? true : false; }
 	RESULT Update();
 	virtual RESULT UpdateSub();
+	virtual short GetDir() { return 0; }
+	std::list<FRECT> GetVolume() { return Volume; }
 	VOID UpdateByMovingScene(int side);
 	virtual VOID SetComponent();
 };

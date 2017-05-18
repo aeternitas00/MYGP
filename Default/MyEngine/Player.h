@@ -44,7 +44,7 @@ public:
 	VOID SetRToggle(bool il){ r_tgl = il; }
 	VOID Attack();
 	VOID AttackStop() { attack_tgl = false; }
-
+	VOID DoDeath() {}
 	inline	short IsMoving() { return moving; }
 	inline	bool IsLeftTgl() { return left_tgl; }
 	inline	bool IsRightTgl() { return right_tgl; }

@@ -8,6 +8,7 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 	if (temp == NULL) return;
 
 	auto& TerrainList = SystemManager::GetInstance()->GetTerrainList();
+	auto& ObstacleList = SystemManager::GetInstance()->GetObstacleList();
 
 	if (temp->IsMoving())
 	{
@@ -64,6 +65,26 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 		}
 	}
 
+	rect.top = temp->pos.y + volume.top; rect.left = temp->pos.x + volume.left;
+	rect.bottom = temp->pos.y + volume.bottom; rect.right = temp->pos.x + volume.right;
+
+	for (auto it : ObstacleList)
+	{
+		FRECT obsvolume = it->GetVolume().front();
+		FRECT obshitbox; 
+		obshitbox.top = (it->pos.y + obsvolume.top);obshitbox.bottom = (it->pos.y + obsvolume.bottom);
+		obshitbox.left = (it->pos.x + obsvolume.left);	obshitbox.right = (it->pos.x + obsvolume.right);
+		if (CollisionCheck(obshitbox, rect))
+		{
+			std::list<FRECT> vtempobs = it->GetVolume();
+			std::list<FRECT> vtemppl = temp->GetVolume();
+			vtemppl.pop_front();	vtempobs.pop_front();
+
+			if(CollisionCheck(it->pos,temp->pos, vtempobs, vtemppl))
+				temp->DoDeath();
+		}
+	}
+
 	if (landok)	{
 		if (!temp->IsLanded()) { temp->pos.y = landpos - volume.bottom; temp->velocity.y = 0; temp->DisableGravity(); temp->SetLanded(); SoundManager::GetInstance()->PlayWaveFile();}
 	}
@@ -108,7 +129,7 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 
 PlayerPhysicsComponent::PlayerPhysicsComponent()
 {
-	volume.left = 12; volume.right = 28;
+	volume.left = 12; volume.right = 27;
 	volume.top = 15; volume.bottom = 30;
 }
 

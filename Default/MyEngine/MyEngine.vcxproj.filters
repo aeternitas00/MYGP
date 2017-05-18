@@ -159,6 +159,15 @@
     <ClInclude Include="MissileLauncher.h">
       <Filter>Object\Container\Enemy\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Spike.h">
+      <Filter>Object\Container\Enemy\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>Object\Container\Enemy\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="DirObjGraphicsComponent.h">
+      <Filter>Object\Component\Base\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -229,6 +238,15 @@
     </ClCompile>
     <ClCompile Include="MissileLauncher.cpp">
       <Filter>Object\Container\Enemy\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Spike.cpp">
+      <Filter>Object\Container\Enemy\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>Object\Container\Enemy\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="DirObjGraphicsComponent.cpp">
+      <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

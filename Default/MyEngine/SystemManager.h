@@ -10,6 +10,7 @@ class GameTerrain;
 class Enemy;
 class EnemyBullet;
 class Player;
+class Obstacle;
 typedef struct __stageinfo {
 	wstring path;
 	int bgid;
@@ -28,6 +29,7 @@ private:
 	std::list<PlayerBullet*> PlayerBulletList;
 	std::list<Enemy*> EnemyList;
 	std::list<EnemyBullet*> EnemyBulletList;
+	std::list<Obstacle*> ObstacleList;
 	std::list<GameTerrain*> TerrainList;
 	Player* MyPlayer;
 	StageInfo CurrentStage;
@@ -43,6 +45,7 @@ public:
 	VOID AddEnemy(Enemy * pObj);
 	int GetCurrentBGID() { return CurrentStage.bgid; }
 	std::list<GameTerrain*> GetTerrainList() { return TerrainList; }
+	std::list<Obstacle*> GetObstacleList() { return ObstacleList; }
 	VOID SetupStage(int i);
 	VOID SetupScene(int i);
 	VOID SendMoveSceneMessage(int side) { DelayedMessage = side; }

@@ -69,6 +69,18 @@ VOID SystemManager::Update()
 		}
 	}
 
+	for (auto it = ObstacleList.begin(); it != ObstacleList.end();) {
+		switch ((*it)->Update())
+		{
+		case Default:
+			it++;
+			break;
+		case Destroy:
+			delete *it;
+			ObstacleList.erase(it++);
+			break;
+		}
+	}
 	MyPlayer->Update();
 
 	if (DelayedMessage != -1)
@@ -157,6 +169,7 @@ VOID SystemManager::SetupScene(int i)
 
 	TerrainList.clear();
 	EnemyList.clear();
+	ObstacleList.clear();
 
 	inFile.getline(str, 200);
 	token = strtok_s(str, " ", &temp);
@@ -186,6 +199,16 @@ VOID SystemManager::SetupScene(int i)
 				TerrainList.back()->SetComponent();
 				EnemyList.push_back(new MissileLauncher(D3DXVECTOR3(x,y,0)));
 				EnemyList.back()->SetComponent();
+			}
+			break;
+		case 3:
+			for (int num = atoi(strtok_s(NULL, " ", &temp)); num > 0; num--) {
+				inFile.getline(str, 200);
+				float x = atoi(strtok_s(str, " ", &temp));
+				float y = atoi(strtok_s(NULL, " ", &temp));
+				float dir = atoi(strtok_s(NULL, " ", &temp));
+				ObstacleList.push_back(new Spike(D3DXVECTOR3(x, y, 0),TXTID_SPIKE,dir));
+				ObstacleList.back()->SetComponent();
 			}
 			break;
 		default:
