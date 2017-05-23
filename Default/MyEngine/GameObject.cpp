@@ -16,9 +16,9 @@ GameObject::GameObject(D3DXVECTOR3& ipos,int id): pos(ipos), txtid(id)
 }
 
 
-HRESULT GameObject::SetTxt(int& id)
+VOID GameObject::SetTxt(const int id)
 {
-	return S_OK;
+	txtid = id;
 }
 
 GameObject::~GameObject()

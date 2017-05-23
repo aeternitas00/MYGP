@@ -15,6 +15,18 @@ VOID PlayerInputComponent::Update(GameObject* pObj)
 	Player* temp = dynamic_cast<Player*>(pObj);
 	if (temp == NULL) return;
 
+	if (!temp->IsRTgl()) {
+		if (KEY_DOWN(0x52)) {
+			SystemManager::GetInstance()->LoadSF(); temp->SetRToggle(true);
+		}
+	}
+	else {
+		if (KEY_UP(0x52))
+			temp->SetRToggle(false);
+	}
+
+	if (pObj->txtid == -1) return;
+
 	if (!temp->IsLeftTgl()) {
 		if (KEY_DOWN(VK_LEFT))
 			temp->MovingLeft();
@@ -44,14 +56,5 @@ VOID PlayerInputComponent::Update(GameObject* pObj)
 	}
 	else { if (KEY_UP(0x58)) temp->AttackStop(); }
 
-	if (!temp->IsRTgl()) {
-		if (KEY_DOWN(0x52)){
-			/*SystemManager::GetInstance()->LoadSaveFile();*/ temp->SetRToggle(true);
-		}
-	}
-	else {
-		if (KEY_UP(0x52))
-			temp->SetRToggle(false);
-	}
 
 }

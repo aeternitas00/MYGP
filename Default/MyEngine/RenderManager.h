@@ -12,6 +12,8 @@
 #define TXTID_MISSILE_LBARREL 7
 #define TXTID_MISSILE_LBASE 8
 #define TXTID_SPIKE 9
+#define TXTID_SPRITE_2X2 10
+#define TXTID_SPRITE_4X4 11
 using namespace std;
 
 typedef struct __txtset {
@@ -48,6 +50,7 @@ public :
 	LPDIRECT3DDEVICE9*	GetDevice(){return &m_pD3DDevice;}
 	LPD3DXSPRITE*		GetSprite(){return &m_pD3DSprite;}
 	VOID DrawObj(D3DXVECTOR3& ipos, int id, RECT& iRect, D3DMATRIX& iMat);
+	VOID DrawParticle(D3DXVECTOR3 & ipos, int id, D3DXCOLOR color);
 	TEXTURESET*			GetTexture(int idx) { return &m_TextureList[idx]; }
 	TEXTURESET*			GetTexture(const wchar_t* path);
 	HRESULT				BeginScene();

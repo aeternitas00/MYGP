@@ -22,7 +22,7 @@ public:
 	~GameRoot();
 	static GameRoot* GetInstance();
 
-	
+
 	INT Main();
 	inline HWND* GetHwnd() { return &hWnd; }
 	static LRESULT WINAPI MsgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

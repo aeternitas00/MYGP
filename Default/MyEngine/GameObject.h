@@ -16,7 +16,7 @@ protected:
 public:
 	GameObject();
 	GameObject(D3DXVECTOR3& ipos, int id);
-	HRESULT SetTxt(int& id);
+	VOID SetTxt(const int id);
 	~GameObject();
 
 	bool IsInScreen() { return pos.x<MAX_X&&pos.x>-100 && pos.y<MAX_Y&&pos.y>-100 ? true : false; }

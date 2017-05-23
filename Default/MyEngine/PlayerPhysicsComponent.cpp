@@ -6,6 +6,9 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 {
 	Player* temp = dynamic_cast<Player*>(pObj);
 	if (temp == NULL) return;
+	if (pObj->txtid == -1) return;
+
+	volume = temp->GetVolume().front();
 
 	auto& TerrainList = SystemManager::GetInstance()->GetTerrainList();
 	auto& ObstacleList = SystemManager::GetInstance()->GetObstacleList();
@@ -129,8 +132,7 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 
 PlayerPhysicsComponent::PlayerPhysicsComponent()
 {
-	volume.left = 12; volume.right = 27;
-	volume.top = 15; volume.bottom = 30;
+
 }
 
 

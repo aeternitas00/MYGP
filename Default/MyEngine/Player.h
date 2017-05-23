@@ -38,13 +38,13 @@ public:
 	VOID SetLandedStat(bool il) { landed = il; }
 	VOID SetJumpingStat(bool il){ jumping = il; }
 	VOID SetJumpingUpStat(bool il) { jumping_up = il; }
-
+	VOID SetRemainJump(short i) { remain_jump = i; }
 	VOID EnableGravity() { gravity = true;  }
 	VOID DisableGravity() { gravity = false;  }
 	VOID SetRToggle(bool il){ r_tgl = il; }
 	VOID Attack();
 	VOID AttackStop() { attack_tgl = false; }
-	VOID DoDeath() {}
+	VOID DoDeath();
 	inline	short IsMoving() { return moving; }
 	inline	bool IsLeftTgl() { return left_tgl; }
 	inline	bool IsRightTgl() { return right_tgl; }

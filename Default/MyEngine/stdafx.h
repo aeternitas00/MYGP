@@ -16,6 +16,7 @@
 #include <malloc.h>
 #include <memory.h>
 #include <tchar.h>
+#include <time.h>
 #define MAX_X 654
 #define MAX_Y 512
 enum RESULT {
@@ -52,10 +53,13 @@ typedef struct __floatrect {
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
 #include "GraphicsComponent.h"
+#include "ParticlePhysicsComponent.h"
 #include "PlayerGraphicsComponent.h"
 #include "PlayerInputComponent.h"
 #include "GameStaticObject.h"
+#include "Particle.h"
 #include "TerrainGraphicsComponent.h"
+#include "ParticleGraphicsComponent.h"
 #include "GameTerrain.h"
 #include "Player.h"
 #include "PlayerBullet.h"

@@ -25,6 +25,8 @@ GameRoot * GameRoot::GetInstance()
 	return instance;
 }
 
+
+
 HRESULT GameRoot::Initialize() {
 	wc = { sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
 		GetModuleHandle(NULL), NULL, NULL, NULL, NULL,L"Test Engine", NULL };

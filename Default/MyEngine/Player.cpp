@@ -22,6 +22,21 @@ VOID Player::Attack()
 	attack_rmt = 18;
 }
 
+VOID Player::DoDeath()
+{
+	txtid = -1;
+	auto temp =SystemManager::GetInstance();
+	srand(time(NULL));
+	D3DXVECTOR3 ipos(pos);
+	ipos.x += float(Volume.front().left + Volume.front().right) / 2;
+	ipos.y += float(Volume.front().top + Volume.front().bottom) / 2;
+	for (int i = 0; i < 100; i++)
+	{
+		D3DXVECTOR3 vel((float)(rand()%10000)/1000-5.0f, (float)(rand() % 10000)/1000 - 7.0f,0);
+		temp->AddObject(new Particle(ipos,vel, D3DXCOLOR(1,0,0,1),TXTID_SPRITE_4X4));
+	}
+}
+
 
 RENDERSQUARE Player::GetRenderSquare()
 {
@@ -87,6 +102,7 @@ Player::~Player()
 
 RESULT Player::UpdateSub()
 {
+	if (txtid == -1) return Default;
 	attack_rmt >= 0 ? attack_rmt-- : attack = false;
 	return Default;
 }

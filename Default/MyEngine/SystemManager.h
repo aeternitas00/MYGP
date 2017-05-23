@@ -35,6 +35,7 @@ private:
 	StageInfo CurrentStage;
 	SceneInfo CurrentScene;
 	int DelayedMessage;
+	short CurrentSFNo;
 	static SystemManager* instance;
 	SystemManager();
 	HRESULT Initialize();
@@ -43,11 +44,17 @@ public:
 	static SystemManager* GetInstance();
 	VOID AddPlayerBullet(PlayerBullet* pObj);
 	VOID AddEnemy(Enemy * pObj);
+	VOID AddObject(GameObject * pObj);
 	int GetCurrentBGID() { return CurrentStage.bgid; }
 	std::list<GameTerrain*> GetTerrainList() { return TerrainList; }
 	std::list<Obstacle*> GetObstacleList() { return ObstacleList; }
+
+	VOID LoadSF();
+	VOID SaveSF();
+	
 	VOID SetupStage(int i);
 	VOID SetupScene(int i);
+	VOID SetPlayer(float,float);
 	VOID SendMoveSceneMessage(int side) { DelayedMessage = side; }
 	bool IsMovableSideOfScene(int side);
 	VOID MoveScene(int toside);

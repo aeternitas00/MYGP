@@ -166,6 +166,9 @@
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="MissileLauncher.h" />
     <ClInclude Include="Obstacle.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleGraphicsComponent.h" />
+    <ClInclude Include="ParticlePhysicsComponent.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
@@ -196,6 +199,9 @@
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="MissileLauncher.cpp" />
     <ClCompile Include="Obstacle.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleGraphicsComponent.cpp" />
+    <ClCompile Include="ParticlePhysicsComponent.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />

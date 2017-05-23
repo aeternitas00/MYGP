@@ -70,6 +70,8 @@ HRESULT RenderManager::IncludeTexture()
 		{ L"Sprite_Block_MLauncher.png",16,16,16,16,0xFFFFFFFF, },
 		{ L"Sprite_Block_MLBase.png",16,16,16,16,0xFFFFFFFF, },
 		{L"Sprite_SpikeM.png",128,32,32,32,0xFFFFFFFF,},
+		{ L"Sprite_Blank_2x2.png",2,2,2,2,0x00000000, },
+		{ L"Sprite_Blank_4x4.png",7,6,7,6,D3DCOLOR_XRGB(0,0,0), },
 	};
 
 	int len = sizeof(temp) / sizeof(TEXTURESET);
@@ -108,7 +110,25 @@ VOID RenderManager::DrawObj(D3DXVECTOR3& ipos,int id,RECT& iRect, D3DMATRIX& iMa
 	sprite->End();
 	sprite->Release();
 }
+VOID RenderManager::DrawParticle(D3DXVECTOR3& ipos, int id, D3DXCOLOR color)
+{
+	LPD3DXSPRITE sprite;
+	D3DXCreateSprite(m_pD3DDevice, &sprite);
+	sprite->Begin(D3DXSPRITE_ALPHABLEND);
 
+	D3DXVECTOR2 ct(ipos); D3DXVECTOR3 ct2(0, 0, 0);
+	RECT iRect = { 0,0,GetTexture(id)->sizex,GetTexture(id)->sizey };
+
+	D3DXMATRIX mat;
+	D3DXMatrixTranslation(&mat, ipos.x, ipos.y, 0);
+
+	D3DXMatrixMultiply(&mat, &mat, &m_WorldMat);
+
+	sprite->SetTransform(&mat);
+	sprite->Draw(GetTexture(id)->txt, &iRect, NULL, &ct2, color);
+	sprite->End();
+	sprite->Release();
+}
 TEXTURESET * RenderManager::GetTexture(const wchar_t * path)
 {
 	// do hashing;

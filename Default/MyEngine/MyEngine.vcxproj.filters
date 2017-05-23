@@ -168,6 +168,15 @@
     <ClInclude Include="DirObjGraphicsComponent.h">
       <Filter>Object\Component\Base\Header</Filter>
     </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Object\Container\Base\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleGraphicsComponent.h">
+      <Filter>Object\Component\Base\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticlePhysicsComponent.h">
+      <Filter>Object\Component\Base\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -246,6 +255,15 @@
       <Filter>Object\Container\Enemy\Source</Filter>
     </ClCompile>
     <ClCompile Include="DirObjGraphicsComponent.cpp">
+      <Filter>Object\Component\Base\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Object\Container\Base\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleGraphicsComponent.cpp">
+      <Filter>Object\Component\Base\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticlePhysicsComponent.cpp">
       <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
   </ItemGroup>
