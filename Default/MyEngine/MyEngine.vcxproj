@@ -154,7 +154,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ComponentBase.h" />
-    <ClInclude Include="DirObjGraphicsComponent.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="GameMovableObject.h" />
@@ -177,6 +176,7 @@
     <ClInclude Include="PlayerPhysicsComponent.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="SavePoint.h" />
     <ClInclude Include="SoundManager.h" />
     <ClInclude Include="Spike.h" />
     <ClInclude Include="stdafx.h" />
@@ -187,7 +187,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ComponentBase.cpp" />
-    <ClCompile Include="DirObjGraphicsComponent.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="GameMovableObject.cpp" />
@@ -209,6 +208,7 @@
     <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="PlayerPhysicsComponent.cpp" />
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="SavePoint.cpp" />
     <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Spike.cpp" />
     <ClCompile Include="stdafx.cpp">

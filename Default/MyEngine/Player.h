@@ -60,7 +60,7 @@ public:
 	inline	bool IsAttacking() { return attack_rmt >= 0; }
 	inline	bool IsRTgl() { return r_tgl; }
 	short GetDir() { if (go_left == 1) return -1; else if (go_right == 1)return 1; }
-	RENDERSQUARE GetRenderSquare();
+	virtual RENDERSQUARE GetRenderSquare();
 	virtual VOID SetComponent();
 };
 

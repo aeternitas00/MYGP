@@ -43,6 +43,11 @@ Spike::~Spike()
 {
 }
 
+RENDERSQUARE Spike::GetRenderSquare()
+{
+	return RENDERSQUARE{dir,0};
+}
+
 VOID Spike::SetComponent()
 {
 	ComponentList.push_back(new GraphicsComponent);

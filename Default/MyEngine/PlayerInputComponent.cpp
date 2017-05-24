@@ -37,7 +37,7 @@ VOID PlayerInputComponent::Update(GameObject* pObj)
 	}
 
 
-	if (KEY_DOWN(0x43)) {
+	if (KEY_DOWN(0x51)) {
 		temp->DoDeath();
 	}
 

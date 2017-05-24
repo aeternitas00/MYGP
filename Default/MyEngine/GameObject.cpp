@@ -35,6 +35,11 @@ RESULT GameObject::Update()
 	return UpdateSub();
 }
 
+RENDERSQUARE GameObject::GetRenderSquare()
+{
+	return RENDERSQUARE{0,0};
+}
+
 RESULT GameObject::UpdateSub()
 {
 	return Default;

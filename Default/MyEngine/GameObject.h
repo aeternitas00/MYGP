@@ -21,6 +21,7 @@ public:
 
 	bool IsInScreen() { return pos.x<MAX_X&&pos.x>-100 && pos.y<MAX_Y&&pos.y>-100 ? true : false; }
 	RESULT Update();
+	virtual RENDERSQUARE GetRenderSquare();
 	virtual RESULT UpdateSub();
 	virtual short GetDir() { return 0; }
 	std::list<FRECT> GetVolume() { return Volume; }
