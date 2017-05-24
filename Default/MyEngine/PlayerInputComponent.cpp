@@ -32,8 +32,13 @@ VOID PlayerInputComponent::Update(GameObject* pObj)
 			temp->MovingLeft();
 	}
 	else {
-		if (KEY_UP(VK_LEFT)) 
+		if (KEY_UP(VK_LEFT))
 			temp->MovingLeftStop();
+	}
+
+
+	if (KEY_DOWN(0x43)) {
+		temp->DoDeath();
 	}
 
 
@@ -46,10 +51,10 @@ VOID PlayerInputComponent::Update(GameObject* pObj)
 			temp->MovingRightStop();
 	}
 
-	if (KEY_DOWN(VK_UP)) {
+	if (KEY_DOWN(0x5A)) {
 			temp->Jump();
 	}
-	if (temp->IsUpTgl()) { if (KEY_UP(VK_UP)) temp->JumpingStop(); }
+	if (temp->IsUpTgl()) { if (KEY_UP(0x5A)) temp->JumpingStop(); }
 
 	if (!temp->IsAttackTgl()) {
 		if (KEY_DOWN(0x58/*x Key*/)) {	temp->Attack();	}

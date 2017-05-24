@@ -71,7 +71,7 @@ HRESULT RenderManager::IncludeTexture()
 		{ L"Sprite_Block_MLBase.png",16,16,16,16,0xFFFFFFFF, },
 		{L"Sprite_SpikeM.png",128,32,32,32,0xFFFFFFFF,},
 		{ L"Sprite_Blank_2x2.png",2,2,2,2,0x00000000, },
-		{ L"Sprite_Blank_4x4.png",7,6,7,6,D3DCOLOR_XRGB(0,0,0), },
+		{ L"Sprite_Blank_4x4.png",6,6,6,6,D3DCOLOR_XRGB(0,0,0), },
 	};
 
 	int len = sizeof(temp) / sizeof(TEXTURESET);

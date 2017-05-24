@@ -32,8 +32,8 @@ VOID Player::DoDeath()
 	ipos.y += float(Volume.front().top + Volume.front().bottom) / 2;
 	for (int i = 0; i < 100; i++)
 	{
-		D3DXVECTOR3 vel((float)(rand()%10000)/1000-5.0f, (float)(rand() % 10000)/1000 - 7.0f,0);
-		temp->AddObject(new Particle(ipos,vel, D3DXCOLOR(1,0,0,1),TXTID_SPRITE_4X4));
+		D3DXVECTOR3 vel((float)(rand()%17000)/1000-8.5f, (float)(rand() % 17000)/1000 - 11.0f,0);
+		temp->AddObject(new Particle(ipos,vel, D3DXCOLOR(1,0,0,1),TXTID_PARTICLE_4X4));
 	}
 }
 

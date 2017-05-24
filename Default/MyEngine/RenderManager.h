@@ -12,8 +12,8 @@
 #define TXTID_MISSILE_LBARREL 7
 #define TXTID_MISSILE_LBASE 8
 #define TXTID_SPIKE 9
-#define TXTID_SPRITE_2X2 10
-#define TXTID_SPRITE_4X4 11
+#define TXTID_PARTICLE_2X2 10
+#define TXTID_PARTICLE_4X4 11
 using namespace std;
 
 typedef struct __txtset {
