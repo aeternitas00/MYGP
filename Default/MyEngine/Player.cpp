@@ -73,20 +73,24 @@ RENDERSQUARE Player::GetRenderSquare()
 	}
 	return RENDERSQUARE{ x, y };
 }
+//
+//Player::Player() :
+//	GameMovableObject(D3DXVECTOR3(20, 20, 0),
+//		D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), TXTID_PLAYER),
+//	go_left(0), go_right(1), left_tgl(false), moving(0), right_tgl(false),
+//	jumping_tgl(false), jumping_up(false), jumping(false), attack(false),attack_tgl(false),remain_jump(1),landed(false),
+//	attack_rmt(0),gravity(true)
+//{
+//	
+//}
 
-Player::Player() :
-	GameMovableObject(D3DXVECTOR3(20, 20, 0),
-		D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), TXTID_PLAYER),
+Player::Player(D3DXVECTOR3 & ipos):GameMovableObject(ipos,
+	D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), TXTID_PLAYER),
 	go_left(0), go_right(1), left_tgl(false), moving(0), right_tgl(false),
-	jumping_tgl(false), jumping_up(false), jumping(false), attack(false),attack_tgl(false),remain_jump(1),landed(false),
-	attack_rmt(0),gravity(true)
+	jumping_tgl(false), jumping_up(false), jumping(false), attack(false), attack_tgl(false), remain_jump(1), landed(false),
+	attack_rmt(0), gravity(true)
 {
-	
-}
 
-Player::Player(D3DXVECTOR3 & ipos):Player()
-{
-	pos = ipos;	
 	Volume.push_back(FRECT{ 15,30,12,27 });
 
 	Volume.push_back(FRECT{ 15,17,19,20 });

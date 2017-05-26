@@ -12,7 +12,7 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 
 	auto& TerrainList = SystemManager::GetInstance()->GetTerrainList();
 	auto& ObstacleList = SystemManager::GetInstance()->GetObstacleList();
-
+	auto& EnemyBulletList = SystemManager::GetInstance()->GetEnemyBulletList();
 	if (temp->IsMoving())
 	{
 		if (temp->GetMovingLeft() == 1) temp->velocity.x = -2.0f;
@@ -84,6 +84,23 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 			vtemppl.pop_front();	vtempobs.pop_front();
 
 			if(CollisionCheck(it->pos,temp->pos, vtempobs, vtemppl))
+				temp->DoDeath();
+		}
+	}
+
+	for (auto it : EnemyBulletList)
+	{
+		FRECT obsvolume = it->GetVolume().front();
+		FRECT obshitbox;
+		obshitbox.top = (it->pos.y + obsvolume.top); obshitbox.bottom = (it->pos.y + obsvolume.bottom);
+		obshitbox.left = (it->pos.x + obsvolume.left);	obshitbox.right = (it->pos.x + obsvolume.right);
+		if (CollisionCheck(obshitbox, rect))
+		{
+			std::list<FRECT> vtempobs = it->GetVolume();
+			std::list<FRECT> vtemppl = temp->GetVolume();
+			vtemppl.pop_front();	vtempobs.pop_front();
+
+			if (CollisionCheck(it->pos, temp->pos, vtempobs, vtemppl))
 				temp->DoDeath();
 		}
 	}

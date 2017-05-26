@@ -11,9 +11,11 @@ class Enemy;
 class EnemyBullet;
 class Player;
 class Obstacle;
+class SavePoint;
 typedef struct __stageinfo {
 	wstring path;
 	int bgid;
+	int no;
 }StageInfo;
 typedef struct __sceneinfo {
 	int sno;
@@ -31,6 +33,7 @@ private:
 	std::list<EnemyBullet*> EnemyBulletList;
 	std::list<Obstacle*> ObstacleList;
 	std::list<GameTerrain*> TerrainList;
+	std::list<SavePoint*> SavePointList;
 	Player* MyPlayer;
 	StageInfo CurrentStage;
 	SceneInfo CurrentScene;
@@ -45,14 +48,19 @@ public:
 	VOID AddPlayerBullet(PlayerBullet* pObj);
 	VOID AddEnemy(Enemy * pObj);
 	VOID AddObject(GameObject * pObj);
+	VOID AddEnemyBullet(EnemyBullet * pObj);
 	int GetCurrentBGID() { return CurrentStage.bgid; }
+	Player* GetPlayer() { return MyPlayer; }
 	std::list<GameTerrain*> GetTerrainList() { return TerrainList; }
 	std::list<Obstacle*> GetObstacleList() { return ObstacleList; }
-
+	std::list<Enemy*> GetEnemyList() { return EnemyList; }
+	std::list<SavePoint*> GetSavePointList() { return SavePointList; }
+	std::list<EnemyBullet*> GetEnemyBulletList() {	return EnemyBulletList;	}
 	VOID LoadSF();
 	VOID SaveSF();
 	
 	VOID SetupStage(int i);
+	VOID SetupStage(int i, bool reset);
 	VOID SetupScene(int i);
 	VOID SetPlayer(float,float);
 	VOID SendMoveSceneMessage(int side) { DelayedMessage = side; }

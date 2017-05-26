@@ -14,7 +14,7 @@
 #define TXTID_SPIKE 9
 #define TXTID_PARTICLE_2X2 10
 #define TXTID_PARTICLE_4X4 11
-#define TXTID_SAVEPOINT 12
+#define	TXTID_SAVEPOINT 12
 using namespace std;
 
 typedef struct __txtset {
@@ -49,13 +49,13 @@ public :
 	
 
 	LPDIRECT3DDEVICE9*	GetDevice(){return &m_pD3DDevice;}
-	LPD3DXSPRITE*			GetSprite(){return &m_pD3DSprite;}
-	VOID							DrawObj(D3DXVECTOR3&, int , RECT& , D3DMATRIX& );
-	VOID							DrawParticle(D3DXVECTOR3 & , int , D3DXCOLOR );
-	TEXTURESET*				GetTexture(int idx) { return &m_TextureList[idx]; }
-	TEXTURESET*				GetTexture(const wchar_t*);
-	HRESULT						BeginScene();
-	VOID							SetupDefaultMatrix();
-	VOID							SetZoomUpMatrix(D3DXVECTOR2 &, float);
-	HRESULT						EndScene();
+	LPD3DXSPRITE*		GetSprite(){return &m_pD3DSprite;}
+	VOID DrawObj(D3DXVECTOR3& ipos, int id, RECT& iRect, D3DMATRIX& iMat);
+	VOID DrawParticle(D3DXVECTOR3 & ipos, int id, D3DXCOLOR color);
+	TEXTURESET*			GetTexture(int idx) { return &m_TextureList[idx]; }
+	TEXTURESET*			GetTexture(const wchar_t* path);
+	HRESULT				BeginScene();
+	VOID SetupDefaultMatrix();
+	VOID SetZoomUpMatrix(D3DXVECTOR2 & Center, float scale);
+	HRESULT				EndScene();
 };

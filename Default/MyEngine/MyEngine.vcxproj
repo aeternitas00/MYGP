@@ -156,6 +156,7 @@
     <ClInclude Include="ComponentBase.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
+    <ClInclude Include="EnemyBulletPhysicsComponent.h" />
     <ClInclude Include="GameMovableObject.h" />
     <ClInclude Include="GameRoot.h" />
     <ClInclude Include="GameObject.h" />
@@ -171,6 +172,7 @@
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
+    <ClInclude Include="PlayerBulletPhysicsComponent.h" />
     <ClInclude Include="PlayerGraphicsComponent.h" />
     <ClInclude Include="PlayerInputComponent.h" />
     <ClInclude Include="PlayerPhysicsComponent.h" />
@@ -189,6 +191,7 @@
     <ClCompile Include="ComponentBase.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
+    <ClCompile Include="EnemyBulletPhysicsComponent.cpp" />
     <ClCompile Include="GameMovableObject.cpp" />
     <ClCompile Include="GameRoot.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -204,6 +207,7 @@
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
+    <ClCompile Include="PlayerBulletPhysicsComponent.cpp" />
     <ClCompile Include="PlayerGraphicsComponent.cpp" />
     <ClCompile Include="PlayerInputComponent.cpp" />
     <ClCompile Include="PlayerPhysicsComponent.cpp" />

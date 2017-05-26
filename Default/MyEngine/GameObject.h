@@ -19,7 +19,7 @@ public:
 	VOID SetTxt(const int id);
 	~GameObject();
 
-	bool IsInScreen() { return pos.x<MAX_X&&pos.x>-100 && pos.y<MAX_Y&&pos.y>-100 ? true : false; }
+	bool IsInScreen() { return pos.x<MAX_X+100&&pos.x>-200 && pos.y<MAX_Y+100&&pos.y>-200 ? true : false; }
 	RESULT Update();
 	virtual RENDERSQUARE GetRenderSquare();
 	virtual RESULT UpdateSub();

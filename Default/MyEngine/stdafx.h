@@ -57,13 +57,16 @@ typedef struct __floatrect {
 #include "PlayerGraphicsComponent.h"
 #include "PlayerInputComponent.h"
 #include "GameStaticObject.h"
+#include "PlayerBulletPhysicsComponent.h"
 #include "Particle.h"
 #include "TerrainGraphicsComponent.h"
 #include "ParticleGraphicsComponent.h"
 #include "GameTerrain.h"
+#include "SavePoint.h"
 #include "Player.h"
 #include "PlayerBullet.h"
 #include "PlayerPhysicsComponent.h"
+#include "EnemyBulletPhysicsComponent.h"
 #include <iostream>
 #include <fstream>
 #include <string>

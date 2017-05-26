@@ -18,7 +18,7 @@ private:
 	bool gravity;
 	bool r_tgl;
 public:
-	Player();
+	//Player();
 	Player(D3DXVECTOR3& ipos);
 	~Player();
 

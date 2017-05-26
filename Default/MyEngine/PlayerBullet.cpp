@@ -2,12 +2,12 @@
 #include "PlayerBullet.h"
 
 
-PlayerBullet::PlayerBullet()
+PlayerBullet::PlayerBullet():stat(Default)
 {
 
 }
 
-PlayerBullet::PlayerBullet(Player* pObj):GameMovableObject(pObj->pos,D3DXVECTOR3(0,0,0), D3DXVECTOR3(0, 0, 0),TXTID_PLAYER_BULLET)
+PlayerBullet::PlayerBullet(Player* pObj):GameMovableObject(pObj->pos,D3DXVECTOR3(0,0,0), D3DXVECTOR3(0, 0, 0),TXTID_PLAYER_BULLET), stat(Default)
 {
 	short dir = pObj->GetDir();
 	pos.x += 16.25f;
@@ -19,22 +19,16 @@ PlayerBullet::PlayerBullet(Player* pObj):GameMovableObject(pObj->pos,D3DXVECTOR3
 }
 
 VOID PlayerBullet::SetComponent() {
-	ComponentList.push_back(new PhysicsComponent);
+	Volume.push_back(FRECT{ 0,8,0,7 });
+
+	Volume.push_back(FRECT{ 0,8,0,7 });
+	ComponentList.push_back(new PlayerBulletPhysicsComponent);
 	ComponentList.push_back(new GraphicsComponent);
 }
 RESULT PlayerBullet::UpdateSub()
 {
-	if (!IsInScreen()) return OutOfScreen; // temporal(delete self
-	auto TerrainList = SystemManager::GetInstance()->GetTerrainList();
-	for (auto it : TerrainList)
-	{
-		if (it->IsThroughable()) continue;
-		if (it->pos.x - 8 <= pos.x  && it->GetXEnd() + 8 >= pos.x) {
-			if (it->pos.y - 7 <= pos.y  && it->GetYEnd() + 7 >= pos.y)
-				return Destroy;
-		}
-	}
-	return Default;
+	if (!IsInScreen()) return OutOfScreen; // temporal(delete self;
+	return stat;
 }
 
 PlayerBullet::~PlayerBullet()

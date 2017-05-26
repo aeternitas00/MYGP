@@ -37,9 +37,6 @@
     <Filter Include="Object\Component\Base">
       <UniqueIdentifier>{2923ef4f-5cba-4e0e-9cef-c8d889d52cc8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Object\Component\Base\Header">
-      <UniqueIdentifier>{64dd499b-2100-4084-a774-ca176ce3a047}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Object\Component\Base\Source">
       <UniqueIdentifier>{96b1bf17-d10a-4db8-9f5e-741a2fd0de9c}</UniqueIdentifier>
     </Filter>
@@ -78,6 +75,21 @@
     </Filter>
     <Filter Include="Object\Container\Base\Source">
       <UniqueIdentifier>{445be84f-2c24-4304-b996-bd303653049c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Particle">
+      <UniqueIdentifier>{68f111a1-b374-476c-8364-df1edf92d0c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Particle\Header">
+      <UniqueIdentifier>{3a8acb3a-aecb-4436-a191-435d2c762346}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Particle\Source">
+      <UniqueIdentifier>{b2f34168-0926-49d1-8d52-ccb2f322416c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Terrain">
+      <UniqueIdentifier>{ce5e616e-0e3a-4d08-b02c-225424e347a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Base\Header">
+      <UniqueIdentifier>{64dd499b-2100-4084-a774-ca176ce3a047}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +150,6 @@
     <ClInclude Include="GameStaticObject.h">
       <Filter>Object\Container\Base\Header</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainGraphicsComponent.h">
-      <Filter>Object\Component\Base\Header</Filter>
-    </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>Manager\Header</Filter>
     </ClInclude>
@@ -169,13 +178,22 @@
       <Filter>Object\Container\Base\Header</Filter>
     </ClInclude>
     <ClInclude Include="ParticleGraphicsComponent.h">
-      <Filter>Object\Component\Base\Header</Filter>
+      <Filter>Object\Component\Particle\Header</Filter>
     </ClInclude>
     <ClInclude Include="ParticlePhysicsComponent.h">
-      <Filter>Object\Component\Base\Header</Filter>
+      <Filter>Object\Component\Particle\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainGraphicsComponent.h">
+      <Filter>Object\Component\Terrain</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBulletPhysicsComponent.h">
+      <Filter>Object\Component\Player\Header</Filter>
     </ClInclude>
     <ClInclude Include="SavePoint.h">
-      <Filter>Main\Header</Filter>
+      <Filter>Object\Container\Enemy\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBulletPhysicsComponent.h">
+      <Filter>Object\Component\Base\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -227,9 +245,6 @@
     <ClCompile Include="GameStaticObject.cpp">
       <Filter>Object\Container\Base\Source</Filter>
     </ClCompile>
-    <ClCompile Include="TerrainGraphicsComponent.cpp">
-      <Filter>Object\Component\Base\Source</Filter>
-    </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>Manager\Source</Filter>
     </ClCompile>
@@ -258,13 +273,22 @@
       <Filter>Object\Container\Base\Source</Filter>
     </ClCompile>
     <ClCompile Include="ParticleGraphicsComponent.cpp">
-      <Filter>Object\Component\Base\Source</Filter>
+      <Filter>Object\Component\Particle\Source</Filter>
     </ClCompile>
     <ClCompile Include="ParticlePhysicsComponent.cpp">
-      <Filter>Object\Component\Base\Source</Filter>
+      <Filter>Object\Component\Particle\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainGraphicsComponent.cpp">
+      <Filter>Object\Component\Terrain</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBulletPhysicsComponent.cpp">
+      <Filter>Object\Component\Player\Source</Filter>
     </ClCompile>
     <ClCompile Include="SavePoint.cpp">
-      <Filter>Main\Source</Filter>
+      <Filter>Object\Container\Enemy\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBulletPhysicsComponent.cpp">
+      <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
