@@ -149,15 +149,18 @@ VOID SystemManager::AddEnemyBullet(EnemyBullet * pObj)
 	EnemyBulletList.back()->SetComponent();
 }
 
-SystemManager::SystemManager() :DelayedMessage(-1),CurrentSFNo(1)
+SystemManager::SystemManager() :DelayedMessage(-1),CurrentSFNo(1),CurrentStage(StageInfo{L"",-1,-1})
 {
 	ObjectList.clear();
 }
 
 HRESULT SystemManager::Initialize()
 {
-	SetupStage(1);
-	SetupScene(0);
+	SetupTitleScreen();
+	//RenderManager::GetInstance()->IncludeTexture(1);
+	//SetupStage(1);
+	//SetupScene(0);
+
 	return S_OK;
 }
 
@@ -173,8 +176,18 @@ VOID SystemManager::LoadSF()
 	int y = atoi(strtok_s(NULL, " ", &temp));
 	SetPlayer(x, y);
 	
+	ClearObjects();
+	inFile.getline(mystr, 200);
+	x = atoi(strtok_s(mystr, " ", &temp));
+	y = atoi(strtok_s(NULL, " ", &temp));
+	SetupStage(x,false);	SetupScene(y);
+	inFile.close();
+}
+
+VOID SystemManager::ClearObjects()
+{
 	for (auto it = ObjectList.begin(); it != ObjectList.end();) {
-			delete *it; ObjectList.erase(it++);
+		delete *it; ObjectList.erase(it++);
 	}
 	for (auto it = EnemyBulletList.begin(); it != EnemyBulletList.end();) {
 		delete *it; EnemyBulletList.erase(it++);
@@ -194,11 +207,6 @@ VOID SystemManager::LoadSF()
 	for (auto it = SavePointList.begin(); it != SavePointList.end();) {
 		delete *it; SavePointList.erase(it++);
 	}
-	inFile.getline(mystr, 200);
-	x = atoi(strtok_s(mystr, " ", &temp));
-	y = atoi(strtok_s(NULL, " ", &temp));
-	SetupStage(x,false);	SetupScene(y);
-	inFile.close();
 }
 
 VOID SystemManager::SaveSF()
@@ -215,6 +223,48 @@ VOID SystemManager::SaveSF()
 
 	outFile << OK << endl;
 	outFile.close();
+}
+
+VOID SystemManager::SetupTitleScreen() 
+{
+	ClearObjects();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(-47,MAX_Y-84,0), TXTID_INTROBLK1));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(425, -124, 0), TXTID_INTROBLK2));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(457, -124, 0), TXTID_INTROBLK2));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(489, -124, 0), TXTID_INTROBLK2));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(425, -156, 0), TXTID_INTROKID));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(457, -92, 0), TXTID_INTROBLK3));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(489, -92, 0), TXTID_INTROBLK3));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new Spike(D3DXVECTOR3(457, -60, 0), TXTID_INTROKID2+1, 1));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new Spike(D3DXVECTOR3(489, -156, 0), TXTID_INTROKID2+1, 0));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(130, -670, 0), TXTID_INTROBLK2));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(194, -702, 0), TXTID_INTROKID2));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(162, -670, 0), TXTID_INTROBLK2));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(194, -670, 0), TXTID_INTROBLK2));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(130, -638, 0), TXTID_INTROBLK3));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(162, -638, 0), TXTID_INTROBLK3));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new Spike(D3DXVECTOR3(162, -602, 00), TXTID_INTROKID2 + 1, 1));
+	ObjectList.back()->SetComponent();
+	ObjectList.push_back(new Spike(D3DXVECTOR3(130, -702, 0), TXTID_INTROKID2 + 1, 0));
+	ObjectList.back()->SetComponent();
+
+	ObjectList.push_back(new IntroCharacter());
+	ObjectList.back()->SetComponent();
 }
 
 VOID SystemManager::SetupStage(int i)

@@ -51,13 +51,17 @@ public:
 	VOID AddEnemyBullet(EnemyBullet * pObj);
 	int GetCurrentBGID() { return CurrentStage.bgid; }
 	Player* GetPlayer() { return MyPlayer; }
+	std::list<GameObject*> GetObjectList() { return ObjectList; }
 	std::list<GameTerrain*> GetTerrainList() { return TerrainList; }
 	std::list<Obstacle*> GetObstacleList() { return ObstacleList; }
 	std::list<Enemy*> GetEnemyList() { return EnemyList; }
 	std::list<SavePoint*> GetSavePointList() { return SavePointList; }
 	std::list<EnemyBullet*> GetEnemyBulletList() {	return EnemyBulletList;	}
 	VOID LoadSF();
+	VOID ClearObjects();
 	VOID SaveSF();
+
+	VOID SetupTitleScreen();
 	
 	VOID SetupStage(int i);
 	VOID SetupStage(int i, bool reset);

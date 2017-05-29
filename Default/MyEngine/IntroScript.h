@@ -1,13 +1,14 @@
 #pragma once
 #include "ComponentBase.h"
-class GraphicsComponent :
+class IntroScript :
 	public ComponentBase
 {
-protected:
-	D3DXMATRIX mat;
+	clock_t before;
+	clock_t after;
+	short trigger;
 public:
-	GraphicsComponent();
+	IntroScript();
+	~IntroScript();
 	virtual VOID Update(GameObject* pObj);
-	virtual ~GraphicsComponent();
 };
 

@@ -28,6 +28,7 @@ VOID TerrainGraphicsComponent::Update(GameObject * pObj)
 	D3DXVECTOR3 ct2(0, 0, 0);
 
 	D3DXMatrixTranslation(&mat, pObj->pos.x, pObj->pos.y, 0.0);
+	D3DXMatrixMultiply(&mat, &mat, RenderManager::GetInstance()->GetWorldMatrix());
 	sprite->SetTransform(&mat);
 
 	for (unsigned int x = 0; x < rect.x; x++) {
