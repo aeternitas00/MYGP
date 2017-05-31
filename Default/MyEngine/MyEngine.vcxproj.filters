@@ -195,11 +195,11 @@
     <ClInclude Include="EnemyBulletPhysicsComponent.h">
       <Filter>Object\Component\Base\Header</Filter>
     </ClInclude>
-    <ClInclude Include="IntroScript.h">
-      <Filter>Main\Header</Filter>
-    </ClInclude>
     <ClInclude Include="IntroCharacter.h">
-      <Filter>Main\Header</Filter>
+      <Filter>Object\Container\Player\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScript.h">
+      <Filter>Object\Component\Player\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -296,11 +296,11 @@
     <ClCompile Include="EnemyBulletPhysicsComponent.cpp">
       <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
-    <ClCompile Include="IntroScript.cpp">
-      <Filter>Main\Source</Filter>
-    </ClCompile>
     <ClCompile Include="IntroCharacter.cpp">
-      <Filter>Main\Source</Filter>
+      <Filter>Object\Container\Player\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScript.cpp">
+      <Filter>Object\Component\Player\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

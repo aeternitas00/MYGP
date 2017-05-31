@@ -50,6 +50,7 @@ public:
 	VOID AddObject(GameObject * pObj);
 	VOID AddEnemyBullet(EnemyBullet * pObj);
 	int GetCurrentBGID() { return CurrentStage.bgid; }
+
 	Player* GetPlayer() { return MyPlayer; }
 	std::list<GameObject*> GetObjectList() { return ObjectList; }
 	std::list<GameTerrain*> GetTerrainList() { return TerrainList; }
@@ -57,9 +58,15 @@ public:
 	std::list<Enemy*> GetEnemyList() { return EnemyList; }
 	std::list<SavePoint*> GetSavePointList() { return SavePointList; }
 	std::list<EnemyBullet*> GetEnemyBulletList() {	return EnemyBulletList;	}
+
 	VOID LoadSF();
 	VOID ClearObjects();
 	VOID SaveSF();
+
+	template <typename T>
+	VOID ClearThisList(std::list<T> &ilist);
+	template <typename T>
+	VOID UpdateThisList(std::list<T> &ilist);
 
 	VOID SetupTitleScreen();
 	

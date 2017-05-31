@@ -5,7 +5,6 @@ SystemManager* SystemManager::instance = nullptr;
 
 VOID SystemManager::Update()
 {
-	
 	for (auto it = PlayerBulletList.begin(); it != PlayerBulletList.end();) {
 		switch ((*it)->Update())
 		{
@@ -22,31 +21,13 @@ VOID SystemManager::Update()
 			break;
 		}
 	}
-	for (auto it = EnemyList.begin(); it != EnemyList.end();) {
-		switch ((*it)->Update())
-		{
-		case Default:
-			it++;
-			break;
-		case Destroy:
-			delete *it;
-			EnemyList.erase(it++);
-			break;
-		}
-	}
 
-	for (auto it = TerrainList.begin(); it != TerrainList.end();) {
-		switch ((*it)->Update())
-		{
-		case Default:
-			it++;
-			break;
-		case Destroy:
-			delete *it;
-			TerrainList.erase(it++);
-			break;
-		}
-	}
+	UpdateThisList(EnemyList);
+	UpdateThisList(TerrainList);
+	UpdateThisList(ObstacleList);
+	UpdateThisList(SavePointList);
+	UpdateThisList(ObjectList);
+
 	for (auto it = EnemyBulletList.begin(); it != EnemyBulletList.end();) {
 		switch ((*it)->Update())
 		{
@@ -63,41 +44,7 @@ VOID SystemManager::Update()
 			break;
 		}
 	}
-	for (auto it = ObstacleList.begin(); it != ObstacleList.end();) {
-		switch ((*it)->Update())
-		{
-		case Default:
-			it++;
-			break;
-		case Destroy:
-			delete *it;
-			ObstacleList.erase(it++);
-			break;
-		}
-	}
-	for (auto it = SavePointList.begin(); it != SavePointList.end();) {
-		switch ((*it)->Update())
-		{
-		case Default:
-			it++;
-			break;
-		case Destroy:
-			delete *it;
-			SavePointList.erase(it++);
-			break;
-		}
-	}
-	for (auto it = ObjectList.begin(); it != ObjectList.end();) {
-		switch ((*it)->Update())
-		{
-		case Default:
-			it++;
-			break;
-		case Destroy:
-			delete *it; ObjectList.erase(it++);
-			break;
-		}
-	}
+
 	if (MyPlayer != NULL) {
 		switch (MyPlayer->Update())
 		{
@@ -114,6 +61,31 @@ VOID SystemManager::Update()
 		DelayedMessage = -1;
 	}
 	return;
+}
+
+template<typename T>
+VOID SystemManager::ClearThisList(std::list<T>& ilist)
+{
+	for (auto it = ilist.begin(); it != ilist.end();) {
+		delete *it; ilist.erase(it++);
+	}
+}
+
+template<typename T>
+VOID SystemManager::UpdateThisList(std::list<T>& ilist)
+{
+	for (auto it = ilist.begin(); it != ilist.end();) {
+		switch ((*it)->Update())
+		{
+		case Default:
+			it++;
+			break;
+		case Destroy:
+			delete *it;
+			ilist.erase(it++);
+			break;
+		}
+	}
 }
 
 SystemManager * SystemManager::GetInstance()
@@ -156,10 +128,10 @@ SystemManager::SystemManager() :DelayedMessage(-1),CurrentSFNo(1),CurrentStage(S
 
 HRESULT SystemManager::Initialize()
 {
-	SetupTitleScreen();
-	//RenderManager::GetInstance()->IncludeTexture(1);
-	//SetupStage(1);
-	//SetupScene(0);
+	/*SetupTitleScreen();*/
+	RenderManager::GetInstance()->IncludeTexture(1);
+	SetupStage(1);
+	SetupScene(0);
 
 	return S_OK;
 }
@@ -186,27 +158,13 @@ VOID SystemManager::LoadSF()
 
 VOID SystemManager::ClearObjects()
 {
-	for (auto it = ObjectList.begin(); it != ObjectList.end();) {
-		delete *it; ObjectList.erase(it++);
-	}
-	for (auto it = EnemyBulletList.begin(); it != EnemyBulletList.end();) {
-		delete *it; EnemyBulletList.erase(it++);
-	}
-	for (auto it = PlayerBulletList.begin(); it != PlayerBulletList.end();) {
-		delete *it; PlayerBulletList.erase(it++);
-	}
-	for (auto it = ObstacleList.begin(); it != ObstacleList.end();) {
-		delete *it; ObstacleList.erase(it++);
-	}
-	for (auto it = TerrainList.begin(); it != TerrainList.end();) {
-		delete *it; TerrainList.erase(it++);
-	}
-	for (auto it = EnemyList.begin(); it != EnemyList.end();) {
-		delete *it; EnemyList.erase(it++);
-	}
-	for (auto it = SavePointList.begin(); it != SavePointList.end();) {
-		delete *it; SavePointList.erase(it++);
-	}
+	ClearThisList(ObjectList);
+	ClearThisList(EnemyBulletList);
+	ClearThisList(PlayerBulletList);
+	ClearThisList(ObstacleList);
+	ClearThisList(TerrainList);
+	ClearThisList(EnemyList);
+	ClearThisList(SavePointList);
 }
 
 VOID SystemManager::SaveSF()
@@ -225,7 +183,8 @@ VOID SystemManager::SaveSF()
 	outFile.close();
 }
 
-VOID SystemManager::SetupTitleScreen() 
+
+VOID SystemManager::SetupTitleScreen()
 {
 	ClearObjects();
 	ObjectList.push_back(new GameObject(D3DXVECTOR3(-47,MAX_Y-84,0), TXTID_INTROBLK1));
@@ -325,21 +284,12 @@ VOID SystemManager::SetupScene(int i)
 	CurrentScene.connected[2] = atoi(strtok_s(NULL, " ", &temp));
 	CurrentScene.connected[3] = atoi(strtok_s(NULL, " ", &temp));
 
-	for (auto it = ObstacleList.begin(); it != ObstacleList.end();) {
-		delete *it; ObstacleList.erase(it++);
-	}
-	for (auto it = PlayerBulletList.begin(); it != PlayerBulletList.end();) {
-		delete *it; PlayerBulletList.erase(it++);
-	}
-	for (auto it = TerrainList.begin(); it != TerrainList.end();) {
-		delete *it; TerrainList.erase(it++);
-	}
-	for (auto it = EnemyList.begin(); it != EnemyList.end();) {
-		delete *it; EnemyList.erase(it++);
-	}
-	for (auto it = SavePointList.begin(); it != SavePointList.end();) {
-		delete *it; SavePointList.erase(it++);
-	}
+	ClearThisList(ObstacleList);
+	ClearThisList(PlayerBulletList);
+	ClearThisList(TerrainList);
+	ClearThisList(EnemyList);
+	ClearThisList(SavePointList);
+
 	inFile.getline(str, 200);
 	token = strtok_s(str, " ", &temp);
 	while (token) {
