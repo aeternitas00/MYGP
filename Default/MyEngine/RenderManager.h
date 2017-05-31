@@ -23,6 +23,7 @@
 #define TXTID_INTROBLK3 5
 #define TXTID_INTROBLK4 6
 #define TXTID_INTROKID2 7
+#define TXTID_INTROBLK5 9
 using namespace std;
 
 typedef struct __txtsettemp {

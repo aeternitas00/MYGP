@@ -68,6 +68,7 @@ HRESULT RenderManager::IncludeTexture()
 		 L"Sprite_IntroBlock4.png",
 		 L"Sprite_IntroKid2.png",
 		L"Sprite_SpikeM.png",
+		L"Sprite_IntroBlock5.png",
 	};
 	TEXTURESET temp[] = {
 		{ 443,182,443,182 ,0x00000000, },
@@ -79,37 +80,9 @@ HRESULT RenderManager::IncludeTexture()
 		{ 237,244,237,244 ,0xFFFFFFFF, } ,
 		{ 24,24,24,24 ,0xFFFFFFFF, } ,
 		{ 128,32,32,32,0xFFFFFFFF, },
+		{ 242,190,242,190,0xFFFFFFFF, } ,
 	};
-	//wstring paths[] =
-	//{ L"Sprite_BG.jpg",
-	//	L"Sprite_ExplodeSmall.png",
-	//	L"Sprite_PlayerBullet.png",
-	//	L"Sprite_Player.png",
-	//	L"Sprite_FXDust.png",
-	//	L"Sprite_Block_CM.png",
-	//	L"Sprite_Block_CM2.png",
-	//	L"Sprite_Block_MLauncher.png",
-	//	L"Sprite_Block_MLBase.png",
-	//	L"Sprite_SpikeM.png",
-	//	L"Sprite_Blank_2x2.png",
-	//	L"Sprite_Blank_4x4.png",
-	//	L"Sprite_SavePoint.png"
-	//};
-	//TEXTURESET temp[] =
-	//{ { 640,360,640,360,0xFFFFFFFF, },
-	//{ 256,32,32,32,D3DCOLOR_XRGB(50, 150, 200), },
-	//{ 8,7,8,7,0xFFFFFFFF, },
-	//{ 440,66,40,33,0xFFFFFFFF, },
-	//{ 720,80,120,20,D3DCOLOR_XRGB(4,142,176), },
-	//{ 16,16,16,16,D3DCOLOR_XRGB(4,142,176), },
-	//{ 16,16,16,16,0xFFFFFFFF, },
-	//{ 16,16,16,16,0xFFFFFFFF, },
-	//{ 16,16,16,16,0xFFFFFFFF, },
-	//{ 128,32,32,32,0xFFFFFFFF, },
-	//{ 2,2,2,2,0x00000000, },
-	//{ 6,6,6,6,D3DCOLOR_XRGB(0,0,0), },
-	//{ 112,16,16,16,D3DCOLOR_XRGB(66,68,14), },
-	//};
+
 	int len = sizeof(temp) / sizeof(TEXTURESET);
 	for (int i = 0; len > i;i++)
 	{
@@ -223,7 +196,7 @@ VOID RenderManager::DrawObj(D3DXVECTOR3& ipos,int id,RECT& iRect, D3DMATRIX& iMa
 	D3DXCreateSprite(m_pD3DDevice, &sprite);
 	sprite->Begin(D3DXSPRITE_ALPHABLEND);
 
-	D3DXVECTOR2 ct(ipos); D3DXVECTOR3 ct2(0, 0, 0);
+	/*D3DXVECTOR2 ct(ipos);*/ D3DXVECTOR3 ct2(0, 0, 0);
 	D3DXMATRIX mat(iMat);
 
 	D3DXMatrixMultiply(&mat, &mat, &m_WorldMat);
