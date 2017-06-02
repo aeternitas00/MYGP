@@ -12,9 +12,6 @@ VOID ParticleGraphicsComponent::Update(GameObject * pObj)
 	Particle* ptemp = dynamic_cast<Particle*>(pObj);
 	if (ptemp == NULL) return;
 
-	D3DXMATRIX mat;
-	D3DXMatrixTranslation(&mat, ptemp->pos.x, ptemp->pos.y, 0.0);
-
 	RenderManager::GetInstance()->DrawParticle(pObj->pos, pObj->txtid,ptemp->GetColor());
 }
 

@@ -24,6 +24,8 @@
 #define TXTID_INTROBLK4 6
 #define TXTID_INTROKID2 7
 #define TXTID_INTROBLK5 9
+#define TXTID_INTROBG 10
+#define TXTID_INTROSFNO 11
 using namespace std;
 
 typedef struct __txtsettemp {
@@ -67,6 +69,7 @@ public :
 	D3DXMATRIX*	GetWorldMatrix() { return &m_WorldMat; }
 	VOID DrawObj(D3DXVECTOR3& ipos, int id, RECT& iRect, D3DMATRIX& iMat);
 	VOID DrawParticle(D3DXVECTOR3 & ipos, int id, D3DXCOLOR color);
+	VOID DrawParticle(D3DXVECTOR3 & ipos, int id, RECT & iRect, D3DXCOLOR color, D3DMATRIX & iMat);
 	TEXTURESET*			GetTexture(int idx) { return &m_TextureList[idx]; }
 	TEXTURESET*			GetTexture(const wchar_t* path);
 	HRESULT				BeginScene();

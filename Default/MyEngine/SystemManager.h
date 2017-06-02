@@ -62,6 +62,7 @@ public:
 	VOID LoadSF();
 	VOID ClearObjects();
 	VOID SaveSF();
+	VOID SetSFNo(int i) { CurrentSFNo = i; }
 
 	template <typename T>
 	VOID ClearThisList(std::list<T> &ilist);

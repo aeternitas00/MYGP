@@ -69,6 +69,9 @@ HRESULT RenderManager::IncludeTexture()
 		 L"Sprite_IntroKid2.png",
 		L"Sprite_SpikeM.png",
 		L"Sprite_IntroBlock5.png",
+		L"Sprite_TitleBG.jpg",
+		L"Sprite_SFNo.png",
+		L"Sprite_PressSt.png"
 	};
 	TEXTURESET temp[] = {
 		{ 443,182,443,182 ,0x00000000, },
@@ -81,6 +84,9 @@ HRESULT RenderManager::IncludeTexture()
 		{ 24,24,24,24 ,0xFFFFFFFF, } ,
 		{ 128,32,32,32,0xFFFFFFFF, },
 		{ 242,190,242,190,0xFFFFFFFF, } ,
+		{ 750,500,750,500,0x00000000, } ,
+		{ 169,70,169,70,0x00000000, } ,
+		{ 178,17,178,17,0x00000000, } ,
 	};
 
 	int len = sizeof(temp) / sizeof(TEXTURESET);
@@ -196,9 +202,11 @@ VOID RenderManager::DrawObj(D3DXVECTOR3& ipos,int id,RECT& iRect, D3DMATRIX& iMa
 	D3DXCreateSprite(m_pD3DDevice, &sprite);
 	sprite->Begin(D3DXSPRITE_ALPHABLEND);
 
-	/*D3DXVECTOR2 ct(ipos);*/ D3DXVECTOR3 ct2(0, 0, 0);
+	D3DXVECTOR3 ct2(0, 0, 0);
 	D3DXMATRIX mat(iMat);
-
+	D3DXMATRIX mat2;
+	D3DXMatrixTranslation(&mat2, ipos.x, ipos.y, 0);
+	D3DXMatrixMultiply(&mat, &mat, &mat2);
 	D3DXMatrixMultiply(&mat, &mat, &m_WorldMat);
 
 	sprite->SetTransform(&mat);
@@ -214,12 +222,32 @@ VOID RenderManager::DrawParticle(D3DXVECTOR3& ipos, int id, D3DXCOLOR color)
 	D3DXCreateSprite(m_pD3DDevice, &sprite);
 	sprite->Begin(D3DXSPRITE_ALPHABLEND);
 
-	D3DXVECTOR2 ct(ipos); D3DXVECTOR3 ct2(0, 0, 0);
+	D3DXVECTOR3 ct2(0, 0, 0);
 	RECT iRect = { 0,0,GetTexture(id)->sizex,GetTexture(id)->sizey };
 
 	D3DXMATRIX mat;
 	D3DXMatrixTranslation(&mat, ipos.x, ipos.y, 0);
 
+	D3DXMatrixMultiply(&mat, &mat, &m_WorldMat);
+
+	sprite->SetTransform(&mat);
+	sprite->Draw(GetTexture(id)->txt, &iRect, NULL, &ct2, color);
+	sprite->End();
+	sprite->Release();
+}
+
+VOID RenderManager::DrawParticle(D3DXVECTOR3& ipos, int id, RECT& iRect, D3DXCOLOR color, D3DMATRIX& iMat)
+{
+	LPD3DXSPRITE sprite;
+	D3DXCreateSprite(m_pD3DDevice, &sprite);
+	sprite->Begin(D3DXSPRITE_ALPHABLEND);
+
+	D3DXVECTOR3 ct2(0, 0, 0);
+
+	D3DXMATRIX mat(iMat);
+	D3DXMATRIX mat2;
+	D3DXMatrixTranslation(&mat2, ipos.x, ipos.y, 0);
+	D3DXMatrixMultiply(&mat, &mat, &mat2);
 	D3DXMatrixMultiply(&mat, &mat, &m_WorldMat);
 
 	sprite->SetTransform(&mat);

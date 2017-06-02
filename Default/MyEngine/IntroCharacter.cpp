@@ -42,6 +42,9 @@ RENDERSQUARE IntroCharacter::GetRenderSquare()
 		else if (stat2 >= 25 && stat2 <= 29) x += 6;
 	}
 	else if (status == 2) {
+		x = 1;
+	}
+	else if (status == 3) {
 		if (stat1 >= 26) increase1 = false; else if (stat1 <= 0)increase1 = true;
 		if (increase1)stat1++; else stat1--;
 		if (stat1 >= 0 && stat1 <= 13)x = 7;

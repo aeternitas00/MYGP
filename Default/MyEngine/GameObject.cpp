@@ -31,7 +31,9 @@ GameObject::~GameObject()
 RESULT GameObject::Update()
 {
 	for (auto it : ComponentList)
+	{
 		it->Update(this);
+	}
 	return UpdateSub();
 }
 

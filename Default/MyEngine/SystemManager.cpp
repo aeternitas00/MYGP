@@ -55,11 +55,17 @@ VOID SystemManager::Update()
 		}
 	}
 
-	if (DelayedMessage != -1)
+	if (DelayedMessage<=3&&DelayedMessage>=0)
 	{
 		MoveScene(DelayedMessage);
 		DelayedMessage = -1;
 	}
+	else if (DelayedMessage >= 4 && DelayedMessage <= 6) {
+		CurrentSFNo = DelayedMessage - 3;
+		LoadSF();
+		DelayedMessage = -1;
+	}
+
 	return;
 }
 
@@ -128,11 +134,7 @@ SystemManager::SystemManager() :DelayedMessage(-1),CurrentSFNo(1),CurrentStage(S
 
 HRESULT SystemManager::Initialize()
 {
-	/*SetupTitleScreen();*/
-	RenderManager::GetInstance()->IncludeTexture(1);
-	SetupStage(1);
-	SetupScene(0);
-
+	SetupTitleScreen();
 	return S_OK;
 }
 
@@ -228,6 +230,7 @@ VOID SystemManager::SetupTitleScreen()
 
 VOID SystemManager::SetupStage(int i)
 {
+	RenderManager::GetInstance()->IncludeTexture(i);
 	CurrentStage = { L"Stage"+ std::to_wstring(i),-1,i };
 	wstring path(CurrentStage.path);
 	path += L"-" + std::to_wstring(0) + L".txt";
@@ -244,6 +247,7 @@ VOID SystemManager::SetupStage(int i)
 
 VOID SystemManager::SetupStage(int i,bool reset)
 {
+	RenderManager::GetInstance()->IncludeTexture(i);
 	CurrentStage = { L"Stage" + std::to_wstring(i),-1,i };
 	wstring path(CurrentStage.path);
 	path += L"-" + std::to_wstring(0) + L".txt";
@@ -275,7 +279,6 @@ VOID SystemManager::SetupScene(int i)
 	{
 		inFile.getline(str, 200);
 		inFile.getline(str, 200);
-
 	}
 
 	inFile.getline(str, 200);
