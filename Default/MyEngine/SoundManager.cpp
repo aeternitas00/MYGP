@@ -7,6 +7,7 @@ SoundManager::SoundManager()
 	m_DirectSound = 0;
 	m_primaryBuffer = 0;
 	m_secondaryBuffer1 = 0;
+	m_secondaryBuffer2 = 0;
 }
 
 
@@ -43,21 +44,18 @@ bool SoundManager::Initialize(HWND hwnd)
 		"00-MegamanLand.wav",
 		"01-EnergyFill.wav",
 		"02-MegaBuster.wav",
+		"03-TitleScreenBGM.wav",
+		"04-TItleThunder.wav",
+		"05-Jump.wav",
+		"06-ItsBoshyTime.wav",
+		"07-Goddamn.wav",
 	};
-	result = LoadWaveFile("00-MegamanLand.wav", &m_secondaryBuffer1);
-	if(!result)
-	{
-		return false;
-	}
-	//result = LoadWaveFile("01-EnergyFill.wav", &m_secondaryBuffer1);
 
-	// Play the wave file now that it has been loaded.
-	result = PlayWaveFile();
-	if(!result)
-	{
-		return false;
+	for (int i = 0; i <sizeof(list)/sizeof(string); i++) {
+		m_list.push_back(new LPDIRECTSOUNDBUFFER8());
+		LoadWaveFile(list[i].data(), m_list.back());
 	}
-
+	
 	return true;
 }
 
@@ -151,7 +149,7 @@ void SoundManager::ShutdownDirectSound()
 }
 
 
-bool SoundManager::LoadWaveFile(char* filename, IDirectSoundBuffer8** secondaryBuffer)
+bool SoundManager::LoadWaveFile(const char* filename, IDirectSoundBuffer8** secondaryBuffer)
 {
 	int error;
 	FILE* filePtr;
@@ -207,36 +205,30 @@ bool SoundManager::LoadWaveFile(char* filename, IDirectSoundBuffer8** secondaryB
 		return false;
 	}
 
-	// Check that the wave file was recorded in stereo format.
-	if(waveFileHeader.numChannels != 1)
-	{
-		return false;
-	}
-
-	// Check that the wave file was recorded at a sample rate of 44.1 KHz.
-	if(waveFileHeader.sampleRate != 44100)
-	{
-		return false;
-	}
-
-	// Ensure that the wave file was recorded in 16 bit format.
-	if(waveFileHeader.bitsPerSample != 8)
-	{
-		return false;
-	}
-
 	// Check for the data chunk header.
-	if((waveFileHeader.dataChunkId[0] != 'd') || (waveFileHeader.dataChunkId[1] != 'a') ||
-	   (waveFileHeader.dataChunkId[2] != 't') || (waveFileHeader.dataChunkId[3] != 'a'))
-	{
-		return false;
+	if ((waveFileHeader.dataChunkId[0] != 'd') || (waveFileHeader.dataChunkId[1] != 'a') ||
+		(waveFileHeader.dataChunkId[2] != 't') || (waveFileHeader.dataChunkId[3] != 'a')) {
+		while ((waveFileHeader.dataChunkId[0] != 'd') || (waveFileHeader.dataChunkId[1] != 'a') ||
+			(waveFileHeader.dataChunkId[2] != 't') || (waveFileHeader.dataChunkId[3] != 'a'))
+		{
+			waveFileHeader.dataChunkId[0] = waveFileHeader.dataChunkId[1];
+			waveFileHeader.dataChunkId[1] = waveFileHeader.dataChunkId[2];
+			waveFileHeader.dataChunkId[2] = waveFileHeader.dataChunkId[3];
+			fread(&waveFileHeader.dataChunkId[3], sizeof(char), 1, filePtr);
+		}
+		fread(&waveFileHeader.dataSize, sizeof(unsigned long), 1, filePtr);
+		//waveFileHeader.dataSize -= 9;
+		//fread(&waveFileHeader.dataChunkId[0], sizeof(char)*4, 1, filePtr);
+		//fread(&waveFileHeader.dataChunkId[0], sizeof(char) * 4, 1, filePtr);
+		//fread(&waveFileHeader.dataChunkId[0], sizeof(char) * 4, 1, filePtr);
+		//fread(&waveFileHeader.dataChunkId[0], sizeof(char) * 4, 1, filePtr);
 	}
 
 	// Set the wave format of secondary buffer that this wave file will be loaded onto.
 	waveFormat.wFormatTag = WAVE_FORMAT_PCM;
-	waveFormat.nSamplesPerSec = 44100;
-	waveFormat.wBitsPerSample = 8;
-	waveFormat.nChannels = 1;
+	waveFormat.nSamplesPerSec = waveFileHeader.sampleRate;
+	waveFormat.wBitsPerSample = waveFileHeader.bitsPerSample;
+	waveFormat.nChannels = waveFileHeader.numChannels;
 	waveFormat.nBlockAlign = (waveFormat.wBitsPerSample / 8) * waveFormat.nChannels;
 	waveFormat.nAvgBytesPerSec = waveFormat.nSamplesPerSec * waveFormat.nBlockAlign;
 	waveFormat.cbSize = 0;
@@ -329,31 +321,46 @@ void SoundManager::ShutdownWaveFile(IDirectSoundBuffer8** secondaryBuffer)
 }
 
 
-bool SoundManager::PlayWaveFile()
+
+bool SoundManager::PlayWaveFile(int i)
 {
-	HRESULT result;
 
+	list<LPDIRECTSOUNDBUFFER8*>::iterator iter = m_list.begin();
+	std::advance(iter, i);
+	if (FAILED((**iter)->SetCurrentPosition(0)))  return false; 
+	if (FAILED((**iter)->SetVolume(0)))  return false;
+	if (FAILED((**iter)->Play(0, 0, 0)))  return false; 
 
-	// Set position at the beginning of the sound buffer.
-	result = m_secondaryBuffer1->SetCurrentPosition(0);
-	if(FAILED(result))
-	{
-		return false;
-	}
+	return true;
+}
 
-	// Set volume of the buffer to 100%.
-	result = m_secondaryBuffer1->SetVolume(DSBVOLUME_MAX);
-	if(FAILED(result))
-	{
-		return false;
-	}
+bool SoundManager::PlayWaveFileLoop(int i) {
 
-	// Play the contents of the secondary sound buffer.
-	result = m_secondaryBuffer1->Play(0, 0, 0);
-	if(FAILED(result))
-	{
-		return false;
-	}
+	list<LPDIRECTSOUNDBUFFER8*>::iterator iter = m_list.begin();
+	std::advance(iter, i);
+	if (FAILED((**iter)->SetCurrentPosition(0)))  return false;
+	if (FAILED((**iter)->SetVolume(0)))  return false;
+	if (FAILED((**iter)->Play(0, 0, 1)))  return false;
+
+	return true;
+}
+
+bool SoundManager::PlayWaveFilePos(int i,int pos) {
+
+	list<LPDIRECTSOUNDBUFFER8*>::iterator iter = m_list.begin();
+	std::advance(iter, i);
+	if (FAILED((**iter)->SetCurrentPosition(pos)))  return false;
+	if (FAILED((**iter)->SetVolume(0)))  return false;
+	if (FAILED((**iter)->Play(0, 0, 1)))  return false;
+
+	return true;
+}
+
+bool SoundManager::StopWaveFile(int i) {
+	list<LPDIRECTSOUNDBUFFER8*>::iterator iter = m_list.begin();
+	std::advance(iter, i);
+
+	if (FAILED((**iter)->Stop()))  return false;
 
 	return true;
 }

@@ -9,7 +9,7 @@ VOID IntroCharacter::SetComponent()
 }
 
 IntroCharacter::IntroCharacter() :status(1),
-GameMovableObject(D3DXVECTOR3(-80, MAX_Y - 102, 0), D3DXVECTOR3(0.85f, 0, 0), D3DXVECTOR3(0, 0, 0), TXTID_INTROKID + 1)
+GameMovableObject(D3DXVECTOR3(-105, MAX_Y - 102, 0), D3DXVECTOR3(0.85f, 0, 0), D3DXVECTOR3(0, 0, 0), TXTID_INTROKID + 1)
 {
 }
 

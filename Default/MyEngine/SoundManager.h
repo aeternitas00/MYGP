@@ -20,7 +20,8 @@
 #include <mmsystem.h>
 #include <dsound.h>
 #include <stdio.h>
-
+#include <list>
+#include"stdafx.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // Class name: SoundManager
@@ -54,14 +55,21 @@ public:
 	
 	bool Initialize(HWND);
 	void Shutdown();
-	bool PlayWaveFile();
+
+	bool PlayWaveFile(int i);
+	bool PlayWaveFileLoop(int i);
+
+	bool PlayWaveFilePos(int i, int pos);
+
+	bool StopWaveFile(int i);
+
 private:
 	static SoundManager* instance;
 	SoundManager();
 	bool InitializeDirectSound(HWND);
 	void ShutdownDirectSound();
 
-	bool LoadWaveFile(char*, IDirectSoundBuffer8**);
+	bool LoadWaveFile(const char*, IDirectSoundBuffer8**);
 	void ShutdownWaveFile(IDirectSoundBuffer8**);
 
 
@@ -70,6 +78,8 @@ private:
 	IDirectSound8* m_DirectSound;
 	IDirectSoundBuffer* m_primaryBuffer;
 	IDirectSoundBuffer8* m_secondaryBuffer1;
+	LPDIRECTSOUNDBUFFER8 m_secondaryBuffer2;
+	std::list<LPDIRECTSOUNDBUFFER8*> m_list;
 };
 
 #endif

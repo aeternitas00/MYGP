@@ -135,6 +135,8 @@ SystemManager::SystemManager() :DelayedMessage(-1),CurrentSFNo(1),CurrentStage(S
 HRESULT SystemManager::Initialize()
 {
 	SetupTitleScreen();
+	SoundManager::GetInstance()->PlayWaveFilePos(3,30000);
+	SoundManager::GetInstance()->PlayWaveFileLoop(4);
 	return S_OK;
 }
 
@@ -191,37 +193,37 @@ VOID SystemManager::SetupTitleScreen()
 	ClearObjects();
 	ObjectList.push_back(new GameObject(D3DXVECTOR3(-47,MAX_Y-84,0), TXTID_INTROBLK1));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(425, -124, 0), TXTID_INTROBLK2));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(435, -174, 0), TXTID_INTROBLK2));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(457, -124, 0), TXTID_INTROBLK2));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(467, -174, 0), TXTID_INTROBLK2));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(489, -124, 0), TXTID_INTROBLK2));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(499, -174, 0), TXTID_INTROBLK2));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(425, -156, 0), TXTID_INTROKID));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(435, -206, 0), TXTID_INTROKID));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(457, -92, 0), TXTID_INTROBLK3));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(467, -142, 0), TXTID_INTROBLK3));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(489, -92, 0), TXTID_INTROBLK3));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(499, -142, 0), TXTID_INTROBLK3));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(457, -60, 0), TXTID_INTROKID2+1, 1));
+	ObjectList.push_back(new Spike(D3DXVECTOR3(467, -110, 0), TXTID_INTROKID2+1, 1));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(489, -156, 0), TXTID_INTROKID2+1, 0));
+	ObjectList.push_back(new Spike(D3DXVECTOR3(499, -206, 0), TXTID_INTROKID2+1, 0));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(130, -670, 0), TXTID_INTROBLK2));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(130, -700, 0), TXTID_INTROBLK2));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(194, -702, 0), TXTID_INTROKID2));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(194, -732, 0), TXTID_INTROKID2));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(162, -670, 0), TXTID_INTROBLK2));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(162, -700, 0), TXTID_INTROBLK2));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(194, -670, 0), TXTID_INTROBLK2));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(194, -700, 0), TXTID_INTROBLK2));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(130, -638, 0), TXTID_INTROBLK3));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(130, -668, 0), TXTID_INTROBLK3));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(162, -638, 0), TXTID_INTROBLK3));
+	ObjectList.push_back(new GameObject(D3DXVECTOR3(162, -668, 0), TXTID_INTROBLK3));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(162, -602, 00), TXTID_INTROKID2 + 1, 1));
+	ObjectList.push_back(new Spike(D3DXVECTOR3(162, -632, 00), TXTID_INTROKID2 + 1, 1));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(130, -702, 0), TXTID_INTROKID2 + 1, 0));
+	ObjectList.push_back(new Spike(D3DXVECTOR3(130, -732, 0), TXTID_INTROKID2 + 1, 0));
 	ObjectList.back()->SetComponent();
 
 	ObjectList.push_back(new IntroCharacter());

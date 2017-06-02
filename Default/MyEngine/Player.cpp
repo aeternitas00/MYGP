@@ -19,6 +19,7 @@ VOID Player::Attack()
 {
 	attack = true;	attack_tgl = true;
 	SystemManager::GetInstance()->AddPlayerBullet(new PlayerBullet(this));
+	SoundManager::GetInstance()->PlayWaveFile(2);
 	attack_rmt = 18;
 }
 
