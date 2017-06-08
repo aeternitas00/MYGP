@@ -30,9 +30,9 @@ VOID IntroScript::Update(GameObject * pObj)
 			Obj->acceleration.x = 0; Obj->acceleration.y = 0;
 			RenderManager::GetInstance()->ResetDefaultMatrix();
 			max = 1.0f; add = 0.05;
-			SoundManager::GetInstance()->StopWaveFile(3);
-			SoundManager::GetInstance()->PlayWaveFilePos(3,2550000);
-			SoundManager::GetInstance()->PlayWaveFile(6);
+			SoundManager::GetInstance()->StopWaveFile(SOUND_INTROBGM);
+			SoundManager::GetInstance()->PlayWaveFilePos(SOUND_INTROBGM,2550000);
+			SoundManager::GetInstance()->PlayWaveFile(SOUND_BOSHYTIME);
 			Obj->SetStatus(3); SystemManager::GetInstance()->GetObjectList().front()->SetTxt(-1);
 			tgl = true; tgl3 = false;
 		}
@@ -48,7 +48,7 @@ VOID IntroScript::Update(GameObject * pObj)
 			if ((double)(after - before) / CLOCKS_PER_SEC >= 2.0) {
 				trigger = 2; before = clock(); Obj->SetStatus(2);
 				Obj->velocity.x = 1.5*0.92f; Obj->velocity.y = -8.0f*0.92f;
-				SoundManager::GetInstance()->PlayWaveFile(5);
+				SoundManager::GetInstance()->PlayWaveFile(SOUND_INTROJUMP);
 			}
 			break;
 		case 2:
@@ -61,7 +61,7 @@ VOID IntroScript::Update(GameObject * pObj)
 				MAX_Y / 2 + ((Obj->pos.y + 40 - MAX_Y / 2)*((max - 1.0f) / 0.5f)));
 			RenderManager::GetInstance()->SetDefaultMatrixZoomUp(CENTER, max);
 
-			if (Obj->pos.y <= -50 && tgl3) { tgl3 = false; SoundManager::GetInstance()->PlayWaveFile(7); }
+			if (Obj->pos.y <= -50 && tgl3) { tgl3 = false; SoundManager::GetInstance()->PlayWaveFile(SOUND_INTROGODDAMN); }
 			if ((double)(after - before) / CLOCKS_PER_SEC >= 4.0) {
 				trigger = 3; before = clock(); max = 2.0f; add = 0.175f;
 
@@ -104,7 +104,7 @@ VOID IntroScript::Update(GameObject * pObj)
 			if (Obj->pos.y >= MAX_Y - 208 && Obj->velocity.y > 0) {
 				Obj->pos.y = MAX_Y - 208; Obj->velocity.y = 0; Obj->velocity.x = 0; Obj->acceleration.y = 0;
 				trigger = 6; Obj->SetStatus(3);
-				SoundManager::GetInstance()->PlayWaveFile(6);
+				SoundManager::GetInstance()->PlayWaveFile(SOUND_BOSHYTIME);
 			}
 			break;
 		case 6:
@@ -117,7 +117,7 @@ VOID IntroScript::Update(GameObject * pObj)
 
 			RenderManager::GetInstance()->DrawObj(D3DXVECTOR3(MAX_X / 2 - (443.0f / 2.0f), 112.0f - (182.0f / 2.0f), 0), TXTID_TITLE,
 				RECT{ 0,0,443,182 }, mat2);
-			RenderManager::GetInstance()->DrawObj(D3DXVECTOR3(MAX_X/2-89, MAX_Y-150, 0),12,
+			RenderManager::GetInstance()->DrawObj(D3DXVECTOR3(MAX_X/2-89, MAX_Y-150, 0), TXTID_PRESSSTRT,
 				RECT{ 0,0,178,17 }, mat);
 
 			if (max <= 1.5f) { max += add; add /= 10; add *= 9; }
@@ -179,8 +179,8 @@ VOID IntroScript::Update(GameObject * pObj)
 
 			if (KEY_DOWN(VK_RETURN) && !tgl) {
 				tgl = true;
-				SoundManager::GetInstance()->StopWaveFile(3);
-				SoundManager::GetInstance()->StopWaveFile(4);
+				SoundManager::GetInstance()->StopWaveFile(SOUND_INTROTD);
+				SoundManager::GetInstance()->StopWaveFile(SOUND_INTROBGM);
 				SystemManager::GetInstance()->SendMoveSceneMessage(SFNo + 3);
 				return;
 			}

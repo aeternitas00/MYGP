@@ -15,7 +15,7 @@ SavePoint::SavePoint(D3DXVECTOR3 &ipos) :GameStaticObject(ipos, TXTID_SAVEPOINT)
 VOID SavePoint::SetStat(short is)
 {
 	if (stat == 0) stat = is;
-	// Play Sound_FuckYou!
+	SoundManager::GetInstance()->PlayWaveFile(SOUND_SAVE); 
 }
 
 RESULT SavePoint::UpdateSub()

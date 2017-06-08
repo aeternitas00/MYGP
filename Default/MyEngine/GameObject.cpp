@@ -11,7 +11,7 @@ GameObject::GameObject():pos(D3DXVECTOR3(0,0,0)),txtid(-1)
 {
 }
 
-GameObject::GameObject(D3DXVECTOR3& ipos,int id): pos(ipos), txtid(id)
+GameObject::GameObject(D3DXVECTOR3& ipos,int id): pos(ipos), txtid(id),angle(0)
 {
 }
 

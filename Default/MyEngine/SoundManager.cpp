@@ -6,8 +6,6 @@ SoundManager::SoundManager()
 {
 	m_DirectSound = 0;
 	m_primaryBuffer = 0;
-	m_secondaryBuffer1 = 0;
-	m_secondaryBuffer2 = 0;
 }
 
 
@@ -36,26 +34,47 @@ bool SoundManager::Initialize(HWND hwnd)
 
 	// Initialize direct sound and the primary sound buffer.
 	result = InitializeDirectSound(hwnd);
-	if(!result)
+	if (!result)
 	{
 		return false;
 	}
-	string list[] = {
-		"00-MegamanLand.wav",
-		"01-EnergyFill.wav",
-		"02-MegaBuster.wav",
-		"03-TitleScreenBGM.wav",
-		"04-TItleThunder.wav",
-		"05-Jump.wav",
-		"06-ItsBoshyTime.wav",
-		"07-Goddamn.wav",
-	};
 
-	for (int i = 0; i <sizeof(list)/sizeof(string); i++) {
-		m_list.push_back(new LPDIRECTSOUNDBUFFER8());
-		LoadWaveFile(list[i].data(), m_list.back());
+	string pathq("General/");
+
+	ifstream inFile(pathq + "GeneralS.txt");
+	char strasd[200], *tempasd = NULL;
+	inFile.getline(strasd, 200);
+
+	int lenq = atoi(strasd);
+
+	for (int i = 0; lenq > i; i++)
+	{
+		inFile.getline(strasd, 200);
+		string pathtemp(pathq + strasd);
+
+		GeneralList.push_back(new LPDIRECTSOUNDBUFFER8());
+		LoadWaveFile(pathtemp.c_str(), GeneralList.back());
+		
 	}
-	
+	inFile.close();
+
+	pathq = "Intro/";
+	inFile.open(pathq + "IntroS.txt");
+	inFile.getline(strasd, 200);
+
+	lenq = atoi(strasd);
+
+	for (int i = 0; lenq > i; i++)
+	{
+		inFile.getline(strasd, 200);
+		string pathtemp(pathq + strasd);
+
+		StageList.push_back(new LPDIRECTSOUNDBUFFER8());
+		LoadWaveFile(pathtemp.c_str(), StageList.back());
+
+	}
+	inFile.close();
+
 	return true;
 }
 
@@ -63,12 +82,48 @@ bool SoundManager::Initialize(HWND hwnd)
 void SoundManager::Shutdown()
 {
 	// Release the secondary buffer.
-	ShutdownWaveFile(&m_secondaryBuffer1);
-
+	for (auto it : GeneralList) {
+	ShutdownWaveFile(it);
+	}
+	for (auto it : StageList) {
+		ShutdownWaveFile(it);
+	}
 	// Shutdown the Direct Sound API.
 	ShutdownDirectSound();
 
 	return;
+}
+
+void SoundManager::UpdateStageList(int stage)
+{
+	static int c_stage = -1;
+	if (stage == c_stage) return;
+	c_stage = stage;
+
+	for (auto it : StageList) {
+		ShutdownWaveFile(it);
+	}
+	StageList.clear();
+
+	string pathq("Stage"+to_string(stage)+"/");
+
+	ifstream inFile(pathq + "Stage"+to_string(stage)+"Sound.txt");
+	char strasd[200], *tempasd = NULL;
+	inFile.getline(strasd, 200);
+
+	int lenq = atoi(strasd);
+
+	for (int i = 0; lenq > i; i++)
+	{
+		inFile.getline(strasd, 200);
+		string pathtemp(pathq + strasd);
+
+		StageList.push_back(new LPDIRECTSOUNDBUFFER8());
+		LoadWaveFile(pathtemp.c_str(), StageList.back());
+
+	}
+	inFile.close();
+
 }
 
 
@@ -324,8 +379,10 @@ void SoundManager::ShutdownWaveFile(IDirectSoundBuffer8** secondaryBuffer)
 
 bool SoundManager::PlayWaveFile(int i)
 {
+	list<LPDIRECTSOUNDBUFFER8*>::iterator iter;
+	if (i >= 1000) { i -= 1000; iter = GeneralList.begin(); }
+	else iter = StageList.begin();
 
-	list<LPDIRECTSOUNDBUFFER8*>::iterator iter = m_list.begin();
 	std::advance(iter, i);
 	if (FAILED((**iter)->SetCurrentPosition(0)))  return false; 
 	if (FAILED((**iter)->SetVolume(0)))  return false;
@@ -336,7 +393,9 @@ bool SoundManager::PlayWaveFile(int i)
 
 bool SoundManager::PlayWaveFileLoop(int i) {
 
-	list<LPDIRECTSOUNDBUFFER8*>::iterator iter = m_list.begin();
+	list<LPDIRECTSOUNDBUFFER8*>::iterator iter;
+	if (i >= 1000) { i -= 1000; iter = GeneralList.begin();	}
+	else iter = StageList.begin();
 	std::advance(iter, i);
 	if (FAILED((**iter)->SetCurrentPosition(0)))  return false;
 	if (FAILED((**iter)->SetVolume(0)))  return false;
@@ -347,8 +406,11 @@ bool SoundManager::PlayWaveFileLoop(int i) {
 
 bool SoundManager::PlayWaveFilePos(int i,int pos) {
 
-	list<LPDIRECTSOUNDBUFFER8*>::iterator iter = m_list.begin();
+	list<LPDIRECTSOUNDBUFFER8*>::iterator iter;
+	if (i >= 1000) { i -= 1000; iter = GeneralList.begin(); }
+	else iter = StageList.begin();
 	std::advance(iter, i);
+
 	if (FAILED((**iter)->SetCurrentPosition(pos)))  return false;
 	if (FAILED((**iter)->SetVolume(0)))  return false;
 	if (FAILED((**iter)->Play(0, 0, 1)))  return false;
@@ -357,9 +419,10 @@ bool SoundManager::PlayWaveFilePos(int i,int pos) {
 }
 
 bool SoundManager::StopWaveFile(int i) {
-	list<LPDIRECTSOUNDBUFFER8*>::iterator iter = m_list.begin();
+	list<LPDIRECTSOUNDBUFFER8*>::iterator iter;
+	if (i >= 1000) { i -= 1000; iter = GeneralList.begin(); 	}
+	else iter = StageList.begin();
 	std::advance(iter, i);
-
 	if (FAILED((**iter)->Stop()))  return false;
 
 	return true;

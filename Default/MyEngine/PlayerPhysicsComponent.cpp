@@ -108,7 +108,7 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 	if (landok)	{
 		if (!temp->IsLanded()) { temp->pos.y = landpos - volume.bottom; temp->velocity.y = 0; 
 		temp->DisableGravity(); temp->SetLanded(); 
-		SoundManager::GetInstance()->PlayWaveFile(0);}
+		SoundManager::GetInstance()->PlayWaveFile(SOUND_LAND);}
 	}
 
 	else {	if (temp->IsLanded()) 	{ temp->EnableGravity(); temp->SetFloated(); } }

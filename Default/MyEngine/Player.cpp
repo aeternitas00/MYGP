@@ -12,14 +12,16 @@ VOID Player::SetComponent()
 
 VOID Player::Jump()
 {
-	if (!jumping_tgl) { gravity = true; jumping_tgl = true; jumping = true; jumping_up = true; remain_jump--; }
+	if (!jumping_tgl) { gravity = true; jumping_tgl = true; jumping = true; jumping_up = true; 
+	if (remain_jump == 1)SoundManager::GetInstance()->PlayWaveFile(SOUND_DOUBLEJUMP); 
+		remain_jump--; }
 }
 
 VOID Player::Attack()
 {
 	attack = true;	attack_tgl = true;
 	SystemManager::GetInstance()->AddPlayerBullet(new PlayerBullet(this));
-	SoundManager::GetInstance()->PlayWaveFile(2);
+	SoundManager::GetInstance()->PlayWaveFile(SOUND_FIRE);
 	attack_rmt = 18;
 }
 

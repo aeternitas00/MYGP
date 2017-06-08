@@ -9,6 +9,7 @@ class GameObject
 {
 public:
 	D3DXVECTOR3 pos;
+	float angle;
 	int txtid;
 protected:
 	std::list<ComponentBase*> ComponentList;

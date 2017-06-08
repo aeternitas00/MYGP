@@ -26,6 +26,19 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Class name: SoundManager
 ///////////////////////////////////////////////////////////////////////////////
+
+#define SOUND_DOUBLEJUMP 1000
+#define SOUND_LAND 1001
+#define SOUND_FIRE 1002
+#define SOUND_SAVE 1003
+#define SOUND_BOSHYTIME 1004
+
+#define SOUND_INTROBGM 0
+#define SOUND_INTROTD 1
+#define SOUND_INTROJUMP 2
+#define SOUND_INTROGODDAMN 3
+
+
 class SoundManager
 {
 private:
@@ -55,6 +68,7 @@ public:
 	
 	bool Initialize(HWND);
 	void Shutdown();
+	void UpdateStageList(int i);
 
 	bool PlayWaveFile(int i);
 	bool PlayWaveFileLoop(int i);
@@ -77,9 +91,9 @@ private:
 private:
 	IDirectSound8* m_DirectSound;
 	IDirectSoundBuffer* m_primaryBuffer;
-	IDirectSoundBuffer8* m_secondaryBuffer1;
-	LPDIRECTSOUNDBUFFER8 m_secondaryBuffer2;
-	std::list<LPDIRECTSOUNDBUFFER8*> m_list;
+
+	std::list<LPDIRECTSOUNDBUFFER8*> GeneralList;
+	std::list<LPDIRECTSOUNDBUFFER8*> StageList;
 };
 
 #endif

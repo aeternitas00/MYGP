@@ -135,8 +135,8 @@ SystemManager::SystemManager() :DelayedMessage(-1),CurrentSFNo(1),CurrentStage(S
 HRESULT SystemManager::Initialize()
 {
 	SetupTitleScreen();
-	SoundManager::GetInstance()->PlayWaveFilePos(3,30000);
-	SoundManager::GetInstance()->PlayWaveFileLoop(4);
+	SoundManager::GetInstance()->PlayWaveFilePos(SOUND_INTROBGM,30000);
+	SoundManager::GetInstance()->PlayWaveFileLoop(SOUND_INTROTD);
 	return S_OK;
 }
 
@@ -205,9 +205,9 @@ VOID SystemManager::SetupTitleScreen()
 	ObjectList.back()->SetComponent();
 	ObjectList.push_back(new GameObject(D3DXVECTOR3(499, -142, 0), TXTID_INTROBLK3));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(467, -110, 0), TXTID_INTROKID2+1, 1));
+	ObjectList.push_back(new Spike(D3DXVECTOR3(467, -110, 0), TXTID_SPIKE, 1));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(499, -206, 0), TXTID_INTROKID2+1, 0));
+	ObjectList.push_back(new Spike(D3DXVECTOR3(499, -206, 0), TXTID_SPIKE, 0));
 	ObjectList.back()->SetComponent();
 	ObjectList.push_back(new GameObject(D3DXVECTOR3(130, -700, 0), TXTID_INTROBLK2));
 	ObjectList.back()->SetComponent();
@@ -221,9 +221,9 @@ VOID SystemManager::SetupTitleScreen()
 	ObjectList.back()->SetComponent();
 	ObjectList.push_back(new GameObject(D3DXVECTOR3(162, -668, 0), TXTID_INTROBLK3));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(162, -632, 00), TXTID_INTROKID2 + 1, 1));
+	ObjectList.push_back(new Spike(D3DXVECTOR3(162, -632, 00), TXTID_SPIKE, 1));
 	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(130, -732, 0), TXTID_INTROKID2 + 1, 0));
+	ObjectList.push_back(new Spike(D3DXVECTOR3(130, -732, 0), TXTID_SPIKE, 0));
 	ObjectList.back()->SetComponent();
 
 	ObjectList.push_back(new IntroCharacter());
@@ -250,6 +250,8 @@ VOID SystemManager::SetupStage(int i)
 VOID SystemManager::SetupStage(int i,bool reset)
 {
 	RenderManager::GetInstance()->IncludeTexture(i);
+	SoundManager::GetInstance()->UpdateStageList(i);
+
 	CurrentStage = { L"Stage" + std::to_wstring(i),-1,i };
 	wstring path(CurrentStage.path);
 	path += L"-" + std::to_wstring(0) + L".txt";

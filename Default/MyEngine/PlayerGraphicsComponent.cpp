@@ -15,7 +15,7 @@ VOID PlayerGraphicsComponent::Update(GameObject * pObj)
 	RECT rtemp = { sqr.x ,sqr.y,sqr.x +temp.spfx,sqr.y+temp.spfy };
 
 	D3DXMATRIX mat;
-	D3DXMatrixTranslation(&mat,0, 0, 0.0);
+	D3DXMatrixTransformation2D(&mat, NULL, NULL, NULL, NULL, NULL, NULL);
 
 	RenderManager::GetInstance()->DrawObj(pObj->pos, pObj->txtid, rtemp, mat);
 }

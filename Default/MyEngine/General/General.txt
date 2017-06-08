@@ -1,0 +1,7 @@
+6
+01-Sprite_Blank_2x2.png 2 2 2 2 0x00000000
+02-Sprite_Blank_4x4.png 6 6 6 6 RGB 0 0 0
+03-Sprite_SavePoint.png 112 16 16 16 RGB 66 68 14
+04-Sprite_SpikeM.png 128 32 32 32 0xFFFFFFFF
+05-Sprite_Player.png 440 66 40 33 0xFFFFFFFF
+06-Sprite_PlayerBullet.png 8 7 8 7 0xFFFFFFFF
