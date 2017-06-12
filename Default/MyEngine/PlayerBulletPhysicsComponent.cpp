@@ -10,28 +10,22 @@ VOID PlayerBulletPhysicsComponent::Update(GameObject * pObj)
 	temp->velocity += temp->acceleration;
 	temp->pos += temp->velocity;
 
-	FRECT rect = temp->GetVolume().front();
+	FRECT rect = temp->GetVolume();
 	rect.left += temp->pos.x; rect.right += temp->pos.x;
 	rect.top += temp->pos.y; rect.bottom += temp->pos.y;
 
 	auto SavePointList = SystemManager::GetInstance()->GetSavePointList();
 	for (auto it : SavePointList)
 	{
-		FRECT obsvolume = it->GetVolume().front();
+		FRECT obsvolume = it->GetVolume();
 		FRECT obshitbox;
 		obshitbox.top = (it->pos.y + obsvolume.top); obshitbox.bottom = (it->pos.y + obsvolume.bottom);
 		obshitbox.left = (it->pos.x + obsvolume.left);	obshitbox.right = (it->pos.x + obsvolume.right);
 		if (CollisionCheck(obshitbox, rect))
 		{
-			std::list<FRECT> vtempobs = it->GetVolume();
-			std::list<FRECT> vtemppl = temp->GetVolume();
-			vtemppl.pop_front();	vtempobs.pop_front();
-
-			if (CollisionCheck(it->pos, temp->pos, vtempobs, vtemppl)) {
-				temp->SetStat(Destroy); it->SetStat(1); 
-				SystemManager::GetInstance()->SaveSF();
-				return;
-			}
+			temp->SetStat(Destroy); it->SetStat(1); 
+			SystemManager::GetInstance()->SaveSF();
+			return;
 		}
 	}
 	auto TerrainList = SystemManager::GetInstance()->GetTerrainList();

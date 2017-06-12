@@ -8,7 +8,7 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 	if (temp == NULL) return;
 	if (pObj->txtid == -1) return;
 
-	volume = temp->GetVolume().front();
+	FRECT volume = temp->GetVolume();
 
 	auto& TerrainList = SystemManager::GetInstance()->GetTerrainList();
 	auto& ObstacleList = SystemManager::GetInstance()->GetObstacleList();
@@ -73,36 +73,14 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 
 	for (auto it : ObstacleList)
 	{
-		FRECT obsvolume = it->GetVolume().front();
-		FRECT obshitbox; 
-		obshitbox.top = (it->pos.y + obsvolume.top);obshitbox.bottom = (it->pos.y + obsvolume.bottom);
-		obshitbox.left = (it->pos.x + obsvolume.left);	obshitbox.right = (it->pos.x + obsvolume.right);
-		if (CollisionCheck(obshitbox, rect))
-		{
-			std::list<FRECT> vtempobs = it->GetVolume();
-			std::list<FRECT> vtemppl = temp->GetVolume();
-			vtemppl.pop_front();	vtempobs.pop_front();
-
-			if(CollisionCheck(it->pos,temp->pos, vtempobs, vtemppl))
-				temp->DoDeath();
-		}
+		if (CollisionDetection(temp, it))
+			temp->DoDeath();
 	}
 
 	for (auto it : EnemyBulletList)
 	{
-		FRECT obsvolume = it->GetVolume().front();
-		FRECT obshitbox;
-		obshitbox.top = (it->pos.y + obsvolume.top); obshitbox.bottom = (it->pos.y + obsvolume.bottom);
-		obshitbox.left = (it->pos.x + obsvolume.left);	obshitbox.right = (it->pos.x + obsvolume.right);
-		if (CollisionCheck(obshitbox, rect))
-		{
-			std::list<FRECT> vtempobs = it->GetVolume();
-			std::list<FRECT> vtemppl = temp->GetVolume();
-			vtemppl.pop_front();	vtempobs.pop_front();
-
-			if (CollisionCheck(it->pos, temp->pos, vtempobs, vtemppl))
-				temp->DoDeath();
-		}
+		if(CollisionDetection(temp, it))
+			temp->DoDeath();
 	}
 
 	if (landok)	{

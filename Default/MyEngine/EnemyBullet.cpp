@@ -21,10 +21,7 @@ EnemyBullet::~EnemyBullet()
 {
 }
 
-VOID EnemyBullet::PushBackVolume(FRECT &rect)
-{
-	Volume.push_back(rect);
-}
+
 
 VOID EnemyBullet::SetComponent()
 {

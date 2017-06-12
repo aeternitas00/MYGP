@@ -10,7 +10,7 @@
 #define TXTID_SPIKE 1003
 #define TXTID_PLAYER 1004
 #define TXTID_PLAYER_BULLET 1005
-
+#define TXTID_GAMEOVER 1006
 //stage 1
 #define TXTID_BG 0
 #define TXTID_BLOCK_CM 1

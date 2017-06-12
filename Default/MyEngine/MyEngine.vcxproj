@@ -171,6 +171,7 @@
     <ClInclude Include="IntroCharacter.h" />
     <ClInclude Include="IntroScript.h" />
     <ClInclude Include="MissileLauncher.h" />
+    <ClInclude Include="ObjectShake.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleGraphicsComponent.h" />
@@ -208,6 +209,7 @@
     <ClCompile Include="IntroCharacter.cpp" />
     <ClCompile Include="IntroScript.cpp" />
     <ClCompile Include="MissileLauncher.cpp" />
+    <ClCompile Include="ObjectShake.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleGraphicsComponent.cpp" />

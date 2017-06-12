@@ -77,6 +77,8 @@ public:
 
 	bool StopWaveFile(int i);
 
+	bool StopWaveFile();
+
 private:
 	static SoundManager* instance;
 	SoundManager();

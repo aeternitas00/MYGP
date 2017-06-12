@@ -1,14 +1,12 @@
 #include "stdafx.h"
 #include "PhysicsComponent.h"
-
+#include <math.h>
 
 PhysicsComponent::PhysicsComponent()
 {
-	volume.bottom = 0;
-	volume.top = 0;
-	volume.left = 0;
-	volume.right = 0;
+
 }
+
 
 bool PhysicsComponent::CollisionCheck(const FRECT one, const FRECT two)
 {
@@ -61,6 +59,134 @@ VOID PhysicsComponent::Update(GameObject* pObj)
 
 	//resolveCollision();
 	return;
+}
+
+bool PhysicsComponent::CollisionDetection(GameObject* ObjA,GameObject* ObjB)
+{
+	GameObject* sObj, *dObj;
+	if (ObjA->GetSATLength() >= ObjB->GetSATLength())
+	{
+		sObj = ObjB;
+		dObj = ObjA;
+	}
+	else {
+		sObj = ObjA;
+		dObj = ObjB;
+	}
+
+	for (auto polA : sObj->GetSATVolume())
+	{
+		for (auto polB : dObj->GetSATVolume())
+		{
+			MyPolygon sPol, dPol;
+			D3DXVECTOR2 sCVec, dCVec;
+			if (polA.size() >= polB.size())
+			{
+				sPol = polB;
+				sCVec.x = dObj->pos.x; sCVec.y = dObj->pos.y;
+				dPol = polA;
+				dCVec.x = sObj->pos.x; dCVec.y = sObj->pos.y;
+			}
+			else {
+				sPol = polA;
+				sCVec.x = sObj->pos.x; sCVec.y = sObj->pos.y;
+				dPol = polB;
+				dCVec.x = dObj->pos.x; dCVec.y = dObj->pos.y;
+			}
+			auto sNode = sPol.back();
+			sNode += sCVec;
+
+			for (auto NextNode : sPol)
+			{
+				NextNode += sCVec;
+
+				D3DXVECTOR2 Vector = NextNode - sNode;
+				
+				double dAngle1 = atan2(Vector.x, Vector.y);
+				double dAngle2 = atan2(1, 0);
+				float Angle = dAngle2 - dAngle1;
+				
+				float sMin, sMax, dMin, dMax;
+				sMin = GetMinY(sPol, Angle, sNode, sCVec);
+				sMax = GetMaxY(sPol, Angle, sNode, sCVec);
+				dMax = GetMaxY(dPol, Angle, sNode, dCVec);
+				dMin = GetMinY(dPol, Angle, sNode, dCVec);
+
+				if (!((sMin <= dMin && dMin <= sMax) || (sMin <= dMax&& dMax <= sMax))&&
+					!((dMin <= sMin && sMin <= dMax) || (dMin <= sMax&& sMax <= dMax)))
+					return false;
+				sNode = NextNode;
+			}
+		}
+	}
+	return true;
+}
+
+
+
+D3DXVECTOR2 PhysicsComponent::RotatenMove(D3DXVECTOR2 & ivec, float Angle, D3DXVECTOR2 & center)
+{
+	auto rv = ivec;
+	rv -= center;
+
+	float tx = rv.x*cos(Angle) - rv.y*sin(Angle);
+	float ty = rv.y*cos(Angle) + rv.x*sin(Angle);
+
+	rv.x = tx; rv.y = ty;
+
+	return rv;
+}
+
+float PhysicsComponent::GetMaxY(MyPolygon& pol, float Angle, D3DXVECTOR2& center, D3DXVECTOR2& objpos)
+{
+	auto prev = ----pol.end();
+	auto rprev = *prev;
+
+	auto cur = --pol.end();
+	auto rcur = *cur;
+
+	rprev += objpos;
+	rcur += objpos;
+
+	rprev = RotatenMove(rprev, Angle, center);
+	rcur = RotatenMove(rcur, Angle, center);
+
+	for (auto next = pol.begin(); next != pol.end(); next++)
+	{
+		D3DXVECTOR2 tnext = *next;
+		tnext += objpos;
+		auto rnext = RotatenMove(tnext, Angle, center);
+		if (rprev.y <= rcur.y &&rnext.y < rcur.y)
+			return rcur.y;
+		rprev = rcur;
+		rcur = rnext;
+	}
+}
+
+float PhysicsComponent::GetMinY(MyPolygon& pol, float Angle, D3DXVECTOR2& center, D3DXVECTOR2& objpos)
+{
+	auto prev = ----pol.end();
+	auto rprev = *prev;
+
+	auto cur = --pol.end();
+	auto rcur = *cur;
+
+	rprev += objpos;
+	rcur += objpos;
+
+	rprev = RotatenMove(rprev, Angle, center);
+	rcur = RotatenMove(rcur, Angle, center);
+
+	for (auto next = pol.begin(); next != pol.end(); next++)
+	{
+		D3DXVECTOR2 tnext = *next;
+		tnext += objpos;
+		auto rnext = RotatenMove(tnext, Angle, center);
+		if (rprev.y >= rcur.y &&rnext.y > rcur.y)
+			return rcur.y;
+		rprev = rcur;
+		rcur = rnext;
+	}
 }
 
 PhysicsComponent::~PhysicsComponent()

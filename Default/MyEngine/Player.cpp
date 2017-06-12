@@ -28,16 +28,22 @@ VOID Player::Attack()
 VOID Player::DoDeath()
 {
 	txtid = -1;
+	SoundManager::GetInstance()->PlayWaveFile(1005);
+	SoundManager::GetInstance()->PlayWaveFile(1006);
+	SoundManager::GetInstance()->StopWaveFile(0);
 	auto temp =SystemManager::GetInstance();
 	srand(time(NULL));
 	D3DXVECTOR3 ipos(pos);
-	ipos.x += float(Volume.front().left + Volume.front().right) / 2;
-	ipos.y += float(Volume.front().top + Volume.front().bottom) / 2;
+	ipos.x += float(Volume.left + Volume.right) / 2;
+	ipos.y += float(Volume.top + Volume.bottom) / 2;
 	for (int i = 0; i < 100; i++)
 	{
 		D3DXVECTOR3 vel((float)(rand()%17000)/1000-8.5f, (float)(rand() % 17000)/1000 - 11.0f,0);
 		temp->AddObject(new Particle(ipos,vel, D3DXCOLOR(1,0,0,1),TXTID_PARTICLE_4X4));
 	}
+	GameObject* tobj = new GameObject(D3DXVECTOR3(MAX_X / 2 - (550 / 2), MAX_Y / 2 - 130, 0), TXTID_GAMEOVER);
+	tobj->AddComponent(new ObjectShake(0.25, 20000, 0, D3DXVECTOR3(MAX_X / 2 - (550 / 2), MAX_Y / 2 - 130, 0)));
+	temp->AddObject(tobj);
 }
 
 
@@ -94,13 +100,13 @@ Player::Player(D3DXVECTOR3 & ipos):GameMovableObject(ipos,
 	attack_rmt(0), gravity(true)
 {
 
-	Volume.push_back(FRECT{ 15,30,12,27 });
+	Volume=FRECT{ 15,30,12,27 };
 
-	Volume.push_back(FRECT{ 15,17,19,20 });
-	Volume.push_back(FRECT{ 17,19,18,21 });
-	Volume.push_back(FRECT{ 19,23,16,23 });
-	Volume.push_back(FRECT{ 23,28,14,25 });
-	Volume.push_back(FRECT{ 28,30,12,27 });
+	MyPolygon temp;
+	temp.push_back(D3DXVECTOR2(19,15));
+	temp.push_back(D3DXVECTOR2(12,30));
+	temp.push_back(D3DXVECTOR2(27,30));
+	satvolume.push_back(temp);
 }
 
 Player::~Player()

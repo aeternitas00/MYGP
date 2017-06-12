@@ -18,7 +18,7 @@ VOID EnemyBulletPhysicsComponent::Update(GameObject * pObj)
 	temp->velocity += temp->acceleration;
 	temp->pos += temp->velocity;
 
-	FRECT rect = temp->GetVolume().front();
+	FRECT rect = temp->GetVolume();
 
 	auto TerrainList = SystemManager::GetInstance()->GetTerrainList();
 	for (auto it : TerrainList)

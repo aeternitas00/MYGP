@@ -427,3 +427,13 @@ bool SoundManager::StopWaveFile(int i) {
 
 	return true;
 }
+
+bool SoundManager::StopWaveFile() {
+	
+	for(auto iter :GeneralList)
+		if (FAILED((*iter)->Stop()))  return false;
+	for (auto iter : StageList)
+		if (FAILED((*iter)->Stop()))  return false;
+
+	return true;
+}

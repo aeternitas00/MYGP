@@ -28,8 +28,8 @@ RESULT SavePoint::UpdateSub()
 		frame++; if (frame >= 30) {
 			stat = 3;
 			D3DXVECTOR3 ipos(pos);
-			ipos.x += (Volume.front().left + Volume.front().right) / 2;
-			ipos.y += (Volume.front().top + Volume.front().bottom) / 2;
+			ipos.x += (Volume.left + Volume.right) / 2;
+			ipos.y += (Volume.top + Volume.bottom) / 2;
 			auto input = new EnemyBullet(ipos, TXTID_PARTICLE_2X2);
 			input->velocity.x = 4.0f;
 			float dt = (SystemManager::GetInstance()->GetPlayer()->pos.x - ipos.x) / 4;
@@ -38,8 +38,13 @@ RESULT SavePoint::UpdateSub()
 				(0.5f * dt * 0.28f);
 			if (input->velocity.y <= -5.0f)input->velocity.y = -5.0f;
 			input->acceleration.y = 0.28f;
-			input->PushBackVolume(FRECT{ 0,2,0,2 });
-			input->PushBackVolume(FRECT{ 0,2,0,2 });
+
+			MyPolygon temppol;
+			temppol.push_back(D3DXVECTOR2(0, 0));
+			temppol.push_back(D3DXVECTOR2(2, 0));
+			temppol.push_back(D3DXVECTOR2(2, 2));
+			temppol.push_back(D3DXVECTOR2(0, 2));
+			input->PushBackSATVolume(temppol);
 			SystemManager::GetInstance()->AddEnemyBullet(input);
 		}
 	}
@@ -49,9 +54,7 @@ RESULT SavePoint::UpdateSub()
 }
 VOID SavePoint::SetComponent()
 {
-	Volume.push_back(FRECT{ 0,16,0,16 });
-
-	Volume.push_back(FRECT{ 0,16,0,16 });
+	Volume=FRECT{ 0,16,0,16 };
 	stat = 0;
 	frame = 0;
 	ComponentList.push_back(new PhysicsComponent);

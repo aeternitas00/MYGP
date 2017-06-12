@@ -233,6 +233,10 @@ VOID SystemManager::SetupTitleScreen()
 VOID SystemManager::SetupStage(int i)
 {
 	RenderManager::GetInstance()->IncludeTexture(i);
+	SoundManager::GetInstance()->UpdateStageList(i);
+	SoundManager::GetInstance()->StopWaveFile();
+	SoundManager::GetInstance()->PlayWaveFileLoop(0);
+	SoundManager::GetInstance()->PlayWaveFile(SOUND_BOSHYTIME);
 	CurrentStage = { L"Stage"+ std::to_wstring(i),-1,i };
 	wstring path(CurrentStage.path);
 	path += L"-" + std::to_wstring(0) + L".txt";
@@ -251,7 +255,9 @@ VOID SystemManager::SetupStage(int i,bool reset)
 {
 	RenderManager::GetInstance()->IncludeTexture(i);
 	SoundManager::GetInstance()->UpdateStageList(i);
-
+	SoundManager::GetInstance()->StopWaveFile();
+	SoundManager::GetInstance()->PlayWaveFileLoop(0);
+	SoundManager::GetInstance()->PlayWaveFile(SOUND_BOSHYTIME);
 	CurrentStage = { L"Stage" + std::to_wstring(i),-1,i };
 	wstring path(CurrentStage.path);
 	path += L"-" + std::to_wstring(0) + L".txt";

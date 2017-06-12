@@ -10,7 +10,7 @@ public:
 	virtual RESULT UpdateSub();
 	~EnemyBullet();
 	VOID SetStat(RESULT is) { stat = is; }
-	VOID PushBackVolume(FRECT&);
+	
 	virtual VOID SetComponent();
 };
 

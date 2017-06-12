@@ -5,6 +5,9 @@ using namespace std;
 class ComponentBase;
 class GraphicsComponent;
 class PhysicsComponent;
+
+typedef std::list<D3DXVECTOR2> MyPolygon;
+
 class GameObject
 {
 public:
@@ -13,7 +16,8 @@ public:
 	int txtid;
 protected:
 	std::list<ComponentBase*> ComponentList;
-	std::list<FRECT> Volume;
+	FRECT Volume;
+	std::list<MyPolygon> satvolume;
 public:
 	GameObject();
 	GameObject(D3DXVECTOR3& ipos, int id);
@@ -25,8 +29,14 @@ public:
 	virtual RENDERSQUARE GetRenderSquare();
 	virtual RESULT UpdateSub();
 	virtual short GetDir() { return 0; }
-	std::list<FRECT> GetVolume() { return Volume; }
+
+	FRECT GetVolume() { return Volume; }
+	std::list<MyPolygon> GetSATVolume() { return satvolume; }
+
+	VOID PushBackSATVolume(MyPolygon& input) { satvolume.push_back(input); }
+	int GetSATLength() { return satvolume.size(); }
 	VOID UpdateByMovingScene(int side);
 	virtual VOID SetComponent();
+	virtual VOID AddComponent(ComponentBase* pcmp) { ComponentList.push_back(pcmp); }
 };
 

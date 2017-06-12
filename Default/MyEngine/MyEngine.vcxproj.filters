@@ -201,6 +201,9 @@
     <ClInclude Include="IntroScript.h">
       <Filter>Object\Component\Player\Header</Filter>
     </ClInclude>
+    <ClInclude Include="ObjectShake.h">
+      <Filter>Object\Component\Base\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -301,6 +304,9 @@
     </ClCompile>
     <ClCompile Include="IntroScript.cpp">
       <Filter>Object\Component\Player\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectShake.cpp">
+      <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

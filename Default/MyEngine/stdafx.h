@@ -31,6 +31,8 @@ typedef struct __MYRECT {
 typedef struct __floatrect {
 	float top, bottom, left, right;
 }FRECT;
+
+
 #include <d3d9.h>
 #include <Windows.h>
 #include <mmsystem.h>
@@ -53,6 +55,7 @@ typedef struct __floatrect {
 #include "InputComponent.h"
 #include "PhysicsComponent.h"
 #include "GraphicsComponent.h"
+#include "ObjectShake.h"
 #include "ParticlePhysicsComponent.h"
 #include "PlayerGraphicsComponent.h"
 #include "PlayerInputComponent.h"
@@ -75,6 +78,7 @@ typedef struct __floatrect {
 #include <queue>
 #include <list>
 
-
 #pragma comment(lib,"d3dx9.lib")  
 #pragma comment(lib,"d3d9.lib")  
+
+

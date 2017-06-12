@@ -15,7 +15,6 @@ GameObject::GameObject(D3DXVECTOR3& ipos,int id): pos(ipos), txtid(id),angle(0)
 {
 }
 
-
 VOID GameObject::SetTxt(const int id)
 {
 	txtid = id;
