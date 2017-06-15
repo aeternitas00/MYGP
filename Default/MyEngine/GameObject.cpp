@@ -7,11 +7,11 @@ VOID GameObject::SetComponent()
 	ComponentList.push_back(new GraphicsComponent);
 }
 
-GameObject::GameObject():pos(D3DXVECTOR3(0,0,0)),txtid(-1)
+GameObject::GameObject() :pos(D3DXVECTOR3(0, 0, 0)), txtid(-1), linfo(loopinfo { false,0 })
 {
 }
 
-GameObject::GameObject(D3DXVECTOR3& ipos,int id): pos(ipos), txtid(id),angle(0)
+GameObject::GameObject(D3DXVECTOR3& ipos,int id): pos(ipos), txtid(id),angle(0), linfo(loopinfo{ false,0 })
 {
 }
 

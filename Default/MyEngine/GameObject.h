@@ -14,6 +14,12 @@ public:
 	D3DXVECTOR3 pos;
 	float angle;
 	int txtid;
+	struct loopinfo{
+		bool ok;
+		int frame;
+	};
+
+	loopinfo linfo;
 protected:
 	std::list<ComponentBase*> ComponentList;
 	FRECT Volume;

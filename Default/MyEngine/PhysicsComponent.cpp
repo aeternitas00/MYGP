@@ -80,17 +80,18 @@ bool PhysicsComponent::CollisionDetection(GameObject* ObjA,GameObject* ObjB)
 		{
 			MyPolygon sPol, dPol;
 			D3DXVECTOR2 sCVec, dCVec;
+			float sAngle, dAngle;
 			if (polA.size() >= polB.size())
 			{
-				sPol = polB;
+				sPol = polB; sAngle = dObj->angle;
 				sCVec.x = dObj->pos.x; sCVec.y = dObj->pos.y;
-				dPol = polA;
+				dPol = polA; dAngle = sObj->angle;
 				dCVec.x = sObj->pos.x; dCVec.y = sObj->pos.y;
 			}
 			else {
-				sPol = polA;
+				sPol = polA; sAngle = sObj->angle;
 				sCVec.x = sObj->pos.x; sCVec.y = sObj->pos.y;
-				dPol = polB;
+				dPol = polB; dAngle = dObj->angle;
 				dCVec.x = dObj->pos.x; dCVec.y = dObj->pos.y;
 			}
 			auto sNode = sPol.back();

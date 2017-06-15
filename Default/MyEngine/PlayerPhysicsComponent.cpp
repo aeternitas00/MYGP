@@ -20,10 +20,13 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 	}
 	else { temp->velocity.x = 0; }
 
-	if (temp->IsLanded())	temp->velocity.y = 0;
-	if (temp->IsJumping() && temp->GetRemainJump() >= 0) { temp->velocity.y = -5.3f; temp->SetJumpingStat(false); if (temp->IsLanded()) temp->SetLandedStat(false); }
-	if (temp->IsJumpingUp()) { if (temp->velocity.y > 0) temp->SetJumpingUpStat(false); temp->velocity.y -= 0.495f; }
-	if (temp->velocity.y > 4.75f) { temp->velocity.y = 4.75f; }
+	if (temp->IsLanded()) temp->velocity.y = 0;
+	if (temp->IsJumping() && temp->GetRemainJump() >= 0) 
+		{ temp->velocity.y = -5.3f; temp->SetJumpingStat(false); if (temp->IsLanded()) temp->SetLandedStat(false); }
+	if (temp->IsJumpingUp())
+		{ if (temp->velocity.y > 0) temp->SetJumpingUpStat(false); temp->velocity.y -= 0.495f; }
+	if (temp->velocity.y > 4.75f) 
+		{ temp->velocity.y = 4.75f; }
 
 	temp->velocity += temp->acceleration;
 	if (temp->IsGravityOn())temp->velocity.y += 0.76f;
@@ -39,22 +42,28 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 	for (auto it : TerrainList)
 	{
 		if (it->pos.x < rect.right && it->GetXEnd() > rect.left) {
-			
+
 			if (!it->IsThroughable()) {
 				if (!(it->pos.x < rect.right - temp->velocity.x)) {
 					if (it->pos.y < rect.bottom && it->GetYEnd() > rect.top)
 					{
 						temp->pos.x -= (rect.right - it->pos.x);
+						rect.top = temp->pos.y + volume.top; rect.left = temp->pos.x + volume.left;
+						rect.bottom = temp->pos.y + volume.bottom; rect.right = temp->pos.x + volume.right;
 					}
 				}
 				else if (!(it->GetXEnd() > rect.left - temp->velocity.x)) {
 					if (it->pos.y < rect.bottom && it->GetYEnd() > rect.top)
 					{
 						temp->pos.x -= (rect.left - it->GetXEnd());
+						rect.top = temp->pos.y + volume.top; rect.left = temp->pos.x + volume.left;
+						rect.bottom = temp->pos.y + volume.bottom; rect.right = temp->pos.x + volume.right;
 					}
 				}
 			}
+		}
 
+		if (it->pos.x < rect.right && it->GetXEnd() > rect.left) {
 			if (it->pos.y + temp->velocity.y >= rect.bottom && it->pos.y <= rect.bottom)
 			{
 				landpos=it->pos.y; landok = true; 

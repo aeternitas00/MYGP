@@ -10,6 +10,7 @@ protected:
 	float vy;
 	bool canthrough;
 public:
+	virtual RENDERSQUARE GetRenderSquare();
 	MYRECT GetTerrainInfo() { return MYRECT{ width,height }; }
 	float GetXEnd() { return pos.x + (width*vx); }
 	float GetYEnd() { return pos.y + (height*vy); }
@@ -18,6 +19,7 @@ public:
 	bool IsThroughable() {	return canthrough;}
 	GameTerrain();
 	GameTerrain(D3DXVECTOR3& ipos, unsigned int ix, unsigned int iy, int id,bool ct);
+	GameTerrain(D3DXVECTOR3 & ipos, unsigned int ix, unsigned int iy, int id, bool ct, int irpos);
 	VOID SetComponent();
 	~GameTerrain();
 };

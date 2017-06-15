@@ -19,10 +19,11 @@ VOID TerrainGraphicsComponent::Update(GameObject * pObj)
 	sprite->Begin(D3DXSPRITE_ALPHABLEND);
 	GameTerrain* Ttemp = dynamic_cast<GameTerrain*>(pObj);
 
-	float vx = Ttemp->GetVX();
-	float vy = Ttemp->GetVY();
+	int vx = Ttemp->GetVX();
+	int vy = Ttemp->GetVY();
+	auto RSQR = Ttemp->GetRenderSquare();
 
-	RECT rtemp = { 0,0,vx,vy };
+	RECT rtemp = { 0+(vx*RSQR.x),0 + (vy*RSQR.y),vx+(vx*RSQR.x),vy+ (vy*RSQR.y) };
 	MYRECT rect = Ttemp->GetTerrainInfo();
 	
 	D3DXVECTOR3 ct2(0, 0, 0);

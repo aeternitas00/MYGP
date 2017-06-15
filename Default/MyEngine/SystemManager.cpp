@@ -318,7 +318,10 @@ VOID SystemManager::SetupScene(int i)
 				int width = atoi(strtok_s(NULL, " ", &temp));
 				int height = atoi(strtok_s(NULL, " ", &temp));
 				bool ctab = atoi(strtok_s(NULL, " ", &temp));
-				TerrainList.push_back(new GameTerrain(D3DXVECTOR3(x, y, 0), width, height, type, ctab));
+				int rpos=0;
+				if (strlen(temp)!=0)
+					rpos= atoi(strtok_s(NULL, " ", &temp));
+				TerrainList.push_back(new GameTerrain(D3DXVECTOR3(x, y, 0), width, height, type, ctab,rpos));
 				TerrainList.back()->SetComponent();
 			}
 			break;
