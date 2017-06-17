@@ -3,6 +3,77 @@
 
 SystemManager* SystemManager::instance = nullptr;
 
+
+myfactory::myfactory()
+{
+}
+
+template<class T>
+void myfactory::clearlist(std::string const & n)
+{
+	static_cast<ListChild<T*>*>(m_mylistas.find(n)->second)->clear();
+}
+
+#define CLEAR_LIST(n) m_factory->clearlist<n>(#n)
+
+void myfactory::construct(std::string const &n)
+{
+	map_type::iterator i = m_classes.find(n);
+	if (i == m_classes.end()) return; // or throw or whatever you want
+	auto it = m_mylistas.find(n);
+	if (it == m_mylistas.end()) it = m_mylistas.find("GameObject");
+	i->second(it->second);
+}
+
+template<class T>
+void myfactory::updatelist(std::string const & n)
+{
+	static_cast<ListChild<T*>*>(m_mylistas.find(n)->second)->update();
+}
+
+#define UPDATE_LIST(n) m_factory->updatelist<n>(#n)
+
+template<class T>
+void myfactory::register_class(std::string const & n)
+{
+	m_classes.insert(std::make_pair(n, &constructor<T>));
+	m_mylistas.insert(std::make_pair(n, new ListChild<T*>()));
+}
+
+#define REGISTER_CLASS(n) m_factory->register_class<n>(#n)
+
+template<class T>
+inline void ListChild<T>::add(GameObject* temp, const char * n) 
+{
+	temp->Initialize(n); list.push_back(dynamic_cast<T>(temp)); 
+}
+
+template<class T>
+inline void ListChild<T>::clear() 
+{
+	for (auto it = list.begin(); it != list.end();)
+	{
+		delete *it++;
+	}
+	list.clear();
+}
+
+template<class T>
+inline void ListChild<T>::update() {
+	for (auto it = list.begin(); it != list.end();)
+	{
+		updateobj(*it);
+		it++;
+	}
+}
+
+template<class T>
+RESULT ListChild<T>::updateobj(GameObject *obj)
+{
+	return obj->Update();
+}
+
+
 VOID SystemManager::Update()
 {
 	for (auto it = PlayerBulletList.begin(); it != PlayerBulletList.end();) {
@@ -132,9 +203,23 @@ SystemManager::SystemManager() :DelayedMessage(-1),CurrentSFNo(1),CurrentStage(S
 	ObjectList.clear();
 }
 
+
 HRESULT SystemManager::Initialize()
 {
+	m_factory = new myfactory();
+	REGISTER_CLASS(GameObject);
+	REGISTER_CLASS(GameTerrain);
+
+	m_factory->construct("GameObject");
+	m_factory->construct("GameObject");
+	m_factory->construct("GameObject");
+	CLEAR_LIST(GameObject);
+	m_factory->construct("GameTerrain");
+
+	UPDATE_LIST(GameObject);
+	UPDATE_LIST(GameTerrain);
 	SetupTitleScreen();
+
 	SoundManager::GetInstance()->PlayWaveFilePos(SOUND_INTROBGM,30000);
 	SoundManager::GetInstance()->PlayWaveFileLoop(SOUND_INTROTD);
 	return S_OK;
@@ -306,9 +391,36 @@ VOID SystemManager::SetupScene(int i)
 	inFile.getline(str, 200);
 	token = strtok_s(str, " ", &temp);
 	while (token) {
+		if (strlen(token) > 2){
+			//ObjectList.push_back(m_ObjGenerator.construct(token));
+			//ObjectList.pop_back();
+			inFile.getline(str, 200); 
+			token = strtok_s(str, " ", &temp);
+			continue;
+		}
 		int var = atoi(token);
 		int type;
 		switch (var) {
+		case 0:
+			for (int num = atoi(strtok_s(NULL, " ", &temp)); num > 0; num--) {
+				inFile.getline(str, 200);
+				int x = atoi(strtok_s(str, " ", &temp));
+				int y = atoi(strtok_s(NULL, " ", &temp));
+				int id = atoi(strtok_s(NULL, " ", &temp));
+				ObjectList.push_back(new GameObject(D3DXVECTOR3(x, y, 0), id));
+				ObjectList.back()->SetComponent();
+				if (strlen(temp) != 0)
+				{
+					bool animated = atoi(strtok_s(NULL, " ", &temp));
+					if (animated)
+					{
+						int mf = atoi(strtok_s(NULL, " ", &temp));
+						int mc = atoi(strtok_s(NULL, " ", &temp));
+						ObjectList.back()->SetLoopAnimation(mf - 1, mc - 1);
+					}
+				}
+			}
+			break;
 		case 1:
 			type = atoi(strtok_s(NULL, " ", &temp));
 			for (int num = atoi(strtok_s(NULL, " ", &temp)); num > 0; num--) {

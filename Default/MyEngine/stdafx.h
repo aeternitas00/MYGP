@@ -19,6 +19,7 @@
 #include <time.h>
 #define MAX_X 654
 #define MAX_Y 512
+
 enum RESULT {
 	Default,
 	Destroy,
@@ -27,12 +28,12 @@ enum RESULT {
 typedef struct __MYRECT {
 	unsigned int x, y;
 }MYRECT;
-// TODO: reference additional headers your program requires here
+
 typedef struct __floatrect {
 	float top, bottom, left, right;
 }FRECT;
 
-
+#include <map>
 #include <d3d9.h>
 #include <Windows.h>
 #include <mmsystem.h>
@@ -80,5 +81,6 @@ typedef struct __floatrect {
 
 #pragma comment(lib,"d3dx9.lib")  
 #pragma comment(lib,"d3d9.lib")  
+
 
 

@@ -32,13 +32,6 @@
 #define TXTID_PRESSSTRT 11
 using namespace std;
 
-typedef struct __txtsettemp {
-	wstring path;
-	int sizex, sizey, spfx, spfy;
-	D3DCOLOR bgc;
-	LPDIRECT3DTEXTURE9 txt;
-}TEXTURESETTEMP;
-
 typedef struct __txtset {
 	int sizex, sizey, spfx, spfy;
 	D3DCOLOR bgc;

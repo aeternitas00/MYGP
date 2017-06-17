@@ -14,22 +14,27 @@ public:
 	D3DXVECTOR3 pos;
 	float angle;
 	int txtid;
-	struct loopinfo{
+	struct Loopinfo{
 		bool ok;
 		int frame;
+		int maxframe;
+		int counter;
+		int maxcounter;
 	};
 
-	loopinfo linfo;
+	
 protected:
 	std::list<ComponentBase*> ComponentList;
 	FRECT Volume;
 	std::list<MyPolygon> satvolume;
+	Loopinfo linfo;
 public:
 	GameObject();
 	GameObject(D3DXVECTOR3& ipos, int id);
 	VOID SetTxt(const int id);
 	~GameObject();
 
+	virtual VOID Initialize(const char * n);
 	bool IsInScreen() { return pos.x<MAX_X+100&&pos.x>-200 && pos.y<MAX_Y+100&&pos.y>-200 ? true : false; }
 	RESULT Update();
 	virtual RENDERSQUARE GetRenderSquare();
@@ -43,6 +48,7 @@ public:
 	int GetSATLength() { return satvolume.size(); }
 	VOID UpdateByMovingScene(int side);
 	virtual VOID SetComponent();
+	virtual VOID SetLoopAnimation(int imaxf, int imaxc) { linfo = Loopinfo{ true,0,imaxf,0,imaxc }; }
 	virtual VOID AddComponent(ComponentBase* pcmp) { ComponentList.push_back(pcmp); }
 };
 

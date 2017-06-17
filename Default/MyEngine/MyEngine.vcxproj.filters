@@ -91,6 +91,9 @@
     <Filter Include="Object\Component\Base\Header">
       <UniqueIdentifier>{64dd499b-2100-4084-a774-ca176ce3a047}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Action">
+      <UniqueIdentifier>{e14bded1-ee73-4ee5-b2f7-53787b74138a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -202,7 +205,7 @@
       <Filter>Object\Component\Player\Header</Filter>
     </ClInclude>
     <ClInclude Include="ObjectShake.h">
-      <Filter>Object\Component\Base\Header</Filter>
+      <Filter>Object\Component\Action</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -306,7 +309,7 @@
       <Filter>Object\Component\Player\Source</Filter>
     </ClCompile>
     <ClCompile Include="ObjectShake.cpp">
-      <Filter>Object\Component\Base\Source</Filter>
+      <Filter>Object\Component\Action</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

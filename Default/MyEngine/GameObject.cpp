@@ -7,11 +7,11 @@ VOID GameObject::SetComponent()
 	ComponentList.push_back(new GraphicsComponent);
 }
 
-GameObject::GameObject() :pos(D3DXVECTOR3(0, 0, 0)), txtid(-1), linfo(loopinfo { false,0 })
+GameObject::GameObject() :pos(D3DXVECTOR3(0, 0, 0)), txtid(-1), linfo(Loopinfo { false,0,0,0,0 })
 {
 }
 
-GameObject::GameObject(D3DXVECTOR3& ipos,int id): pos(ipos), txtid(id),angle(0), linfo(loopinfo{ false,0 })
+GameObject::GameObject(D3DXVECTOR3& ipos,int id): pos(ipos), txtid(id),angle(0), linfo(Loopinfo{ false,0,0,0,0 })
 {
 }
 
@@ -27,6 +27,11 @@ GameObject::~GameObject()
 	}
 }
 
+VOID GameObject::Initialize(const char* n)
+{
+	return VOID();
+}
+
 RESULT GameObject::Update()
 {
 	for (auto it : ComponentList)
@@ -38,6 +43,16 @@ RESULT GameObject::Update()
 
 RENDERSQUARE GameObject::GetRenderSquare()
 {
+	if (linfo.ok) {
+		linfo.counter++;
+		if (linfo.counter > linfo.maxcounter)
+		{
+			linfo.counter = 0; linfo.frame++;
+			if(linfo.frame>linfo.maxframe)
+				linfo.frame = 0;
+		}
+		return RENDERSQUARE{ linfo.frame,0 };
+	}
 	return RENDERSQUARE{ 0,0 };
 }
 

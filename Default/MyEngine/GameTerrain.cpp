@@ -7,6 +7,11 @@ RENDERSQUARE GameTerrain::GetRenderSquare()
 	return RENDERSQUARE{ dir,0 };
 }
 
+VOID GameTerrain::Initialize(const char * n)
+{
+	return VOID();
+}
+
 GameTerrain::GameTerrain()
 {
 }

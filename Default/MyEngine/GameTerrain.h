@@ -11,6 +11,8 @@ protected:
 	bool canthrough;
 public:
 	virtual RENDERSQUARE GetRenderSquare();
+	virtual VOID Initialize(const char * n);
+
 	MYRECT GetTerrainInfo() { return MYRECT{ width,height }; }
 	float GetXEnd() { return pos.x + (width*vx); }
 	float GetYEnd() { return pos.y + (height*vy); }
