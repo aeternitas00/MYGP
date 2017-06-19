@@ -33,7 +33,8 @@ VOID IntroScript::Update(GameObject * pObj)
 			SoundManager::GetInstance()->StopWaveFile(SOUND_INTROBGM);
 			SoundManager::GetInstance()->PlayWaveFilePos(SOUND_INTROBGM,2550000);
 			SoundManager::GetInstance()->PlayWaveFile(SOUND_BOSHYTIME);
-			Obj->SetStatus(3); SystemManager::GetInstance()->GetObjectList().front()->SetTxt(-1);
+			Obj->SetStatus(3); 
+			GET_LIST_OUT(GameObject)->front()->SetTxt(-1);
 			tgl = true; tgl3 = false;
 		}
 		switch (trigger)
@@ -65,7 +66,7 @@ VOID IntroScript::Update(GameObject * pObj)
 			if ((double)(after - before) / CLOCKS_PER_SEC >= 4.0) {
 				trigger = 3; before = clock(); max = 2.0f; add = 0.175f;
 
-				SystemManager::GetInstance()->GetObjectList().front()->SetTxt(-1);
+				GET_LIST_OUT(GameObject)->front()->SetTxt(-1);
 				Obj->pos.x = MAX_X / 2 + 9; Obj->pos.y = MAX_Y / 2 + 9;
 				Obj->velocity.x = 1.25f; Obj->velocity.y = -10.0f;
 			}
@@ -181,7 +182,7 @@ VOID IntroScript::Update(GameObject * pObj)
 				tgl = true;
 				SoundManager::GetInstance()->StopWaveFile(SOUND_INTROTD);
 				SoundManager::GetInstance()->StopWaveFile(SOUND_INTROBGM);
-				SystemManager::GetInstance()->SendMoveSceneMessage(SFNo + 3);
+				GET_SYSMANAGER()->SendMoveSceneMessage(SFNo + 3);
 				return;
 			}
 			else if (KEY_UP(VK_RETURN) && tgl) {

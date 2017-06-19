@@ -327,7 +327,7 @@ HRESULT RenderManager::BeginScene()
 
 	D3DXMATRIX mat;
 	D3DXMatrixTransformation(&mat, NULL, NULL, NULL, NULL, NULL, NULL);
-	int bgid= SystemManager::GetInstance()->GetCurrentBGID();
+	int bgid= GET_SYSMANAGER()->GetCurrentBGID();
 	if (bgid != -1) {
 		RECT rtemp = { 0,0,m_StageTextureList[bgid].spfx,m_StageTextureList[bgid].spfy };
 		DrawObj(D3DXVECTOR3(0, 40, 0), bgid, rtemp, mat);

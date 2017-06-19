@@ -20,7 +20,7 @@ VOID Player::Jump()
 VOID Player::Attack()
 {
 	attack = true;	attack_tgl = true;
-	SystemManager::GetInstance()->AddPlayerBullet(new PlayerBullet(this));
+	GET_SYSMANAGER()->AddPlayerBullet(new PlayerBullet(this));
 	SoundManager::GetInstance()->PlayWaveFile(SOUND_FIRE);
 	attack_rmt = 18;
 }
@@ -31,7 +31,7 @@ VOID Player::DoDeath()
 	SoundManager::GetInstance()->PlayWaveFile(1005);
 	SoundManager::GetInstance()->PlayWaveFile(1006);
 	SoundManager::GetInstance()->StopWaveFile(0);
-	auto temp =SystemManager::GetInstance();
+	auto temp =GET_SYSMANAGER();
 	srand(time(NULL));
 	D3DXVECTOR3 ipos(pos);
 	ipos.x += float(Volume.left + Volume.right) / 2;

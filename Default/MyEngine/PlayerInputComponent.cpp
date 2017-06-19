@@ -17,7 +17,7 @@ VOID PlayerInputComponent::Update(GameObject* pObj)
 
 	if (!temp->IsRTgl()) {
 		if (KEY_DOWN(0x52)) {
-			SystemManager::GetInstance()->LoadSF(); temp->SetRToggle(true);
+			GET_SYSMANAGER()->LoadSF(); temp->SetRToggle(true);
 		}
 	}
 	else {

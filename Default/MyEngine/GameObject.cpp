@@ -27,9 +27,23 @@ GameObject::~GameObject()
 	}
 }
 
-VOID GameObject::Initialize(const char* n)
+VOID GameObject::Initialize(char* n)
 {
-	return VOID();
+	char* temp = NULL;
+	pos.x = atoi(strtok_s(n, " ", &temp));
+	pos.y = atoi(strtok_s(NULL, " ", &temp));
+	txtid = atoi(strtok_s(NULL, " ", &temp));
+	SetComponent();
+	if (strlen(temp) != 0)
+	{
+		bool animated = atoi(strtok_s(NULL, " ", &temp));
+		if (animated)
+		{
+			int mf = atoi(strtok_s(NULL, " ", &temp));
+			int mc = atoi(strtok_s(NULL, " ", &temp));
+			SetLoopAnimation(mf - 1, mc - 1);
+		}
+	}
 }
 
 RESULT GameObject::Update()

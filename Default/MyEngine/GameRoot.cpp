@@ -36,7 +36,7 @@ HRESULT GameRoot::Initialize() {
 
 	pRdrM = RenderManager::GetInstance();
 	pSndM = SoundManager::GetInstance();
-	pSysM = SystemManager::GetInstance();
+	pSysM = GET_SYSMANAGER();
 
 	if (pRdrM == nullptr) { MessageBox(NULL, L"Render Initialize Failed", L"MyEngine.exe", MB_OK);  return E_FAIL; }
 	if (pSysM == nullptr) { MessageBox(NULL, L"System Initialize Failed", L"MyEngine.exe", MB_OK);  return E_FAIL; }

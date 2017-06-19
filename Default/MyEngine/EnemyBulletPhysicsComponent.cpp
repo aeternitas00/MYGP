@@ -20,8 +20,8 @@ VOID EnemyBulletPhysicsComponent::Update(GameObject * pObj)
 
 	FRECT rect = temp->GetVolume();
 
-	auto TerrainList = SystemManager::GetInstance()->GetTerrainList();
-	for (auto it : TerrainList)
+	auto TerrainList = GET_LIST_OUT(GameTerrain);
+	for (auto it : *TerrainList)
 	{
 		if (it->IsThroughable()) continue;
 		if (it->pos.x - 2 <= temp->pos.x  && it->GetXEnd() + 2 >= temp->pos.x) {

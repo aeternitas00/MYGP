@@ -12,7 +12,7 @@ EnemyBullet::EnemyBullet(D3DXVECTOR3 & ipos,int id)
 }
 
 RESULT EnemyBullet::UpdateSub() {
-	if (!IsInScreen()) return OutOfScreen; // temporal(delete self;
+	if (!IsInScreen()) return Destroy; // temporal(delete self;
 	return stat;
 }
 

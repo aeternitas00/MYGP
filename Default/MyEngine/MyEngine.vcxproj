@@ -161,6 +161,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="EnemyBulletPhysicsComponent.h" />
+    <ClInclude Include="Factory.h" />
     <ClInclude Include="GameMovableObject.h" />
     <ClInclude Include="GameRoot.h" />
     <ClInclude Include="GameObject.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="InputComponent.h" />
     <ClInclude Include="IntroCharacter.h" />
     <ClInclude Include="IntroScript.h" />
+    <ClInclude Include="ListClass.h" />
     <ClInclude Include="MissileLauncher.h" />
     <ClInclude Include="ObjectShake.h" />
     <ClInclude Include="Obstacle.h" />

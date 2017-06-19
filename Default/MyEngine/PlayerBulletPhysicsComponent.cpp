@@ -14,8 +14,8 @@ VOID PlayerBulletPhysicsComponent::Update(GameObject * pObj)
 	rect.left += temp->pos.x; rect.right += temp->pos.x;
 	rect.top += temp->pos.y; rect.bottom += temp->pos.y;
 
-	auto SavePointList = SystemManager::GetInstance()->GetSavePointList();
-	for (auto it : SavePointList)
+	auto SavePointList = GET_LIST_OUT(SavePoint);
+	for (auto it : *SavePointList)
 	{
 		FRECT obsvolume = it->GetVolume();
 		FRECT obshitbox;
@@ -24,12 +24,12 @@ VOID PlayerBulletPhysicsComponent::Update(GameObject * pObj)
 		if (CollisionCheck(obshitbox, rect))
 		{
 			temp->SetStat(Destroy); it->SetStat(1); 
-			SystemManager::GetInstance()->SaveSF();
+			GET_SYSMANAGER()->SaveSF();
 			return;
 		}
 	}
-	auto TerrainList = SystemManager::GetInstance()->GetTerrainList();
-	for (auto it : TerrainList)
+	auto TerrainList = GET_LIST_OUT(GameTerrain);
+	for (auto it : *TerrainList)
 	{
 		if (it->IsThroughable()) continue;
 		if (it->pos.x - 8 <= temp->pos.x  && it->GetXEnd() + 8 >= temp->pos.x) {

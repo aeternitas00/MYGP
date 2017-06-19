@@ -1,120 +1,21 @@
 #include "stdafx.h"
 #include "SystemManager.h"
+#include "Factory.h"
+#include "ListClass.h"
 
 SystemManager* SystemManager::instance = nullptr;
 
-
-myfactory::myfactory()
-{
-}
-
-template<class T>
-void myfactory::clearlist(std::string const & n)
-{
-	static_cast<ListChild<T*>*>(m_mylistas.find(n)->second)->clear();
-}
-
-#define CLEAR_LIST(n) m_factory->clearlist<n>(#n)
-
-void myfactory::construct(std::string const &n)
-{
-	map_type::iterator i = m_classes.find(n);
-	if (i == m_classes.end()) return; // or throw or whatever you want
-	auto it = m_mylistas.find(n);
-	if (it == m_mylistas.end()) it = m_mylistas.find("GameObject");
-	i->second(it->second);
-}
-
-template<class T>
-void myfactory::updatelist(std::string const & n)
-{
-	static_cast<ListChild<T*>*>(m_mylistas.find(n)->second)->update();
-}
-
-#define UPDATE_LIST(n) m_factory->updatelist<n>(#n)
-
-template<class T>
-void myfactory::register_class(std::string const & n)
-{
-	m_classes.insert(std::make_pair(n, &constructor<T>));
-	m_mylistas.insert(std::make_pair(n, new ListChild<T*>()));
-}
-
-#define REGISTER_CLASS(n) m_factory->register_class<n>(#n)
-
-template<class T>
-inline void ListChild<T>::add(GameObject* temp, const char * n) 
-{
-	temp->Initialize(n); list.push_back(dynamic_cast<T>(temp)); 
-}
-
-template<class T>
-inline void ListChild<T>::clear() 
-{
-	for (auto it = list.begin(); it != list.end();)
-	{
-		delete *it++;
-	}
-	list.clear();
-}
-
-template<class T>
-inline void ListChild<T>::update() {
-	for (auto it = list.begin(); it != list.end();)
-	{
-		updateobj(*it);
-		it++;
-	}
-}
-
-template<class T>
-RESULT ListChild<T>::updateobj(GameObject *obj)
-{
-	return obj->Update();
-}
-
+myfactory * SystemManager::GetFactory() { return m_factory; }
 
 VOID SystemManager::Update()
 {
-	for (auto it = PlayerBulletList.begin(); it != PlayerBulletList.end();) {
-		switch ((*it)->Update())
-		{
-		case Default:
-			it++;
-			break;
-		case Destroy:
-			delete *it; 
-			PlayerBulletList.erase(it++);
-			break;
-		case OutOfScreen:
-			delete *it;
-			PlayerBulletList.erase(it++);
-			break;
-		}
-	}
-
-	UpdateThisList(EnemyList);
-	UpdateThisList(TerrainList);
-	UpdateThisList(ObstacleList);
-	UpdateThisList(SavePointList);
-	UpdateThisList(ObjectList);
-
-	for (auto it = EnemyBulletList.begin(); it != EnemyBulletList.end();) {
-		switch ((*it)->Update())
-		{
-		case Default:
-			it++;
-			break;
-		case Destroy:
-			delete *it;
-			EnemyBulletList.erase(it++);
-			break;
-		case OutOfScreen:
-			delete *it;
-			EnemyBulletList.erase(it++);
-			break;
-		}
-	}
+	UPDATE_LIST(PlayerBullet);
+	UPDATE_LIST(Enemy);
+	UPDATE_LIST(GameTerrain);
+	UPDATE_LIST(Obstacle);
+	UPDATE_LIST(SavePoint);
+	UPDATE_LIST(GameObject);
+	UPDATE_LIST(EnemyBullet);
 
 	if (MyPlayer != NULL) {
 		switch (MyPlayer->Update())
@@ -176,48 +77,46 @@ SystemManager * SystemManager::GetInstance()
 
 VOID SystemManager::AddPlayerBullet(PlayerBullet* pObj)
 {
-	PlayerBulletList.push_back(pObj);
-	PlayerBulletList.back()->SetComponent();
+	pObj->SetComponent();
+	GET_LIST_IN(PlayerBullet)->push_back(pObj);
 }
 
 VOID SystemManager::AddEnemy(Enemy* pObj)
 {
-	EnemyList.push_back(pObj);
-	EnemyList.back()->SetComponent();
+	pObj->SetComponent();
+	GET_LIST_IN(Enemy)->push_back(pObj);
 }
 
 VOID SystemManager::AddObject(GameObject* pObj)
 {
-	ObjectList.push_back(pObj);
-	ObjectList.back()->SetComponent();
+	pObj->SetComponent();
+	GET_LIST_IN(GameObject)->push_back(pObj);
 }
 
 VOID SystemManager::AddEnemyBullet(EnemyBullet * pObj)
 {
-	EnemyBulletList.push_back(pObj);
-	EnemyBulletList.back()->SetComponent();
+	pObj->SetComponent();
+	GET_LIST_IN(EnemyBullet)->push_back(pObj);
 }
 
 SystemManager::SystemManager() :DelayedMessage(-1),CurrentSFNo(1),CurrentStage(StageInfo{L"",-1,-1})
 {
-	ObjectList.clear();
 }
 
 
 HRESULT SystemManager::Initialize()
 {
 	m_factory = new myfactory();
+
 	REGISTER_CLASS(GameObject);
 	REGISTER_CLASS(GameTerrain);
+	REGISTER_CLASS(EnemyBullet);
+	REGISTER_CLASS(PlayerBullet);
+	REGISTER_CLASS(Obstacle);
+	REGISTER_CLASS(Enemy);
+	REGISTER_CLASS(SavePoint);
+	REGISTER_CLASS_SUB(Spike, Obstacle);
 
-	m_factory->construct("GameObject");
-	m_factory->construct("GameObject");
-	m_factory->construct("GameObject");
-	CLEAR_LIST(GameObject);
-	m_factory->construct("GameTerrain");
-
-	UPDATE_LIST(GameObject);
-	UPDATE_LIST(GameTerrain);
 	SetupTitleScreen();
 
 	SoundManager::GetInstance()->PlayWaveFilePos(SOUND_INTROBGM,30000);
@@ -247,13 +146,13 @@ VOID SystemManager::LoadSF()
 
 VOID SystemManager::ClearObjects()
 {
-	ClearThisList(ObjectList);
-	ClearThisList(EnemyBulletList);
-	ClearThisList(PlayerBulletList);
-	ClearThisList(ObstacleList);
-	ClearThisList(TerrainList);
-	ClearThisList(EnemyList);
-	ClearThisList(SavePointList);
+	CLEAR_LIST(GameObject);
+	CLEAR_LIST(GameTerrain);
+	CLEAR_LIST(EnemyBullet);
+	CLEAR_LIST(PlayerBullet);
+	CLEAR_LIST(Obstacle);
+	CLEAR_LIST(Enemy);
+	CLEAR_LIST(SavePoint);
 }
 
 VOID SystemManager::SaveSF()
@@ -276,43 +175,25 @@ VOID SystemManager::SaveSF()
 VOID SystemManager::SetupTitleScreen()
 {
 	ClearObjects();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(-47,MAX_Y-84,0), TXTID_INTROBLK1));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(435, -174, 0), TXTID_INTROBLK2));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(467, -174, 0), TXTID_INTROBLK2));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(499, -174, 0), TXTID_INTROBLK2));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(435, -206, 0), TXTID_INTROKID));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(467, -142, 0), TXTID_INTROBLK3));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(499, -142, 0), TXTID_INTROBLK3));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(467, -110, 0), TXTID_SPIKE, 1));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(499, -206, 0), TXTID_SPIKE, 0));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(130, -700, 0), TXTID_INTROBLK2));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(194, -732, 0), TXTID_INTROKID2));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(162, -700, 0), TXTID_INTROBLK2));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(194, -700, 0), TXTID_INTROBLK2));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(130, -668, 0), TXTID_INTROBLK3));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new GameObject(D3DXVECTOR3(162, -668, 0), TXTID_INTROBLK3));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(162, -632, 00), TXTID_SPIKE, 1));
-	ObjectList.back()->SetComponent();
-	ObjectList.push_back(new Spike(D3DXVECTOR3(130, -732, 0), TXTID_SPIKE, 0));
-	ObjectList.back()->SetComponent();
-
-	ObjectList.push_back(new IntroCharacter());
-	ObjectList.back()->SetComponent();
+	//auto pObjectList = m_factory->get_list1<GameObject>("GameObject");
+	AddObject(new GameObject(D3DXVECTOR3(-47,MAX_Y-84,0), TXTID_INTROBLK1));
+	AddObject(new GameObject(D3DXVECTOR3(435, -174, 0), TXTID_INTROBLK2));
+	AddObject(new GameObject(D3DXVECTOR3(467, -174, 0), TXTID_INTROBLK2));
+	AddObject(new GameObject(D3DXVECTOR3(499, -174, 0), TXTID_INTROBLK2));
+	AddObject(new GameObject(D3DXVECTOR3(435, -206, 0), TXTID_INTROKID));
+	AddObject(new GameObject(D3DXVECTOR3(467, -142, 0), TXTID_INTROBLK3));
+	AddObject(new GameObject(D3DXVECTOR3(499, -142, 0), TXTID_INTROBLK3));
+	AddObject(new Spike(D3DXVECTOR3(467, -110, 0), TXTID_SPIKE, 1));
+	AddObject(new Spike(D3DXVECTOR3(499, -206, 0), TXTID_SPIKE, 0));
+	AddObject(new GameObject(D3DXVECTOR3(130, -700, 0), TXTID_INTROBLK2));
+	AddObject(new GameObject(D3DXVECTOR3(194, -732, 0), TXTID_INTROKID2));
+	AddObject(new GameObject(D3DXVECTOR3(162, -700, 0), TXTID_INTROBLK2));
+	AddObject(new GameObject(D3DXVECTOR3(194, -700, 0), TXTID_INTROBLK2));
+	AddObject(new GameObject(D3DXVECTOR3(130, -668, 0), TXTID_INTROBLK3));
+	AddObject(new GameObject(D3DXVECTOR3(162, -668, 0), TXTID_INTROBLK3));
+	AddObject(new Spike(D3DXVECTOR3(162, -632, 00), TXTID_SPIKE, 1));
+	AddObject(new Spike(D3DXVECTOR3(130, -732, 0), TXTID_SPIKE, 0));
+	AddObject(new IntroCharacter());
 }
 
 VOID SystemManager::SetupStage(int i)
@@ -382,93 +263,26 @@ VOID SystemManager::SetupScene(int i)
 	CurrentScene.connected[2] = atoi(strtok_s(NULL, " ", &temp));
 	CurrentScene.connected[3] = atoi(strtok_s(NULL, " ", &temp));
 
-	ClearThisList(ObstacleList);
-	ClearThisList(PlayerBulletList);
-	ClearThisList(TerrainList);
-	ClearThisList(EnemyList);
-	ClearThisList(SavePointList);
+	CLEAR_LIST(GameObject);
+	CLEAR_LIST(GameTerrain);
+	CLEAR_LIST(Enemy);
+	CLEAR_LIST(PlayerBullet);
+	CLEAR_LIST(SavePoint);
+	CLEAR_LIST(Obstacle);
+
 
 	inFile.getline(str, 200);
 	token = strtok_s(str, " ", &temp);
 	while (token) {
 		if (strlen(token) > 2){
-			//ObjectList.push_back(m_ObjGenerator.construct(token));
-			//ObjectList.pop_back();
-			inFile.getline(str, 200); 
-			token = strtok_s(str, " ", &temp);
+			string type(token);
+			for (int num = atoi(strtok_s(NULL, " ", &temp)); num > 0; num--) {
+				inFile.getline(str, 200);
+				m_factory->construct(type,str);
+			}
+			inFile.getline(str, 200);
+			token = strtok_s(str, " ", &temp); 
 			continue;
-		}
-		int var = atoi(token);
-		int type;
-		switch (var) {
-		case 0:
-			for (int num = atoi(strtok_s(NULL, " ", &temp)); num > 0; num--) {
-				inFile.getline(str, 200);
-				int x = atoi(strtok_s(str, " ", &temp));
-				int y = atoi(strtok_s(NULL, " ", &temp));
-				int id = atoi(strtok_s(NULL, " ", &temp));
-				ObjectList.push_back(new GameObject(D3DXVECTOR3(x, y, 0), id));
-				ObjectList.back()->SetComponent();
-				if (strlen(temp) != 0)
-				{
-					bool animated = atoi(strtok_s(NULL, " ", &temp));
-					if (animated)
-					{
-						int mf = atoi(strtok_s(NULL, " ", &temp));
-						int mc = atoi(strtok_s(NULL, " ", &temp));
-						ObjectList.back()->SetLoopAnimation(mf - 1, mc - 1);
-					}
-				}
-			}
-			break;
-		case 1:
-			type = atoi(strtok_s(NULL, " ", &temp));
-			for (int num = atoi(strtok_s(NULL, " ", &temp)); num > 0; num--) {
-				inFile.getline(str, 200);
-				int x = atoi(strtok_s(str, " ", &temp));
-				int y = atoi(strtok_s(NULL, " ", &temp));
-				int width = atoi(strtok_s(NULL, " ", &temp));
-				int height = atoi(strtok_s(NULL, " ", &temp));
-				bool ctab = atoi(strtok_s(NULL, " ", &temp));
-				int rpos=0;
-				if (strlen(temp)!=0)
-					rpos= atoi(strtok_s(NULL, " ", &temp));
-				TerrainList.push_back(new GameTerrain(D3DXVECTOR3(x, y, 0), width, height, type, ctab,rpos));
-				TerrainList.back()->SetComponent();
-			}
-			break;
-		case 2:
-			for (int num = atoi(strtok_s(NULL, " ", &temp)); num > 0; num--) {
-				inFile.getline(str, 200);
-				float x = atoi(strtok_s(str, " ", &temp));
-				float y = atoi(strtok_s(NULL, " ", &temp));
-				TerrainList.push_back(new GameTerrain(D3DXVECTOR3(x, y, 0),1,1,TXTID_MISSILE_LBASE,false));
-				TerrainList.back()->SetComponent();
-				EnemyList.push_back(new MissileLauncher(D3DXVECTOR3(x,y,0)));
-				EnemyList.back()->SetComponent();
-			}
-			break;
-		case 3:
-			for (int num = atoi(strtok_s(NULL, " ", &temp)); num > 0; num--) {
-				inFile.getline(str, 200);
-				float x = atoi(strtok_s(str, " ", &temp));
-				float y = atoi(strtok_s(NULL, " ", &temp));
-				float dir = atoi(strtok_s(NULL, " ", &temp));
-				ObstacleList.push_back(new Spike(D3DXVECTOR3(x, y, 0),TXTID_SPIKE,dir));
-				ObstacleList.back()->SetComponent();
-			}
-			break;
-		case 4:
-			for (int num = atoi(strtok_s(NULL, " ", &temp)); num > 0; num--) {
-				inFile.getline(str, 200);
-				float x = atoi(strtok_s(str, " ", &temp));
-				float y = atoi(strtok_s(NULL, " ", &temp));
-				SavePointList.push_back(new SavePoint(D3DXVECTOR3(x, y, 0)));
-				SavePointList.back()->SetComponent();
-			}
-			break;
-		default:
-			break;
 		}
 		inFile.getline(str, 200);
 		token = strtok_s(str, " ", &temp);
@@ -501,7 +315,7 @@ VOID SystemManager::MoveScene(int toside)
 	{
 		SetupScene(CurrentScene.connected[toside]);
 
-		for (auto it:EnemyBulletList) 
+		for (auto it:*GET_LIST_IN(EnemyBullet)) 
 			it->UpdateByMovingScene(toside);
 
 	}

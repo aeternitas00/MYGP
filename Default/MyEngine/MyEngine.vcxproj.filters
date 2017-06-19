@@ -207,6 +207,12 @@
     <ClInclude Include="ObjectShake.h">
       <Filter>Object\Component\Action</Filter>
     </ClInclude>
+    <ClInclude Include="Factory.h">
+      <Filter>Main\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ListClass.h">
+      <Filter>Main\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

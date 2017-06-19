@@ -33,6 +33,8 @@ typedef struct __floatrect {
 	float top, bottom, left, right;
 }FRECT;
 
+
+
 #include <map>
 #include <d3d9.h>
 #include <Windows.h>
@@ -41,7 +43,14 @@ typedef struct __floatrect {
 #include <d3dx9.h>
 #include <Winuser.h>
 #include <strsafe.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <queue>
+#include <list>
 #include "GameRoot.h"
+#include "Factory.h"
+#include "ListClass.h"
 #include "SoundManager.h"
 #include "RenderManager.h"
 #include "SystemManager.h"
@@ -73,14 +82,13 @@ typedef struct __floatrect {
 #include "EnemyBulletPhysicsComponent.h"
 #include "IntroScript.h"
 #include "IntroCharacter.h"
-#include <iostream>
-#include <fstream>
-#include <string>
-#include <queue>
-#include <list>
+
 
 #pragma comment(lib,"d3dx9.lib")  
 #pragma comment(lib,"d3d9.lib")  
 
 
-
+template <class T> void constructor(ListBase* as, char* n)
+{
+	static_cast<ListChild<T*>*>(as)->add(new T(), n);
+}

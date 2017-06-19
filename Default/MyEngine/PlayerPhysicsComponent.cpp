@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "PlayerPhysicsComponent.h"
 
-
 VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 {
 	Player* temp = dynamic_cast<Player*>(pObj);
@@ -10,9 +9,11 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 
 	FRECT volume = temp->GetVolume();
 
-	auto& TerrainList = SystemManager::GetInstance()->GetTerrainList();
-	auto& ObstacleList = SystemManager::GetInstance()->GetObstacleList();
-	auto& EnemyBulletList = SystemManager::GetInstance()->GetEnemyBulletList();
+	
+	auto TerrainList = GET_LIST_OUT(GameTerrain);
+	auto ObstacleList = GET_LIST_OUT(Obstacle);
+	auto EnemyBulletList = GET_LIST_OUT(EnemyBullet);
+
 	if (temp->IsMoving())
 	{
 		if (temp->GetMovingLeft() == 1) temp->velocity.x = -2.0f;
@@ -39,7 +40,7 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 	rect.top = temp->pos.y + volume.top; rect.left = temp->pos.x + volume.left;
 	rect.bottom = temp->pos.y + volume.bottom; rect.right = temp->pos.x + volume.right;
 
-	for (auto it : TerrainList)
+	for (auto it : *TerrainList)
 	{
 		if (it->pos.x < rect.right && it->GetXEnd() > rect.left) {
 
@@ -80,13 +81,13 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 	rect.top = temp->pos.y + volume.top; rect.left = temp->pos.x + volume.left;
 	rect.bottom = temp->pos.y + volume.bottom; rect.right = temp->pos.x + volume.right;
 
-	for (auto it : ObstacleList)
+	for (auto it : *ObstacleList)
 	{
 		if (CollisionDetection(temp, it))
 			temp->DoDeath();
 	}
 
-	for (auto it : EnemyBulletList)
+	for (auto it : *EnemyBulletList)
 	{
 		if(CollisionDetection(temp, it))
 			temp->DoDeath();
@@ -102,33 +103,33 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 
 
 	if (rect.left<0){
-		if (SystemManager::GetInstance()->IsMovableSideOfScene(CToLeft)) {
+		if (GET_SYSMANAGER()->IsMovableSideOfScene(CToLeft)) {
 			temp->pos.x = MAX_X - volume.right - 11.0f;
-			SystemManager::GetInstance()->SendMoveSceneMessage(CToLeft);
+			GET_SYSMANAGER()->SendMoveSceneMessage(CToLeft);
 		}
 		else
 			temp->pos.x = 0 - volume.left;
 	}
 	else if (rect.right>MAX_X-10.0f) {
-		if (SystemManager::GetInstance()->IsMovableSideOfScene(CToRight)) {
+		if (GET_SYSMANAGER()->IsMovableSideOfScene(CToRight)) {
 			temp->pos.x = 0 + volume.left + 1;
-			SystemManager::GetInstance()->SendMoveSceneMessage(CToRight);
+			GET_SYSMANAGER()->SendMoveSceneMessage(CToRight);
 		}
 		else
 			temp->pos.x = MAX_X - volume.right-10.0f;
 	}
 	if (rect.top<0) {
-		if (SystemManager::GetInstance()->IsMovableSideOfScene(CToUp)) {
+		if (GET_SYSMANAGER()->IsMovableSideOfScene(CToUp)) {
 			temp->pos.y = MAX_Y - volume.bottom - 1.0f;
-			SystemManager::GetInstance()->SendMoveSceneMessage(CToUp);
+			GET_SYSMANAGER()->SendMoveSceneMessage(CToUp);
 		}
 		else
 			temp->pos.y = 0.0f - volume.top;
 	}
 	else if (rect.bottom>MAX_Y) {
-		if (SystemManager::GetInstance()->IsMovableSideOfScene(CToDown)) {
+		if (GET_SYSMANAGER()->IsMovableSideOfScene(CToDown)) {
 			temp->pos.y = 0.0f + volume.top + 1.0f;
-			SystemManager::GetInstance()->SendMoveSceneMessage(CToDown);
+			GET_SYSMANAGER()->SendMoveSceneMessage(CToDown);
 		}
 		else
 			temp->pos.y = MAX_Y - volume.bottom;

@@ -19,9 +19,9 @@ VOID ParticlePhysicsComponent::Update(GameObject * pObj)
 	temp->velocity += temp->acceleration;
 	temp->pos += temp->velocity;
 
-	auto TerrainList = SystemManager::GetInstance()->GetTerrainList();
+	auto TerrainList = GET_LIST_OUT(GameTerrain);
 
-	for (auto it : TerrainList)
+	for (auto it : *TerrainList)
 	{
 		if (it->IsThroughable()) continue;
 		if (it->pos.x - 2.5 <= temp->pos.x  && it->GetXEnd() + 2.5 >= temp->pos.x) {

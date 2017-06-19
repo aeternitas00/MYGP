@@ -1,6 +1,7 @@
 #pragma once
 
 #include "stdafx.h"
+#include "Factory.h"
 #include <list>
 #include <fstream>
 using namespace std;
@@ -12,76 +13,35 @@ class EnemyBullet;
 class Player;
 class Obstacle;
 class SavePoint;
+
+class ListBase;
+
+
 typedef struct __stageinfo {
 	wstring path;
 	int bgid;
 	int no;
 }StageInfo;
+
 typedef struct __sceneinfo {
 	int sno;
 	int connected[4];// 0 up 1 down 2 left 3 right
 }SceneInfo;
 
-
-
-class ListBase {};
-
-template <class T>
-class ListChild :public ListBase {
-private:
-	std::list<T> list;
-public:
-	void add(GameObject* temp, const char* n);
-	void clear();
-	void update();
-private:
-	RESULT updateobj(GameObject*);
-};
-
-using ListAs = std::map<std::string, ListBase*>;
-
-template <class T> void constructor(ListBase* as)
-{ 
-	static_cast<ListChild<T*>*>(as)->add(new T(),"");
-}
-
-class myfactory
-{
-private:
-	typedef void(*constructor_t)(ListBase*);
-	typedef std::map<std::string, constructor_t> map_type;
-	
-	map_type m_classes;
-	ListAs m_mylistas;
-public:
-	myfactory();
-
-	template <class T>
-	void register_class(std::string const& n);
-	template <class T>
-	void clearlist(std::string const& n);
-	template<class T>
-	void updatelist(std::string const& n);
-	void construct(std::string const& n);
-
-};
-
 enum Connected {
 	CToUp,CToDown,CToLeft,CToRight
 };
 
-
-
 class SystemManager
 {
 private:
-	std::list<GameObject*> ObjectList;
-	std::list<PlayerBullet*> PlayerBulletList;
-	std::list<Enemy*> EnemyList;
-	std::list<EnemyBullet*> EnemyBulletList;
-	std::list<Obstacle*> ObstacleList;
-	std::list<GameTerrain*> TerrainList;
-	std::list<SavePoint*> SavePointList;
+	//std::list<GameObject*> ObjectList;
+	//std::list<PlayerBullet*> PlayerBulletList;
+	//std::list<Enemy*> EnemyList;
+	//std::list<EnemyBullet*> EnemyBulletList;
+	//std::list<Obstacle*> ObstacleList;
+	//std::list<GameTerrain*> TerrainList;
+	//std::list<SavePoint*> SavePointList;
 
 	Player* MyPlayer;
 
@@ -97,6 +57,7 @@ private:
 	myfactory* m_factory;
 
 public:
+	myfactory* GetFactory();
 	VOID Update();
 	static SystemManager* GetInstance();
 	VOID AddPlayerBullet(PlayerBullet* pObj);
@@ -106,12 +67,6 @@ public:
 	int GetCurrentBGID() { return CurrentStage.bgid; }
 
 	Player* GetPlayer() { return MyPlayer; }
-	std::list<GameObject*> GetObjectList() { return ObjectList; }
-	std::list<GameTerrain*> GetTerrainList() { return TerrainList; }
-	std::list<Obstacle*> GetObstacleList() { return ObstacleList; }
-	std::list<Enemy*> GetEnemyList() { return EnemyList; }
-	std::list<SavePoint*> GetSavePointList() { return SavePointList; }
-	std::list<EnemyBullet*> GetEnemyBulletList() {	return EnemyBulletList;	}
 
 	VOID LoadSF();
 	VOID ClearObjects();
@@ -135,3 +90,11 @@ public:
 	~SystemManager();
 };
 
+#define GET_SYSMANAGER() SystemManager::GetInstance()
+
+#define REGISTER_CLASS(n) GetFactory()->register_class<n>(#n)
+#define GET_LIST_IN(n) GetFactory()->get_list<n>(#n)
+#define GET_LIST_OUT(n) SystemManager::GetInstance()->GetFactory()->get_list<n>(#n)
+#define UPDATE_LIST(n) GetFactory()->update_list<n>(#n)
+#define CLEAR_LIST(n) GetFactory()->clear_list<n>(#n)
+#define REGISTER_CLASS_SUB(n,m) GetFactory()->register_class_sub<n>(#n,#m)

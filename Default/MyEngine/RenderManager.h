@@ -1,7 +1,6 @@
 #pragma once
 
 #include "stdafx.h"
-#include <list>
 
 //general
 #define TXTID_PARTICLE_2X2 1000

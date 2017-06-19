@@ -34,7 +34,7 @@ public:
 	VOID SetTxt(const int id);
 	~GameObject();
 
-	virtual VOID Initialize(const char * n);
+	virtual VOID Initialize(char * n);
 	bool IsInScreen() { return pos.x<MAX_X+100&&pos.x>-200 && pos.y<MAX_Y+100&&pos.y>-200 ? true : false; }
 	RESULT Update();
 	virtual RENDERSQUARE GetRenderSquare();

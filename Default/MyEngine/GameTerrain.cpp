@@ -7,9 +7,19 @@ RENDERSQUARE GameTerrain::GetRenderSquare()
 	return RENDERSQUARE{ dir,0 };
 }
 
-VOID GameTerrain::Initialize(const char * n)
+VOID GameTerrain::Initialize(char * n)
 {
-	return VOID();
+	char* temp = NULL;
+	txtid = atoi(strtok_s(n, " ", &temp));
+	pos.x = atoi(strtok_s(NULL, " ", &temp));
+	pos.y = atoi(strtok_s(NULL, " ", &temp));
+	width = atoi(strtok_s(NULL, " ", &temp));
+	height = atoi(strtok_s(NULL, " ", &temp));
+	canthrough= atoi(strtok_s(NULL, " ", &temp));
+	dir = 0;
+	if (strlen(temp) != 0)
+		dir = atoi(strtok_s(NULL, " ", &temp));
+	SetComponent();
 }
 
 GameTerrain::GameTerrain()

@@ -26,7 +26,7 @@ VOID PlayerBullet::SetComponent() {
 }
 RESULT PlayerBullet::UpdateSub()
 {
-	if (!IsInScreen()) return OutOfScreen; // temporal(delete self;
+	if (!IsInScreen()) return Destroy; // temporal(delete self;
 	return stat;
 }
 

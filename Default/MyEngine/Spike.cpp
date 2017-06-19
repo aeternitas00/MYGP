@@ -7,14 +7,43 @@ Spike::Spike()
 	txtid = -1;
 }
 
+VOID Spike::Initialize(char *n) {
+	char* temp = NULL;
+	pos.x = atoi(strtok_s(n, " ", &temp));
+	pos.y = atoi(strtok_s(NULL, " ", &temp));
+	dir = atoi(strtok_s(NULL, " ", &temp));
+	txtid = TXTID_SPIKE;
+	SetVolume();
+	SetComponent();
+}
+
 Spike::Spike(D3DXVECTOR3 & ipos,int id,short idir)
 {
 	pos = ipos;
 	txtid = id;
 	dir = idir;
-	
-	if (id == TXTID_SPIKE) {
-		Volume=FRECT{ 0,31,0,31 };
+	SetVolume();	
+}
+
+
+Spike::~Spike()
+{
+}
+
+RENDERSQUARE Spike::GetRenderSquare()
+{
+	return RENDERSQUARE{dir,0};
+}
+
+VOID Spike::SetComponent()
+{
+	ComponentList.push_back(new GraphicsComponent);
+}
+
+VOID Spike::SetVolume()
+{
+	if (txtid == TXTID_SPIKE) {
+		Volume = FRECT{ 0,31,0,31 };
 	}
 	MyPolygon temp;
 	switch (dir) {
@@ -35,19 +64,4 @@ Spike::Spike(D3DXVECTOR3 & ipos,int id,short idir)
 	case CToRight:
 		break;
 	}
-}
-
-
-Spike::~Spike()
-{
-}
-
-RENDERSQUARE Spike::GetRenderSquare()
-{
-	return RENDERSQUARE{dir,0};
-}
-
-VOID Spike::SetComponent()
-{
-	ComponentList.push_back(new GraphicsComponent);
 }
