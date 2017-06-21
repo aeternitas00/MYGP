@@ -11,11 +11,11 @@ IntroScript::~IntroScript()
 {
 }
 
-VOID IntroScript::Update(GameObject * pObj)
+RESULT IntroScript::Update(GameObject * pObj)
 {
 	if (trigger != -1) {
 		IntroCharacter* Obj = dynamic_cast<IntroCharacter*>(pObj);
-		if (Obj == NULL) return;
+		if (Obj == NULL) return Default;
 		after = clock();
 		static bool tgl = false, tgl2 = false, tgl3 = true;
 		static float max = 1.0f;
@@ -183,7 +183,7 @@ VOID IntroScript::Update(GameObject * pObj)
 				SoundManager::GetInstance()->StopWaveFile(SOUND_INTROTD);
 				SoundManager::GetInstance()->StopWaveFile(SOUND_INTROBGM);
 				GET_SYSMANAGER()->SendMoveSceneMessage(SFNo + 3);
-				return;
+				return Destroy;
 			}
 			else if (KEY_UP(VK_RETURN) && tgl) {
 				tgl = false;
@@ -211,5 +211,5 @@ VOID IntroScript::Update(GameObject * pObj)
 			break;
 		}
 	}
-
+	return Default;
 }

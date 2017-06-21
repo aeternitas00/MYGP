@@ -4,7 +4,7 @@ class PlayerGraphicsComponent :
 	public GraphicsComponent
 {
 public:
-	virtual VOID Update(GameObject* pObj);
+	virtual RESULT Update(GameObject* pObj);
 	PlayerGraphicsComponent();
 	~PlayerGraphicsComponent();
 };

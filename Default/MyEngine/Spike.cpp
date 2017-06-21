@@ -48,20 +48,28 @@ VOID Spike::SetVolume()
 	MyPolygon temp;
 	switch (dir) {
 	case CToUp:
-		temp.push_back(D3DXVECTOR2(15.5, 0));
-		temp.push_back(D3DXVECTOR2(0, 31));
-		temp.push_back(D3DXVECTOR2(31, 31));
+		temp.push_back(D3DXVECTOR2(16 , 0));
+		temp.push_back(D3DXVECTOR2(0, 32));
+		temp.push_back(D3DXVECTOR2(32, 32));
 		satvolume.push_back(temp);
 		break;
 	case CToDown:
 		temp.push_back(D3DXVECTOR2(0, 0));
-		temp.push_back(D3DXVECTOR2(31, 0));
-		temp.push_back(D3DXVECTOR2(15.5, 31));
+		temp.push_back(D3DXVECTOR2(32,0));
+		temp.push_back(D3DXVECTOR2(16, 32));
 		satvolume.push_back(temp);
 		break;
 	case CToLeft:
+		temp.push_back(D3DXVECTOR2(0, 16));
+		temp.push_back(D3DXVECTOR2(32, 0));
+		temp.push_back(D3DXVECTOR2(32, 32));
+		satvolume.push_back(temp);
 		break;
 	case CToRight:
+		temp.push_back(D3DXVECTOR2(0, 0));
+		temp.push_back(D3DXVECTOR2(0, 32));
+		temp.push_back(D3DXVECTOR2(32, 16));
+		satvolume.push_back(temp);
 		break;
 	}
 }

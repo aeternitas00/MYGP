@@ -9,6 +9,6 @@ class IntroScript :
 public:
 	IntroScript();
 	~IntroScript();
-	virtual VOID Update(GameObject* pObj);
+	virtual RESULT Update(GameObject* pObj);
 };
 

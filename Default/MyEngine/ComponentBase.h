@@ -5,7 +5,7 @@ class ComponentBase
 {
 
 public:
-	virtual VOID Update(GameObject* pObj) {}
+	virtual RESULT Update(GameObject* pObj) { return Default; }
 	ComponentBase();
 	virtual ~ComponentBase();
 };

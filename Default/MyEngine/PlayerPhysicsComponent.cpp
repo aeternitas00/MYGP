@@ -1,11 +1,11 @@
 #include "stdafx.h"
 #include "PlayerPhysicsComponent.h"
 
-VOID PlayerPhysicsComponent::Update(GameObject * pObj)
+RESULT PlayerPhysicsComponent::Update(GameObject * pObj)
 {
 	Player* temp = dynamic_cast<Player*>(pObj);
-	if (temp == NULL) return;
-	if (pObj->txtid == -1) return;
+	if (temp == NULL) return Default;
+	if (pObj->txtid == -1) return Default;
 
 	FRECT volume = temp->GetVolume();
 
@@ -84,13 +84,17 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 	for (auto it : *ObstacleList)
 	{
 		if (CollisionDetection(temp, it))
-			temp->DoDeath();
+		{
+			temp->DoDeath(); return Default;
+		}
 	}
 
 	for (auto it : *EnemyBulletList)
 	{
 		if(CollisionDetection(temp, it))
-			temp->DoDeath();
+		{
+			temp->DoDeath(); return Default;
+		}
 	}
 
 	if (landok)	{
@@ -126,15 +130,16 @@ VOID PlayerPhysicsComponent::Update(GameObject * pObj)
 		else
 			temp->pos.y = 0.0f - volume.top;
 	}
-	else if (rect.bottom>MAX_Y) {
+	else if (rect.bottom>MAX_Y-20) {
 		if (GET_SYSMANAGER()->IsMovableSideOfScene(CToDown)) {
 			temp->pos.y = 0.0f + volume.top + 1.0f;
 			GET_SYSMANAGER()->SendMoveSceneMessage(CToDown);
 		}
-		else
-			temp->pos.y = MAX_Y - volume.bottom;
+		else {
+			temp->DoDeath();
+		}
 	}
-	return;
+	return Default;
 }
 
 PlayerPhysicsComponent::PlayerPhysicsComponent()

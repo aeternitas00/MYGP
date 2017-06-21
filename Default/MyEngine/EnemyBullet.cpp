@@ -6,9 +6,9 @@ EnemyBullet::EnemyBullet()
 {
 }
 
-EnemyBullet::EnemyBullet(D3DXVECTOR3 & ipos,int id)
+EnemyBullet::EnemyBullet(D3DXVECTOR3 & ipos, int id, bool ict): ct(ict)
 {
-	pos = ipos; txtid = id; stat = Default;
+	pos = ipos; txtid = id; stat = Default; angle = 0;
 }
 
 RESULT EnemyBullet::UpdateSub() {

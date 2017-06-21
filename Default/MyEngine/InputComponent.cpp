@@ -6,9 +6,9 @@ InputComponent::InputComponent()
 {
 }
 
-VOID InputComponent::Update(GameObject* pObj)
+RESULT InputComponent::Update(GameObject* pObj)
 {
-	return;
+	return Default;
 }
 
 

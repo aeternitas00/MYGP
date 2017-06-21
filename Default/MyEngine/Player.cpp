@@ -41,9 +41,10 @@ VOID Player::DoDeath()
 		D3DXVECTOR3 vel((float)(rand()%17000)/1000-8.5f, (float)(rand() % 17000)/1000 - 11.0f,0);
 		temp->AddObject(new Particle(ipos,vel, D3DXCOLOR(1,0,0,1),TXTID_PARTICLE_4X4));
 	}
-	GameObject* tobj = new GameObject(D3DXVECTOR3(MAX_X / 2 - (550 / 2), MAX_Y / 2 - 130, 0), TXTID_GAMEOVER);
+	Enemy* tobj = new Enemy(D3DXVECTOR3(MAX_X / 2 - (550 / 2), MAX_Y / 2 - 130, 0), TXTID_GAMEOVER);
+	tobj->SetComponent();
 	tobj->AddComponent(new ObjectShake(0.25, 20000, 0, D3DXVECTOR3(MAX_X / 2 - (550 / 2), MAX_Y / 2 - 130, 0)));
-	temp->AddObject(tobj);
+	GET_LIST_OUT(Enemy)->push_back(tobj);
 }
 
 
@@ -82,16 +83,6 @@ RENDERSQUARE Player::GetRenderSquare()
 	}
 	return RENDERSQUARE{ x, y };
 }
-//
-//Player::Player() :
-//	GameMovableObject(D3DXVECTOR3(20, 20, 0),
-//		D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), TXTID_PLAYER),
-//	go_left(0), go_right(1), left_tgl(false), moving(0), right_tgl(false),
-//	jumping_tgl(false), jumping_up(false), jumping(false), attack(false),attack_tgl(false),remain_jump(1),landed(false),
-//	attack_rmt(0),gravity(true)
-//{
-//	
-//}
 
 Player::Player(D3DXVECTOR3 & ipos):GameMovableObject(ipos,
 	D3DXVECTOR3(0, 0, 0), D3DXVECTOR3(0, 0, 0), TXTID_PLAYER),
@@ -103,9 +94,9 @@ Player::Player(D3DXVECTOR3 & ipos):GameMovableObject(ipos,
 	Volume=FRECT{ 15,30,12,27 };
 
 	MyPolygon temp;
-	temp.push_back(D3DXVECTOR2(19,15));
-	temp.push_back(D3DXVECTOR2(12,30));
-	temp.push_back(D3DXVECTOR2(27,30));
+	temp.push_back(D3DXVECTOR2(17,13));
+	temp.push_back(D3DXVECTOR2(10,28));
+	temp.push_back(D3DXVECTOR2(25,28));
 	satvolume.push_back(temp);
 }
 

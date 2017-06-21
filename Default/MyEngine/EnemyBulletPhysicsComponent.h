@@ -4,7 +4,7 @@ class EnemyBulletPhysicsComponent :
 	public PhysicsComponent
 {
 public:
-	virtual VOID Update(GameObject* pObj);
+	virtual RESULT Update(GameObject* pObj);
 	EnemyBulletPhysicsComponent();
 	~EnemyBulletPhysicsComponent();
 };

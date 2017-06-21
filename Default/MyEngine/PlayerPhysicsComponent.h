@@ -4,7 +4,7 @@ class PlayerPhysicsComponent :
 	public PhysicsComponent
 {
 public:
-	virtual VOID Update(GameObject* pObj);
+	virtual RESULT Update(GameObject* pObj);
 	PlayerPhysicsComponent();
 	~PlayerPhysicsComponent();
 };

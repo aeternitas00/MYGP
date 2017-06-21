@@ -6,6 +6,6 @@ class PlayerInputComponent :
 public:
 	PlayerInputComponent();
 	~PlayerInputComponent();
-	virtual VOID Update(GameObject* pObj);
+	virtual RESULT Update(GameObject* pObj);
 };
 

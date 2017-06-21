@@ -39,7 +39,7 @@ RESULT SavePoint::UpdateSub()
 			D3DXVECTOR3 ipos(pos);
 			ipos.x += (Volume.left + Volume.right) / 2;
 			ipos.y += (Volume.top + Volume.bottom) / 2;
-			auto input = new EnemyBullet(ipos, TXTID_PARTICLE_2X2);
+			auto input = new EnemyBullet(ipos, TXTID_PARTICLE_2X2, false);
 			input->velocity.x = 4.0f;
 			float dt = (GET_SYSMANAGER()->GetPlayer()->pos.x - ipos.x) / 4;
 			if (dt <= 0) { input->velocity.x *= -1; dt *= -1; }

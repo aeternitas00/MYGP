@@ -15,6 +15,6 @@ private:
 public:
 	ObjectShake(float time,int power,int acc,D3DXVECTOR3& pos);
 	~ObjectShake();
-	virtual VOID Update(GameObject* pObj);
+	virtual RESULT Update(GameObject* pObj);
 };
 

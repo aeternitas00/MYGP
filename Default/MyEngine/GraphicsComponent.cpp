@@ -6,9 +6,9 @@ GraphicsComponent::GraphicsComponent()
 {
 }
 
-VOID GraphicsComponent::Update(GameObject* pObj)
+RESULT GraphicsComponent::Update(GameObject* pObj)
 {
-	if (pObj->txtid == -1) return;
+	if (pObj->txtid == -1) return Default;
 	TEXTURESET temp = *RenderManager::GetInstance()->GetTexture(pObj->txtid);
 
 	RENDERSQUARE sqr = pObj->GetRenderSquare();
@@ -19,6 +19,7 @@ VOID GraphicsComponent::Update(GameObject* pObj)
 	D3DXMatrixTransformation2D(&mat, NULL, NULL, NULL, &D3DXVECTOR2(temp.spfx / 2,temp.spfy / 2), pObj->angle, NULL);
 	
 	RenderManager::GetInstance()->DrawObj(pObj->pos, pObj->txtid, rtemp, mat);
+	return Default;
 }
 
 

@@ -48,9 +48,10 @@ VOID GameObject::Initialize(char* n)
 
 RESULT GameObject::Update()
 {
-	for (auto it : ComponentList)
+	for (auto it = ComponentList.begin(); it != ComponentList.end();)
 	{
-		it->Update(this);
+		if ((*it)->Update(this) == Destroy) { delete *it; ComponentList.erase(it++); continue;}
+		it++;
 	}
 	return UpdateSub();
 }

@@ -5,7 +5,7 @@ class Enemy :
 {
 public:
 	Enemy();
-	Enemy(D3DXVECTOR3& ipos);
+	Enemy(D3DXVECTOR3& ipos, int id);
 	~Enemy();
 };
 

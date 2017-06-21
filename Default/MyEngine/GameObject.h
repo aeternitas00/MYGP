@@ -43,10 +43,11 @@ public:
 
 	FRECT GetVolume() { return Volume; }
 	std::list<MyPolygon> GetSATVolume() { return satvolume; }
-
 	VOID PushBackSATVolume(MyPolygon& input) { satvolume.push_back(input); }
 	int GetSATLength() { return satvolume.size(); }
+
 	VOID UpdateByMovingScene(int side);
+
 	virtual VOID SetComponent();
 	virtual VOID SetLoopAnimation(int imaxf, int imaxc) { linfo = Loopinfo{ true,0,imaxf,0,imaxc }; }
 	virtual VOID AddComponent(ComponentBase* pcmp) { ComponentList.push_back(pcmp); }

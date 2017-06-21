@@ -8,7 +8,7 @@ private:
 
 public:
 	InputComponent();
-	virtual VOID Update(GameObject* pObj);
+	virtual RESULT Update(GameObject* pObj);
 	virtual ~InputComponent();
 };
 

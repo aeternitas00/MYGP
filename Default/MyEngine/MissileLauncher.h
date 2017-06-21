@@ -1,12 +1,12 @@
 #pragma once
 #include "Enemy.h"
-class MissileLauncher :
+class BulletGenerator :
 	public Enemy
 {
 public:
-	MissileLauncher();
-	MissileLauncher(D3DXVECTOR3& ipos);
-	~MissileLauncher();
+	BulletGenerator();
+	BulletGenerator(D3DXVECTOR3& ipos);
+	~BulletGenerator();
 	virtual VOID SetComponent();
 };
 

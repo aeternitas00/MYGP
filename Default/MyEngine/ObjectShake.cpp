@@ -17,7 +17,7 @@ ObjectShake::~ObjectShake()
 {
 }
 
-VOID ObjectShake::Update(GameObject * pObj)
+RESULT ObjectShake::Update(GameObject * pObj)
 {
 	if (gook) {
 		after = clock();
@@ -26,7 +26,8 @@ VOID ObjectShake::Update(GameObject * pObj)
 		m_power -= m_acc;
 		if (!((double)(after - before) / CLOCKS_PER_SEC <= m_time && m_power >= 0))
 		{
-			gook = false; pObj->pos = m_pos;
+			gook = false; pObj->pos = m_pos; return Destroy;
 		}
 	}
+	return Default;
 }

@@ -11,10 +11,10 @@ ParticlePhysicsComponent::~ParticlePhysicsComponent()
 {
 }
 
-VOID ParticlePhysicsComponent::Update(GameObject * pObj)
+RESULT ParticlePhysicsComponent::Update(GameObject * pObj)
 {
 	Particle* temp = dynamic_cast<Particle*>(pObj);
-	if (temp == NULL) return;
+	if (temp == NULL) return Default;
 
 	temp->velocity += temp->acceleration;
 	temp->pos += temp->velocity;
@@ -32,4 +32,5 @@ VOID ParticlePhysicsComponent::Update(GameObject * pObj)
 			}
 		}
 	}
+	return Default;
 }

@@ -10,10 +10,10 @@ PlayerInputComponent::~PlayerInputComponent()
 {
 }
 
-VOID PlayerInputComponent::Update(GameObject* pObj)
+RESULT PlayerInputComponent::Update(GameObject* pObj)
 {
 	Player* temp = dynamic_cast<Player*>(pObj);
-	if (temp == NULL) return;
+	if (temp == NULL) return Default;
 
 	if (!temp->IsRTgl()) {
 		if (KEY_DOWN(0x52)) {
@@ -25,7 +25,7 @@ VOID PlayerInputComponent::Update(GameObject* pObj)
 			temp->SetRToggle(false);
 	}
 
-	if (pObj->txtid == -1) return;
+	if (pObj->txtid == -1) return Default;
 
 	if (!temp->IsLeftTgl()) {
 		if (KEY_DOWN(VK_LEFT))
@@ -61,5 +61,5 @@ VOID PlayerInputComponent::Update(GameObject* pObj)
 	}
 	else { if (KEY_UP(0x58)) temp->AttackStop(); }
 
-
+	return Default;
 }

@@ -5,7 +5,7 @@ class ParticleGraphicsComponent :
 {
 public:
 	ParticleGraphicsComponent();
-	virtual VOID Update(GameObject* pObj);
+	virtual RESULT Update(GameObject* pObj);
 	virtual ~ParticleGraphicsComponent();
 };
 

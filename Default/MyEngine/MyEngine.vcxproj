@@ -157,6 +157,8 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Boss.h" />
+    <ClInclude Include="BulletGenerate1.h" />
     <ClInclude Include="ComponentBase.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyBullet.h" />
@@ -172,7 +174,7 @@
     <ClInclude Include="IntroCharacter.h" />
     <ClInclude Include="IntroScript.h" />
     <ClInclude Include="ListClass.h" />
-    <ClInclude Include="MissileLauncher.h" />
+    <ClInclude Include="BulletGenerator.h" />
     <ClInclude Include="ObjectShake.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Particle.h" />
@@ -197,6 +199,8 @@
     <ClInclude Include="TerrainGraphicsComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BulletGenerate1.cpp" />
     <ClCompile Include="ComponentBase.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
@@ -210,7 +214,7 @@
     <ClCompile Include="InputComponent.cpp" />
     <ClCompile Include="IntroCharacter.cpp" />
     <ClCompile Include="IntroScript.cpp" />
-    <ClCompile Include="MissileLauncher.cpp" />
+    <ClCompile Include="BulletGenerator.cpp" />
     <ClCompile Include="ObjectShake.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Particle.cpp" />

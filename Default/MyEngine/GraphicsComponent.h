@@ -7,7 +7,7 @@ protected:
 	D3DXMATRIX mat;
 public:
 	GraphicsComponent();
-	virtual VOID Update(GameObject* pObj);
+	virtual RESULT Update(GameObject* pObj);
 	virtual ~GraphicsComponent();
 };
 

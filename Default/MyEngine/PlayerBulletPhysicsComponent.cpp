@@ -2,10 +2,10 @@
 #include "PlayerBulletPhysicsComponent.h"
 
 
-VOID PlayerBulletPhysicsComponent::Update(GameObject * pObj)
+RESULT PlayerBulletPhysicsComponent::Update(GameObject * pObj)
 {
 	PlayerBullet* temp = dynamic_cast<PlayerBullet*>(pObj);
-	if (temp == NULL) return;
+	if (temp == NULL) return Default;
 
 	temp->velocity += temp->acceleration;
 	temp->pos += temp->velocity;
@@ -25,7 +25,7 @@ VOID PlayerBulletPhysicsComponent::Update(GameObject * pObj)
 		{
 			temp->SetStat(Destroy); it->SetStat(1); 
 			GET_SYSMANAGER()->SaveSF();
-			return;
+			return Default;
 		}
 	}
 	auto TerrainList = GET_LIST_OUT(GameTerrain);
@@ -35,10 +35,11 @@ VOID PlayerBulletPhysicsComponent::Update(GameObject * pObj)
 		if (it->pos.x - 8 <= temp->pos.x  && it->GetXEnd() + 8 >= temp->pos.x) {
 			if (it->pos.y - 7 <= temp->pos.y  && it->GetYEnd() + 7 >= temp->pos.y)
 			{
-				temp->SetStat(Destroy);  return;
+				temp->SetStat(Destroy);  return Default;
 			}
 		}
 	}
+	return Default;
 }
 
 PlayerBulletPhysicsComponent::PlayerBulletPhysicsComponent()

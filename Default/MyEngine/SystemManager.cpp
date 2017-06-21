@@ -9,12 +9,12 @@ myfactory * SystemManager::GetFactory() { return m_factory; }
 
 VOID SystemManager::Update()
 {
-	UPDATE_LIST(PlayerBullet);
-	UPDATE_LIST(Enemy);
 	UPDATE_LIST(GameTerrain);
-	UPDATE_LIST(Obstacle);
-	UPDATE_LIST(SavePoint);
 	UPDATE_LIST(GameObject);
+	UPDATE_LIST(Obstacle);
+	UPDATE_LIST(Enemy);
+	UPDATE_LIST(SavePoint);
+	UPDATE_LIST(PlayerBullet);
 	UPDATE_LIST(EnemyBullet);
 
 	if (MyPlayer != NULL) {
@@ -115,8 +115,9 @@ HRESULT SystemManager::Initialize()
 	REGISTER_CLASS(Obstacle);
 	REGISTER_CLASS(Enemy);
 	REGISTER_CLASS(SavePoint);
+	REGISTER_CLASS_SUB(BulletGenerator, GameObject);
 	REGISTER_CLASS_SUB(Spike, Obstacle);
-
+	REGISTER_CLASS_SUB(Boss, Enemy);
 	SetupTitleScreen();
 
 	SoundManager::GetInstance()->PlayWaveFilePos(SOUND_INTROBGM,30000);
@@ -175,7 +176,6 @@ VOID SystemManager::SaveSF()
 VOID SystemManager::SetupTitleScreen()
 {
 	ClearObjects();
-	//auto pObjectList = m_factory->get_list1<GameObject>("GameObject");
 	AddObject(new GameObject(D3DXVECTOR3(-47,MAX_Y-84,0), TXTID_INTROBLK1));
 	AddObject(new GameObject(D3DXVECTOR3(435, -174, 0), TXTID_INTROBLK2));
 	AddObject(new GameObject(D3DXVECTOR3(467, -174, 0), TXTID_INTROBLK2));
@@ -203,7 +203,7 @@ VOID SystemManager::SetupStage(int i)
 	SoundManager::GetInstance()->StopWaveFile();
 	SoundManager::GetInstance()->PlayWaveFileLoop(0);
 	SoundManager::GetInstance()->PlayWaveFile(SOUND_BOSHYTIME);
-	CurrentStage = { L"Stage"+ std::to_wstring(i),-1,i };
+	CurrentStage = { L"Stage" + std::to_wstring(i) + L"/StageInfo" + std::to_wstring(i),-1,i };
 	wstring path(CurrentStage.path);
 	path += L"-" + std::to_wstring(0) + L".txt";
 	ifstream inFile(path);
@@ -224,7 +224,7 @@ VOID SystemManager::SetupStage(int i,bool reset)
 	SoundManager::GetInstance()->StopWaveFile();
 	SoundManager::GetInstance()->PlayWaveFileLoop(0);
 	SoundManager::GetInstance()->PlayWaveFile(SOUND_BOSHYTIME);
-	CurrentStage = { L"Stage" + std::to_wstring(i),-1,i };
+	CurrentStage = { L"Stage" + std::to_wstring(i)+L"/StageInfo" + std::to_wstring(i),-1,i };
 	wstring path(CurrentStage.path);
 	path += L"-" + std::to_wstring(0) + L".txt";
 	ifstream inFile(path);
@@ -255,6 +255,15 @@ VOID SystemManager::SetupScene(int i)
 	{
 		inFile.getline(str, 200);
 		inFile.getline(str, 200);
+	}
+
+	if (i == 100) // BOSS
+	{
+		inFile.getline(str, 200);
+		inFile.getline(str, 200);
+		int x = atoi(strtok_s(str, " ", &temp));
+		int y = atoi(strtok_s(NULL, " ", &temp));
+		SetPlayer(x, y);
 	}
 
 	inFile.getline(str, 200);

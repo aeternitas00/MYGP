@@ -11,13 +11,15 @@ TerrainGraphicsComponent::~TerrainGraphicsComponent()
 {
 }
 
-VOID TerrainGraphicsComponent::Update(GameObject * pObj)
+RESULT TerrainGraphicsComponent::Update(GameObject * pObj)
 {
-	if (pObj->txtid == -1) return;
+	if (pObj->txtid == -1) return Default;
+
+	GameTerrain* Ttemp = dynamic_cast<GameTerrain*>(pObj);
+
 	LPD3DXSPRITE sprite;
 	D3DXCreateSprite(*RenderManager::GetInstance()->GetDevice(), &sprite);
 	sprite->Begin(D3DXSPRITE_ALPHABLEND);
-	GameTerrain* Ttemp = dynamic_cast<GameTerrain*>(pObj);
 
 	int vx = Ttemp->GetVX();
 	int vy = Ttemp->GetVY();
@@ -41,5 +43,5 @@ VOID TerrainGraphicsComponent::Update(GameObject * pObj)
 	}
 	sprite->End();
 	sprite->Release();
-	return VOID();
+	return Default;
 }

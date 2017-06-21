@@ -6,6 +6,6 @@ class ParticlePhysicsComponent :
 public:
 	ParticlePhysicsComponent();
 	~ParticlePhysicsComponent();
-	virtual VOID Update(GameObject* pObj);
+	virtual RESULT Update(GameObject* pObj);
 };
 
