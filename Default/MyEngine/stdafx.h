@@ -55,6 +55,7 @@ typedef struct __floatrect {
 #include "RenderManager.h"
 #include "SystemManager.h"
 #include "EnemyBullet.h"
+#include "Platform.h"
 #include "GameObject.h"
 #include "GameMovableObject.h"
 #include "Enemy.h"
@@ -84,6 +85,8 @@ typedef struct __floatrect {
 #include "EnemyBulletPhysicsComponent.h"
 #include "IntroScript.h"
 #include "IntroCharacter.h"
+#include "MovingPlatform.h"
+#include "FakeSpike.h"
 
 
 #pragma comment(lib,"d3dx9.lib")  

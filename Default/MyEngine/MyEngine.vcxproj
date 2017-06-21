@@ -164,6 +164,7 @@
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="EnemyBulletPhysicsComponent.h" />
     <ClInclude Include="Factory.h" />
+    <ClInclude Include="FakeSpike.h" />
     <ClInclude Include="GameMovableObject.h" />
     <ClInclude Include="GameRoot.h" />
     <ClInclude Include="GameObject.h" />
@@ -175,12 +176,14 @@
     <ClInclude Include="IntroScript.h" />
     <ClInclude Include="ListClass.h" />
     <ClInclude Include="BulletGenerator.h" />
+    <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="ObjectShake.h" />
     <ClInclude Include="Obstacle.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ParticleGraphicsComponent.h" />
     <ClInclude Include="ParticlePhysicsComponent.h" />
     <ClInclude Include="PhysicsComponent.h" />
+    <ClInclude Include="Platform.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerBulletPhysicsComponent.h" />
@@ -205,6 +208,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EnemyBulletPhysicsComponent.cpp" />
+    <ClCompile Include="FakeSpike.cpp" />
     <ClCompile Include="GameMovableObject.cpp" />
     <ClCompile Include="GameRoot.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -215,12 +219,14 @@
     <ClCompile Include="IntroCharacter.cpp" />
     <ClCompile Include="IntroScript.cpp" />
     <ClCompile Include="BulletGenerator.cpp" />
+    <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="ObjectShake.cpp" />
     <ClCompile Include="Obstacle.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleGraphicsComponent.cpp" />
     <ClCompile Include="ParticlePhysicsComponent.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
+    <ClCompile Include="Platform.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
     <ClCompile Include="PlayerBulletPhysicsComponent.cpp" />

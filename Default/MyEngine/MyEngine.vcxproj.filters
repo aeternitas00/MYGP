@@ -219,6 +219,15 @@
     <ClInclude Include="BulletGenerate1.h">
       <Filter>Object\Component\Action</Filter>
     </ClInclude>
+    <ClInclude Include="MovingPlatform.h">
+      <Filter>Main\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>Main\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="FakeSpike.h">
+      <Filter>Object\Container\Enemy\Header</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -328,6 +337,15 @@
     </ClCompile>
     <ClCompile Include="BulletGenerate1.cpp">
       <Filter>Object\Component\Action</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingPlatform.cpp">
+      <Filter>Main\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>Main\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="FakeSpike.cpp">
+      <Filter>Object\Container\Enemy\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

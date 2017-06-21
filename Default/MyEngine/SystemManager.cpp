@@ -115,8 +115,11 @@ HRESULT SystemManager::Initialize()
 	REGISTER_CLASS(Obstacle);
 	REGISTER_CLASS(Enemy);
 	REGISTER_CLASS(SavePoint);
+	REGISTER_CLASS(Platform);
 	REGISTER_CLASS_SUB(BulletGenerator, GameObject);
 	REGISTER_CLASS_SUB(Spike, Obstacle);
+	REGISTER_CLASS_SUB(FakeSpike, Obstacle);
+	REGISTER_CLASS(MovingPlatform,Platform);
 	REGISTER_CLASS_SUB(Boss, Enemy);
 	SetupTitleScreen();
 

@@ -13,7 +13,7 @@ RESULT PlayerPhysicsComponent::Update(GameObject * pObj)
 	auto TerrainList = GET_LIST_OUT(GameTerrain);
 	auto ObstacleList = GET_LIST_OUT(Obstacle);
 	auto EnemyBulletList = GET_LIST_OUT(EnemyBullet);
-
+	auto PlatformList = GET_LIST_OUT(Platform);
 	if (temp->IsMoving())
 	{
 		if (temp->GetMovingLeft() == 1) temp->velocity.x = -2.0f;

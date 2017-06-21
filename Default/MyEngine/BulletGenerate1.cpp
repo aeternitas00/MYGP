@@ -2,11 +2,10 @@
 #include "BulletGenerate1.h"
 
 
-BulletGenerate1::BulletGenerate1(float time, int idelay,D3DXVECTOR3& ivector,D3DXVECTOR3& start, EnemyBullet& sample)
+BulletGenerate1::BulletGenerate1(int time, int idelay,D3DXVECTOR3& ivector,D3DXVECTOR3& start, EnemyBullet& sample)
 	:m_time(time),m_vector(ivector),gook(true),delay(idelay),samplebullet(sample),m_pos(start)
 {
 	frame = 0;
-	before = clock();
 }
 
 RESULT BulletGenerate1::Update(GameObject * pObj)
@@ -19,11 +18,10 @@ RESULT BulletGenerate1::Update(GameObject * pObj)
 			GET_SYSMANAGER()->AddEnemyBullet(input);
 			frame = 0;
 		}
-		if (m_time > 0) {
-			after = clock();
-			if (!((double)(after - before) / CLOCKS_PER_SEC <= m_time))
+		if (m_time > 0) 
+			m_time--;
+		else if (m_time==0)
 			{	gook = false; return Destroy;	}
-		}
 	}
 	return Default;
 }
