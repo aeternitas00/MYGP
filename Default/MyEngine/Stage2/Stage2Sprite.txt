@@ -1,8 +1,0 @@
-7
-01-Sprite_BG.jpg 750 500 750 500 0x00000000
-02-Sprite_Block_CM.png 16 16 16 16 0x00000000
-03-Sprite_Block_CM2.png 16 16 16 16 0xFFFFFFFF
-04-Sprite_Block_MLauncher.png 16 16 16 16 0xFFFFFFFF
-05-Sprite_Block_MLBase.png 16 16 16 16 0xFFFFFFFF
-06_Sprite_Kirby_Block.png 144 16 16 16 0xFFFFFFFF
-07_Sprite_Kirby_Waterfall.png 64 40 16 40 0x00000000
