@@ -32,12 +32,17 @@
 #define SOUND_FIRE 1002
 #define SOUND_SAVE 1003
 #define SOUND_BOSHYTIME 1004
+#define SOUND_BOSSHIT 1007
+
 
 #define SOUND_INTROBGM 0
 #define SOUND_INTROTD 1
 #define SOUND_INTROJUMP 2
 #define SOUND_INTROGODDAMN 3
 
+#define SOUND_WORLDBGM 0
+#define SOUND_BOSSBGM 1
+#define SOUND_BOSSSHOOT 2
 
 class SoundManager
 {
@@ -97,5 +102,9 @@ private:
 	std::list<LPDIRECTSOUNDBUFFER8*> GeneralList;
 	std::list<LPDIRECTSOUNDBUFFER8*> StageList;
 };
+
+#define GET_SNDMANAGER() SoundManager::GetInstance()
+
+
 
 #endif

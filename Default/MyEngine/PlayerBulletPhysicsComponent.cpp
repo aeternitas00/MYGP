@@ -32,8 +32,8 @@ RESULT PlayerBulletPhysicsComponent::Update(GameObject * pObj)
 	for (auto it : *TerrainList)
 	{
 		if (it->IsThroughable()) continue;
-		if (it->pos.x - 8 <= temp->pos.x  && it->GetXEnd() + 8 >= temp->pos.x) {
-			if (it->pos.y - 7 <= temp->pos.y  && it->GetYEnd() + 7 >= temp->pos.y)
+		if (it->pos.x - 4 <= temp->pos.x  && it->GetXEnd() + 4 >= temp->pos.x) {
+			if (it->pos.y /*- 3.5*/ <= temp->pos.y  && it->GetYEnd() /*+ 3.5*/ >= temp->pos.y)
 			{
 				temp->SetStat(Destroy);  return Default;
 			}

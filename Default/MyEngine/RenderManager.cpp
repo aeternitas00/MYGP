@@ -5,6 +5,8 @@ RenderManager* RenderManager::instance = NULL;
 
 RenderManager::RenderManager()
 {
+	shaketimer = 0;
+	shakescale = 0;
 }
 
 RenderManager* RenderManager::GetInstance()
@@ -288,13 +290,6 @@ TEXTURESET * RenderManager::GetTexture(int idx)
 	return &m_StageTextureList[idx];
 }
 
-//
-//TEXTURESET * RenderManager::GetTexture(const wchar_t * path)
-//{
-//	// do hashing;
-//	return nullptr;
-//}
-
 HRESULT RenderManager::BeginScene()
 {
 	if (NULL == m_pD3DDevice)
@@ -323,33 +318,29 @@ HRESULT RenderManager::BeginScene()
 	D3DXMatrixPerspectiveFovLH(&matProj, D3DX_PI / 4, 1.0f, 1.0f, 100.0f);
 	m_pD3DDevice->SetTransform(D3DTS_PROJECTION, &matProj);
 
+	if (shaketimer>0)
+	{
+		D3DXVECTOR2 translation(0, 0);
+		translation.x = float ((rand() % shakescale) - (shakescale / 2)) / 1000;
+		translation.y = float((rand() % shakescale) - (shakescale / 2)) / 1000;
 
+		D3DXMatrixTransformation2D(&m_WorldMat, NULL, NULL, NULL, NULL, NULL, &translation);
+		shaketimer--;
+		if (shaketimer == 0) {
+			D3DXVECTOR2 translation2(0, 0); D3DXMatrixTransformation2D(&m_WorldMat, NULL, NULL, NULL, NULL, NULL, &translation2);
+		}
+	}
 
 	D3DXMATRIX mat;
 	D3DXMatrixTransformation(&mat, NULL, NULL, NULL, NULL, NULL, NULL);
+
 	int bgid= GET_SYSMANAGER()->GetCurrentBGID();
 	if (bgid != -1) {
 		RECT rtemp = { 0,0,m_StageTextureList[bgid].spfx,m_StageTextureList[bgid].spfy };
-		DrawObj(D3DXVECTOR3(0, 40, 0), bgid, rtemp, mat);
+		DrawObj(D3DXVECTOR3(0, (MAX_Y-20- m_StageTextureList[bgid].spfy)/2, 0), bgid, rtemp, mat);
 	}
 
-	//static float max = 1.0f;
-	//static int oksign = 0;
-	//static float add = 0.05f;
-
-	//D3DXMatrixTransformation2D(&mat, &D3DXVECTOR2(443/2, 182/2),NULL, &D3DXVECTOR2(max,max),NULL,NULL, &D3DXVECTOR2(MAX_X/2-443/2,10 ));
-	//bgid = TXTID_TITLE;
-	//oksign++; if (oksign >= 100) { oksign = 100; }
-	//if (oksign == 100) 
-	//{ 
-	//	if (max <= 1.5f) { max += add; add /= 10; add *= 9; }
-	//	else if ( add<0.001f){ add = 0.001f; }
-	//}
-	//rtemp = { 0,0,m_TextureList[bgid].spfx,m_TextureList[bgid].spfy };
-	//DrawObj(D3DXVECTOR3(0, 40, 0), bgid, rtemp, mat);
 	return S_OK;
-
-
 }
 
 
@@ -367,25 +358,27 @@ VOID RenderManager::SetDefaultMatrixZoomUp(D3DXVECTOR2& Center,float scale)
 {
 	D3DXVECTOR2 ct = Center;
 	D3DXVECTOR2 ct2 =  D3DXVECTOR2(MAX_X / 2, MAX_Y / 2)-Center;
-	// Screen position of the sprite
-	//D3DXVECTOR2 trans = D3DXVECTOR2(50.0f, 80.0f);
-
-	//// Rotate based on the time passed
-	//float rotation = timeGetTime() / 500.0f;
-
-	// Build our matrix to rotate, scale and position our sprite
-	//D3DXMATRIX mat;
 
 	D3DXVECTOR2 scaling(scale, scale);
 
-	// out, scaling centre, scaling rotation, scaling, rotation centre, rotation, translation
 	D3DXMatrixTransformation2D(&m_WorldMat,&ct , 0.0, &scaling, NULL, NULL, &ct2);
-
-	// Tell the sprite about the matrix
-	//m_pD3DSprite->SetTransform(&mat);
 }
+
+VOID RenderManager::SetDefaultMatrixShake(int scale,int maxframe)
+{
+	shaketimer = maxframe;
+	shakescale = scale;
+}
+
 HRESULT RenderManager::EndScene()
 {
+	if (GET_SYSMANAGER()->IsBossRoom()) {
+		D3DXMATRIX mat;
+		D3DXMatrixTransformation(&mat, NULL, NULL, NULL, NULL, NULL, NULL);
+		RECT rtemp2 = { 0,0,640,480 };
+		DrawObj(D3DXVECTOR3(0, 0, 0), TXTID_BR_FADE, rtemp2, mat);
+	}
+
 	m_pD3DDevice->EndScene();
 	m_pD3DDevice->Present(NULL, NULL, NULL, NULL);
 	return S_OK;

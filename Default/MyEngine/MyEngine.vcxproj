@@ -158,6 +158,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Boss.h" />
+    <ClInclude Include="BossPhysicsComponent.h" />
+    <ClInclude Include="BossScript.h" />
     <ClInclude Include="BulletGenerate1.h" />
     <ClInclude Include="ComponentBase.h" />
     <ClInclude Include="Enemy.h" />
@@ -176,6 +178,7 @@
     <ClInclude Include="IntroScript.h" />
     <ClInclude Include="ListClass.h" />
     <ClInclude Include="BulletGenerator.h" />
+    <ClInclude Include="MoreJumpObj.h" />
     <ClInclude Include="MovingPlatform.h" />
     <ClInclude Include="ObjectShake.h" />
     <ClInclude Include="Obstacle.h" />
@@ -203,6 +206,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Boss.cpp" />
+    <ClCompile Include="BossPhysicsComponent.cpp" />
+    <ClCompile Include="BossScript.cpp" />
     <ClCompile Include="BulletGenerate1.cpp" />
     <ClCompile Include="ComponentBase.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -219,6 +224,7 @@
     <ClCompile Include="IntroCharacter.cpp" />
     <ClCompile Include="IntroScript.cpp" />
     <ClCompile Include="BulletGenerator.cpp" />
+    <ClCompile Include="MoreJumpObj.cpp" />
     <ClCompile Include="MovingPlatform.cpp" />
     <ClCompile Include="ObjectShake.cpp" />
     <ClCompile Include="Obstacle.cpp" />

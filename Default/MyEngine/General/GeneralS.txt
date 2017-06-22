@@ -1,4 +1,4 @@
-7
+8
 01-EnergyFill.wav
 02-MegamanLand.wav
 03-MegaBuster.wav
@@ -6,3 +6,4 @@
 05-ItsBoshyTime.wav
 06-Dead_Slash.wav
 07-Dead.wav
+08-Boss_Hitted.wav

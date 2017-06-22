@@ -21,6 +21,13 @@ PlayerBullet::PlayerBullet(Player* pObj):GameMovableObject(pObj->pos,D3DXVECTOR3
 VOID PlayerBullet::SetComponent() {
 	Volume=FRECT{ 0,8,0,7 };
 
+	MyPolygon temppol;
+	temppol.push_back(D3DXVECTOR2(0, 0));
+	temppol.push_back(D3DXVECTOR2(8, 0));
+	temppol.push_back(D3DXVECTOR2(8, 7));
+	temppol.push_back(D3DXVECTOR2(0, 7));
+	PushBackSATVolume(temppol);
+
 	ComponentList.push_back(new PlayerBulletPhysicsComponent);
 	ComponentList.push_back(new GraphicsComponent);
 }

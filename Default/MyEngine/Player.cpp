@@ -28,9 +28,10 @@ VOID Player::Attack()
 VOID Player::DoDeath()
 {
 	txtid = -1;
-	SoundManager::GetInstance()->PlayWaveFile(1005);
-	SoundManager::GetInstance()->PlayWaveFile(1006);
-	SoundManager::GetInstance()->StopWaveFile(0);
+	GET_SNDMANAGER()->StopWaveFile();
+	GET_SNDMANAGER()->PlayWaveFile(1005);
+	GET_SNDMANAGER()->PlayWaveFile(1006);
+	
 	auto temp =GET_SYSMANAGER();
 	srand(time(NULL));
 	D3DXVECTOR3 ipos(pos);

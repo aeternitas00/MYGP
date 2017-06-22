@@ -94,6 +94,12 @@
     <Filter Include="Object\Component\Action">
       <UniqueIdentifier>{e14bded1-ee73-4ee5-b2f7-53787b74138a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Object\Component\Action\Header">
+      <UniqueIdentifier>{baf537d8-df87-4653-ae4e-3a691a4efb04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object\Component\Action\Source">
+      <UniqueIdentifier>{e277c32b-c835-449b-89c8-542bbd2c3912}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -198,35 +204,44 @@
     <ClInclude Include="IntroCharacter.h">
       <Filter>Object\Container\Player\Header</Filter>
     </ClInclude>
-    <ClInclude Include="IntroScript.h">
-      <Filter>Object\Component\Player\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectShake.h">
-      <Filter>Object\Component\Action</Filter>
-    </ClInclude>
     <ClInclude Include="Factory.h">
       <Filter>Main\Header</Filter>
     </ClInclude>
     <ClInclude Include="ListClass.h">
       <Filter>Main\Header</Filter>
     </ClInclude>
-    <ClInclude Include="Boss.h">
-      <Filter>Main\Header</Filter>
-    </ClInclude>
     <ClInclude Include="BulletGenerator.h">
       <Filter>Object\Container\Enemy\Header</Filter>
     </ClInclude>
-    <ClInclude Include="BulletGenerate1.h">
-      <Filter>Object\Component\Action</Filter>
-    </ClInclude>
-    <ClInclude Include="MovingPlatform.h">
-      <Filter>Main\Header</Filter>
-    </ClInclude>
-    <ClInclude Include="Platform.h">
-      <Filter>Main\Header</Filter>
-    </ClInclude>
     <ClInclude Include="FakeSpike.h">
       <Filter>Object\Container\Enemy\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingPlatform.h">
+      <Filter>Object\Container\Base\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Boss.h">
+      <Filter>Object\Container\Enemy\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform.h">
+      <Filter>Object\Container\Base\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="MoreJumpObj.h">
+      <Filter>Object\Container\Player\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BossScript.h">
+      <Filter>Object\Component\Action\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletGenerate1.h">
+      <Filter>Object\Component\Action\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScript.h">
+      <Filter>Object\Component\Action\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectShake.h">
+      <Filter>Object\Component\Action\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="BossPhysicsComponent.h">
+      <Filter>Object\Component\Base\Header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -323,29 +338,38 @@
     <ClCompile Include="IntroCharacter.cpp">
       <Filter>Object\Container\Player\Source</Filter>
     </ClCompile>
-    <ClCompile Include="IntroScript.cpp">
-      <Filter>Object\Component\Player\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectShake.cpp">
-      <Filter>Object\Component\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="Boss.cpp">
-      <Filter>Main\Source</Filter>
-    </ClCompile>
     <ClCompile Include="BulletGenerator.cpp">
       <Filter>Object\Container\Enemy\Source</Filter>
     </ClCompile>
-    <ClCompile Include="BulletGenerate1.cpp">
-      <Filter>Object\Component\Action</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingPlatform.cpp">
-      <Filter>Main\Source</Filter>
-    </ClCompile>
-    <ClCompile Include="Platform.cpp">
-      <Filter>Main\Source</Filter>
-    </ClCompile>
     <ClCompile Include="FakeSpike.cpp">
       <Filter>Object\Container\Enemy\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MovingPlatform.cpp">
+      <Filter>Object\Container\Base\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Object\Container\Enemy\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform.cpp">
+      <Filter>Object\Container\Base\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="MoreJumpObj.cpp">
+      <Filter>Object\Container\Player\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BossScript.cpp">
+      <Filter>Object\Component\Action\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletGenerate1.cpp">
+      <Filter>Object\Component\Action\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScript.cpp">
+      <Filter>Object\Component\Action\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectShake.cpp">
+      <Filter>Object\Component\Action\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="BossPhysicsComponent.cpp">
+      <Filter>Object\Component\Base\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

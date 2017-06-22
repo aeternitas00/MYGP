@@ -1,4 +1,4 @@
-8
+14
 01-Sprite_BG.jpg 640 360 640 360 0xFFFFFFFF
 02-Sprite_Block_CM.png 16 16 16 16 0x00000000
 03-Sprite_Block_CM2.png 16 16 16 16 0xFFFFFFFF
@@ -7,3 +7,9 @@
 06_Sprite_Kirby_Block.png 144 16 16 16 0xFFFFFFFF
 07_Sprite_Kirby_Waterfall.png 64 40 16 40 0x00000000
 08_Sprite_DBoshy_Bullet.png 18 16 18 16 RGB 0 0 0
+09_Sprite_Platform.png 144 14 144 14 0x00000000
+10_Sprite_BG_Poll.png 32 32 16 32 0x00000000
+11_Sprite_CM_Edge.png 64 16 16 16 RGB 255 0 128
+12_Sprite_Block_Poll.png 64 64 32 64 0x00000000
+13_Sprite_Guy.png 1000 168 100 84 0xFFFFFFFF
+14_Guy_bullet.png 61 61 61 61 0xFFFFFFFF

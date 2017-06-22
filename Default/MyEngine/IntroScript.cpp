@@ -182,7 +182,7 @@ RESULT IntroScript::Update(GameObject * pObj)
 				tgl = true;
 				SoundManager::GetInstance()->StopWaveFile(SOUND_INTROTD);
 				SoundManager::GetInstance()->StopWaveFile(SOUND_INTROBGM);
-				GET_SYSMANAGER()->SendMoveSceneMessage(SFNo + 3);
+				GET_SYSMANAGER()->SendMyMessage(SFNo + 3);
 				return Destroy;
 			}
 			else if (KEY_UP(VK_RETURN) && tgl) {

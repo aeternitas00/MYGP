@@ -14,6 +14,7 @@ RESULT PlayerPhysicsComponent::Update(GameObject * pObj)
 	auto ObstacleList = GET_LIST_OUT(Obstacle);
 	auto EnemyBulletList = GET_LIST_OUT(EnemyBullet);
 	auto PlatformList = GET_LIST_OUT(Platform);
+	auto EnemyList = GET_LIST_OUT(Enemy);
 	if (temp->IsMoving())
 	{
 		if (temp->GetMovingLeft() == 1) temp->velocity.x = -2.0f;
@@ -81,6 +82,48 @@ RESULT PlayerPhysicsComponent::Update(GameObject * pObj)
 	rect.top = temp->pos.y + volume.top; rect.left = temp->pos.x + volume.left;
 	rect.bottom = temp->pos.y + volume.bottom; rect.right = temp->pos.x + volume.right;
 
+	for (auto it : *PlatformList)
+	{
+		if (it->pos.x < rect.right && it->GetXEnd() > rect.left) {
+						
+			if (!(it->pos.x < rect.right - temp->velocity.x)) {
+				if (it->pos.y < rect.bottom && it->GetYEnd() > rect.top)
+				{
+					temp->pos.x -= (rect.right - it->pos.x);
+					rect.top = temp->pos.y + volume.top; rect.left = temp->pos.x + volume.left;
+					rect.bottom = temp->pos.y + volume.bottom; rect.right = temp->pos.x + volume.right;
+				}
+			}
+			else if (!(it->GetXEnd() > rect.left - temp->velocity.x)) {
+				if (it->pos.y < rect.bottom && it->GetYEnd() > rect.top)
+				{
+					temp->pos.x -= (rect.left - it->GetXEnd());
+					rect.top = temp->pos.y + volume.top; rect.left = temp->pos.x + volume.left;
+					rect.bottom = temp->pos.y + volume.bottom; rect.right = temp->pos.x + volume.right;
+				}
+			}
+			
+		}
+
+		if (it->pos.x < rect.right && it->GetXEnd() > rect.left) {
+			if (it->pos.y + temp->velocity.y - it->GetVel().y >= rect.bottom && it->pos.y <= rect.bottom)
+			{
+				landpos = it->pos.y; landok = true;
+				if (it->IsMoving()&&it->InRange()) {
+					temp->pos += it->GetVel();
+					landpos += it->GetVel().y;
+				}
+			}
+			if (it->GetYEnd() + temp->velocity.y <= rect.top && it->GetYEnd() >= rect.top)
+			{
+				temp->pos.y = it->GetYEnd() - volume.top; temp->velocity.y = 0.0f;
+			}
+		}
+	}
+
+	rect.top = temp->pos.y + volume.top; rect.left = temp->pos.x + volume.left;
+	rect.bottom = temp->pos.y + volume.bottom; rect.right = temp->pos.x + volume.right;
+	
 	for (auto it : *ObstacleList)
 	{
 		if (CollisionDetection(temp, it))
@@ -97,6 +140,14 @@ RESULT PlayerPhysicsComponent::Update(GameObject * pObj)
 		}
 	}
 
+	for (auto it : *EnemyList)
+	{
+		if (CollisionDetection(temp, it))
+		{
+			temp->DoDeath(); return Default;
+		}
+	}
+
 	if (landok)	{
 		if (!temp->IsLanded()) { temp->pos.y = landpos - volume.bottom; temp->velocity.y = 0; 
 		temp->DisableGravity(); temp->SetLanded(); 
@@ -106,18 +157,18 @@ RESULT PlayerPhysicsComponent::Update(GameObject * pObj)
 	else {	if (temp->IsLanded()) 	{ temp->EnableGravity(); temp->SetFloated(); } }
 
 
-	if (rect.left<0){
+	if (rect.left+3.0f<0){
 		if (GET_SYSMANAGER()->IsMovableSideOfScene(CToLeft)) {
 			temp->pos.x = MAX_X - volume.right - 11.0f;
-			GET_SYSMANAGER()->SendMoveSceneMessage(CToLeft);
+			GET_SYSMANAGER()->SendMyMessage(CToLeft);
 		}
 		else
 			temp->pos.x = 0 - volume.left;
 	}
-	else if (rect.right>MAX_X-10.0f) {
+	else if (rect.right>MAX_X-7.0f) {
 		if (GET_SYSMANAGER()->IsMovableSideOfScene(CToRight)) {
-			temp->pos.x = 0 + volume.left + 1;
-			GET_SYSMANAGER()->SendMoveSceneMessage(CToRight);
+			temp->pos.x = 0 - volume.left-3.0f;
+			GET_SYSMANAGER()->SendMyMessage(CToRight);
 		}
 		else
 			temp->pos.x = MAX_X - volume.right-10.0f;
@@ -125,7 +176,7 @@ RESULT PlayerPhysicsComponent::Update(GameObject * pObj)
 	if (rect.top<0) {
 		if (GET_SYSMANAGER()->IsMovableSideOfScene(CToUp)) {
 			temp->pos.y = MAX_Y - volume.bottom - 1.0f;
-			GET_SYSMANAGER()->SendMoveSceneMessage(CToUp);
+			GET_SYSMANAGER()->SendMyMessage(CToUp);
 		}
 		else
 			temp->pos.y = 0.0f - volume.top;
@@ -133,7 +184,7 @@ RESULT PlayerPhysicsComponent::Update(GameObject * pObj)
 	else if (rect.bottom>MAX_Y-20) {
 		if (GET_SYSMANAGER()->IsMovableSideOfScene(CToDown)) {
 			temp->pos.y = 0.0f + volume.top + 1.0f;
-			GET_SYSMANAGER()->SendMoveSceneMessage(CToDown);
+			GET_SYSMANAGER()->SendMyMessage(CToDown);
 		}
 		else {
 			temp->DoDeath();

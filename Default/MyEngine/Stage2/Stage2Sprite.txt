@@ -1,5 +1,5 @@
 7
-01-Sprite_BG.jpg 640 360 640 360 0xFFFFFFFF
+01-Sprite_BG.jpg 750 500 750 500 0x00000000
 02-Sprite_Block_CM.png 16 16 16 16 0x00000000
 03-Sprite_Block_CM2.png 16 16 16 16 0xFFFFFFFF
 04-Sprite_Block_MLauncher.png 16 16 16 16 0xFFFFFFFF

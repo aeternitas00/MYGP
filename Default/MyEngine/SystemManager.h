@@ -21,6 +21,7 @@ typedef struct __stageinfo {
 	wstring path;
 	int bgid;
 	int no;
+	int bossbgid;
 }StageInfo;
 
 typedef struct __sceneinfo {
@@ -35,14 +36,6 @@ enum Connected {
 class SystemManager
 {
 private:
-	//std::list<GameObject*> ObjectList;
-	//std::list<PlayerBullet*> PlayerBulletList;
-	//std::list<Enemy*> EnemyList;
-	//std::list<EnemyBullet*> EnemyBulletList;
-	//std::list<Obstacle*> ObstacleList;
-	//std::list<GameTerrain*> TerrainList;
-	//std::list<SavePoint*> SavePointList;
-
 	Player* MyPlayer;
 
 	StageInfo CurrentStage;
@@ -65,7 +58,8 @@ public:
 	VOID AddObject(GameObject * pObj);
 	VOID AddEnemyBullet(EnemyBullet * pObj);
 	int GetCurrentBGID() { return CurrentStage.bgid; }
-
+	int GetCurrentStage() { return CurrentStage.no; }
+	int IsBossRoom() { return CurrentScene.sno == 100; }
 	Player* GetPlayer() { return MyPlayer; }
 
 	VOID LoadSF();
@@ -84,7 +78,7 @@ public:
 	VOID SetupStage(int i, bool reset);
 	VOID SetupScene(int i);
 	VOID SetPlayer(float,float);
-	VOID SendMoveSceneMessage(int side) { DelayedMessage = side; }
+	VOID SendMyMessage(int side) { DelayedMessage = side; }
 	bool IsMovableSideOfScene(int side);
 	VOID MoveScene(int toside);
 	~SystemManager();

@@ -9,8 +9,9 @@ myfactory * SystemManager::GetFactory() { return m_factory; }
 
 VOID SystemManager::Update()
 {
-	UPDATE_LIST(GameTerrain);
 	UPDATE_LIST(GameObject);
+	UPDATE_LIST(Platform);
+	UPDATE_LIST(GameTerrain);
 	UPDATE_LIST(Obstacle);
 	UPDATE_LIST(Enemy);
 	UPDATE_LIST(SavePoint);
@@ -35,6 +36,11 @@ VOID SystemManager::Update()
 	else if (DelayedMessage >= 4 && DelayedMessage <= 6) {
 		CurrentSFNo = DelayedMessage - 3;
 		LoadSF();
+		DelayedMessage = -1;
+	}
+	else if (DelayedMessage == 10)
+	{
+		SetupStage(CurrentStage.no + 1); SetupScene(0);
 		DelayedMessage = -1;
 	}
 
@@ -117,9 +123,11 @@ HRESULT SystemManager::Initialize()
 	REGISTER_CLASS(SavePoint);
 	REGISTER_CLASS(Platform);
 	REGISTER_CLASS_SUB(BulletGenerator, GameObject);
+	REGISTER_CLASS_SUB(GameStaticObject, GameObject);
 	REGISTER_CLASS_SUB(Spike, Obstacle);
 	REGISTER_CLASS_SUB(FakeSpike, Obstacle);
-	REGISTER_CLASS(MovingPlatform,Platform);
+	REGISTER_CLASS_SUB(MovingPlatform,Platform);
+	REGISTER_CLASS_SUB(MoreJumpObj, GameObject);
 	REGISTER_CLASS_SUB(Boss, Enemy);
 	SetupTitleScreen();
 
@@ -151,6 +159,7 @@ VOID SystemManager::LoadSF()
 VOID SystemManager::ClearObjects()
 {
 	CLEAR_LIST(GameObject);
+	CLEAR_LIST(Platform);
 	CLEAR_LIST(GameTerrain);
 	CLEAR_LIST(EnemyBullet);
 	CLEAR_LIST(PlayerBullet);
@@ -213,6 +222,7 @@ VOID SystemManager::SetupStage(int i)
   	char str[200], *temp = NULL;
 	inFile.getline(str, 200);
 	CurrentStage.bgid = atoi(strtok_s(str, " ", &temp));
+	CurrentStage.bossbgid = atoi(strtok_s(NULL, " ", &temp));
 	inFile.getline(str, 200);
 	int x = atoi(strtok_s(str, " ", &temp));
 	int y = atoi(strtok_s(NULL, " ", &temp));
@@ -234,6 +244,7 @@ VOID SystemManager::SetupStage(int i,bool reset)
 	char str[200], *temp = NULL;
 	inFile.getline(str, 200);
 	CurrentStage.bgid = atoi(strtok_s(str, " ", &temp));
+	CurrentStage.bossbgid=atoi(strtok_s(NULL, " ", &temp));
 	if (reset) {
 		inFile.getline(str, 200);
 		int x = atoi(strtok_s(str, " ", &temp));
@@ -254,6 +265,14 @@ VOID SystemManager::SetupScene(int i)
 	char str[200];
 	char* temp = NULL, *token = NULL;
 
+	CLEAR_LIST(GameObject);
+	CLEAR_LIST(Platform);
+	CLEAR_LIST(GameTerrain);
+	CLEAR_LIST(Enemy);
+	CLEAR_LIST(PlayerBullet);
+	CLEAR_LIST(SavePoint);
+	CLEAR_LIST(Obstacle);
+
 	if (i == 0)
 	{
 		inFile.getline(str, 200);
@@ -266,6 +285,10 @@ VOID SystemManager::SetupScene(int i)
 		inFile.getline(str, 200);
 		int x = atoi(strtok_s(str, " ", &temp));
 		int y = atoi(strtok_s(NULL, " ", &temp));
+		GET_SNDMANAGER()->StopWaveFile(SOUND_WORLDBGM);
+		GET_SNDMANAGER()->PlayWaveFile(SOUND_BOSSBGM);
+		GET_LIST_IN(Enemy)->push_back(new Boss());
+		GET_LIST_IN(Enemy)->back()->SetComponent();
 		SetPlayer(x, y);
 	}
 
@@ -274,14 +297,6 @@ VOID SystemManager::SetupScene(int i)
 	CurrentScene.connected[1] = atoi(strtok_s(NULL, " ", &temp));
 	CurrentScene.connected[2] = atoi(strtok_s(NULL, " ", &temp));
 	CurrentScene.connected[3] = atoi(strtok_s(NULL, " ", &temp));
-
-	CLEAR_LIST(GameObject);
-	CLEAR_LIST(GameTerrain);
-	CLEAR_LIST(Enemy);
-	CLEAR_LIST(PlayerBullet);
-	CLEAR_LIST(SavePoint);
-	CLEAR_LIST(Obstacle);
-
 
 	inFile.getline(str, 200);
 	token = strtok_s(str, " ", &temp);
@@ -292,9 +307,6 @@ VOID SystemManager::SetupScene(int i)
 				inFile.getline(str, 200);
 				m_factory->construct(type,str);
 			}
-			inFile.getline(str, 200);
-			token = strtok_s(str, " ", &temp); 
-			continue;
 		}
 		inFile.getline(str, 200);
 		token = strtok_s(str, " ", &temp);

@@ -15,5 +15,8 @@ public:
 	~MovingPlatform();
 	virtual RESULT UpdateSub();
 	virtual VOID SetComponent();
+	virtual bool IsMoving() { return moving; }
+	virtual D3DXVECTOR3 GetVel() { return velocity; }
+	virtual bool InRange() {return (frame > 0 && frame < maxframe);	}
 };
 

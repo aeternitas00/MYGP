@@ -36,17 +36,19 @@ RESULT MovingPlatform::UpdateSub()
 	rect.top += player->pos.y; rect.bottom += player->pos.y;
 	PhysicsComponent temp;
 	switch (type) {
-	case 0:
+	case 1:
 		if (temp.CollisionCheck(rect, sensor))
 			moving = true;
 		else
 			moving = false;
 		if (moving) {
 			if (frame < maxframe) {
+
 				frame++;pos += velocity;
 				sensor.left += velocity.x; sensor.right+= velocity.x;
 				sensor.bottom += velocity.y; sensor.top += velocity.y;
 			}
+			else moving = false;
 		}
 		else {
 			if (frame >0) {
@@ -54,6 +56,7 @@ RESULT MovingPlatform::UpdateSub()
 				sensor.left -= velocity.x; sensor.right -= velocity.x;
 				sensor.bottom -= velocity.y; sensor.top -= velocity.y;
 			}
+			else moving = false;
 		}
 		break;
 	}
@@ -65,6 +68,8 @@ RESULT MovingPlatform::UpdateSub()
 
 VOID MovingPlatform::SetComponent()
 {
+	TEXTURESET& temp = *RenderManager::GetInstance()->GetTexture(txtid);
+	vx = float(temp.spfx); vy = float(temp.spfy);
 	ComponentList.push_back(new GraphicsComponent);
 }
 

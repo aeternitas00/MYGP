@@ -10,6 +10,8 @@
 #define TXTID_PLAYER 1004
 #define TXTID_PLAYER_BULLET 1005
 #define TXTID_GAMEOVER 1006
+#define TXTID_MOREJUMP 1007
+#define TXTID_BR_FADE 1008
 //stage 1
 #define TXTID_BG 0
 #define TXTID_BLOCK_CM 1
@@ -17,6 +19,8 @@
 #define TXTID_MISSILE_LBARREL 3
 #define TXTID_MISSILE_LBASE 4
 #define TXTID_DBOSHY_BULLET 7
+#define TXTID_BOSS1 12
+#define TXTID_GUYBULLET 13
 //intro
 #define TXTID_TITLE 0
 #define TXTID_INTROBLK1 1
@@ -56,7 +60,8 @@ private:
 	RenderManager();
 	HRESULT				Initialize();
 	HRESULT				IncludeTexture();
-	
+	int					shaketimer;
+	int					shakescale;
 public :
 	~RenderManager();
 
@@ -73,5 +78,11 @@ public :
 	HRESULT				BeginScene();
 	VOID ResetDefaultMatrix();
 	VOID SetDefaultMatrixZoomUp(D3DXVECTOR2 & Center, float scale);
+	VOID SetDefaultMatrixShake(int scale, int maxframe);
+
 	HRESULT				EndScene();
 };
+
+
+
+#define GET_RENMANAGER() RenderManager::GetInstance()

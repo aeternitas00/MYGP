@@ -12,6 +12,11 @@ Platform::~Platform()
 }
 
 
+RESULT Platform::UpdateSub()
+{
+	return Default;
+}
+
 VOID Platform::Initialize(char * n)
 {
 	char* temp = NULL;
@@ -19,4 +24,11 @@ VOID Platform::Initialize(char * n)
 	pos.y = atoi(strtok_s(NULL, " ", &temp));
 	txtid = atoi(strtok_s(NULL, " ", &temp));
 	SetComponent();
+}
+
+VOID Platform::SetComponent()
+{
+	TEXTURESET& temp = *RenderManager::GetInstance()->GetTexture(txtid);
+	vx = float(temp.spfx); vy = float(temp.spfy);
+	ComponentList.push_back(new GraphicsComponent);
 }
